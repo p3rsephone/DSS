@@ -16,7 +16,7 @@ public class Aluno{
         this.curso = curso;
         this.morada = morada;
         this.ano = ano;
-        this.quotas = quotas;
+        this.quotas = quotas; // Just to know if allready paid lifetime membership
     }
 
     public Aluno(Aluno aluno) {
@@ -78,7 +78,7 @@ public class Aluno{
         this.ano = ano;
     }
 
-    public Boolean getQuotas() {
+    public Boolean isQuotas() {
         return quotas;
     }
 
