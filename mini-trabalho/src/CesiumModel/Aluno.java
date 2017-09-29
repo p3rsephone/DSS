@@ -1,6 +1,6 @@
 package CesiumModel;
 
-public class Aluno{
+public class Aluno {
    private String name;
    private String contact;
    private Integer numero;
@@ -27,8 +27,18 @@ public class Aluno{
         this.curso = aluno.getCurso();
         this.morada = aluno.getMorada();
         this.ano = aluno.getAno();
-        this.quotas = aluno.getQuotas();
+        this.quotas = aluno.isQuotas();
     }
+
+	public Aluno() {
+        this.name = "";
+        this.contact = "";
+        this.numero = 0;
+        this.curso = "";
+        this.morada = "";
+        this.ano = 0;
+        this.quotas = false;
+	}
 
     public String getName() {
         return name;

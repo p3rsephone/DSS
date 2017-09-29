@@ -1,11 +1,13 @@
-package CesiumController;
+package CesiumModel;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 import CesiumModel.Aluno;
+import java.util.Observable;
 
-public class Cesium {
+public class Cesium extends Observable {
     private HashMap<Integer, Aluno> cesium;
 
     public Cesium() {
@@ -13,11 +15,11 @@ public class Cesium {
     }
 
     public Map<Integer, Aluno> getAlunos() {
-        HashMap<Integer, Aluno> copy = new HashMap<Integer, Aluno>();
+        HashMap<Integer, Aluno> copy = new HashMap<>();
         for (Map.Entry<Integer, Aluno> entry : cesium.entrySet())
         {
-            copy.put(entry.getKey(), ((Aluno) entry).clone());
-        }
+            copy.put(entry.getKey(), entry.getValue().clone());
+        } 
         return copy;
     }
 
@@ -33,9 +35,17 @@ public class Cesium {
     {
         return cesium.get(num);
     }
+    
+    public void removeAluno(int num){
+    	cesium.remove(num);
+	this.setChanged();
+	this.notifyObservers();
+    }
 
     public void addAluno(Aluno a){
         cesium.put( a.getNumero() ,a.clone());
+	this.setChanged();
+	this.notifyObservers();
     }
 
 }
