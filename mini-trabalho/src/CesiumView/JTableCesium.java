@@ -141,7 +141,7 @@ public class JTableCesium extends javax.swing.JFrame implements Observer{
 	s.getContacto().setText(edit.getContact());
 	s.getCurso().setText(edit.getCurso());
 	s.getMorada().setText(edit.getMorada());
-	s.getQuotas().setText(edit.getContact());
+	s.getQuotas().setSelected(edit.isQuotas());
 	s.getNumero().setText(edit.getNumero().toString());
 	s.getAno().setText((edit.getAno().toString()));
     }//GEN-LAST:event_jButton2ActionPerformed

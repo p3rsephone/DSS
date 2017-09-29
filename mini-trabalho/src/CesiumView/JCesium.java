@@ -10,6 +10,7 @@ import CesiumModel.Aluno;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
 /**
@@ -44,7 +45,6 @@ public class JCesium extends javax.swing.JFrame implements Observer {
                 curso = new javax.swing.JTextField();
                 morada = new javax.swing.JTextField();
                 ano = new javax.swing.JTextField();
-                quotas = new javax.swing.JTextField();
                 jLabel1 = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();
                 jLabel3 = new javax.swing.JLabel();
@@ -53,6 +53,7 @@ public class JCesium extends javax.swing.JFrame implements Observer {
                 jLabel6 = new javax.swing.JLabel();
                 jLabel7 = new javax.swing.JLabel();
                 add_action = new javax.swing.JButton();
+                quotas = new javax.swing.JCheckBox();
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,7 +110,9 @@ public class JCesium extends javax.swing.JFrame implements Observer {
                                                 .addGap(26, 26, 26)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(ano)
-                                                        .addComponent(quotas)))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(quotas)
+                                                                .addGap(0, 0, Short.MAX_VALUE))))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel1)
                                                 .addGap(40, 40, 40)
@@ -165,8 +168,8 @@ public class JCesium extends javax.swing.JFrame implements Observer {
                                         .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(quotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel7))
+                                        .addComponent(jLabel7)
+                                        .addComponent(quotas))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(add_action)
                                 .addGap(25, 25, 25))
@@ -176,7 +179,7 @@ public class JCesium extends javax.swing.JFrame implements Observer {
         }// </editor-fold>//GEN-END:initComponents
 
     private boolean validaDados() {
-        boolean vazio = this.nome.getText().equals("") || this.contacto.getText().equals("") || this.numero.getText().equals("") || this.curso.getText().equals("") || this.morada.getText().equals("") || this.ano.getText().equals("") || this.quotas.getText().equals("");
+        boolean vazio = this.nome.getText().equals("") || this.contacto.getText().equals("") || this.numero.getText().equals("") || this.curso.getText().equals("") || this.morada.getText().equals("") || this.ano.getText().equals("") ;
         if (vazio)
             javax.swing.JOptionPane.showMessageDialog(this, "Por favor preencha todos os dados.", "Dados incompletos", 0);
 
@@ -205,7 +208,7 @@ public class JCesium extends javax.swing.JFrame implements Observer {
           aluno.setCurso(this.curso.getText()) ;
           aluno.setMorada(this.morada.getText()) ;
           aluno.setAno(Integer.parseInt((String)this.ano.getText()));
-          aluno.setQuotas(Boolean.getBoolean(this.quotas.getText()));
+          aluno.setQuotas((this.quotas.isSelected()  ));
       }//GEN-LAST:event_add_actionActionPerformed
       cesium.addAluno(aluno);
       
@@ -238,7 +241,7 @@ public class JCesium extends javax.swing.JFrame implements Observer {
 		return numero;
 	}
 
-	public JTextField getQuotas() {
+	public JCheckBox getQuotas() {
 		return quotas;
 	}
 
@@ -293,6 +296,6 @@ public class JCesium extends javax.swing.JFrame implements Observer {
         private javax.swing.JTextField morada;
         private javax.swing.JTextField nome;
         private javax.swing.JTextField numero;
-        private javax.swing.JTextField quotas;
+        private javax.swing.JCheckBox quotas;
         // End of variables declaration//GEN-END:variables
 }
