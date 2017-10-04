@@ -9,17 +9,31 @@ package CesiumView;
 
 import CesiumModel.Cesium;
 import CesiumModel.Aluno;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
+import java.io.FileInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author resende
  */
-public class JTableCesium extends javax.swing.JFrame implements Observer{
+public class JTableCesium extends javax.swing.JFrame {
 
     private Cesium cesium ;
     /**
@@ -27,10 +41,52 @@ public class JTableCesium extends javax.swing.JFrame implements Observer{
      */
     public JTableCesium() {
         initComponents();
-        this.cesium = new Cesium();
-        this.cesium.addObserver(this);
-    }
+	
+	File file = new File("cesium.ser");
+	if(file.exists() & !file.isDirectory()){
 
+		try {
+		 FileInputStream fileIn = new FileInputStream("cesium.ser");
+		 ObjectInputStream in = new ObjectInputStream(fileIn);
+		 cesium = (Cesium) in.readObject();
+
+
+		String DATE_FORMAT_NOW = "dd-MM-yyyy";
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+		String stringDate = sdf.format(date );
+
+		 String anterior = cesium.getDate();
+		 if(!anterior.equals(cesium.getDate()) && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1){
+			cesium.updateQuotas();	 
+		 }
+
+		DefaultTableModel t = (DefaultTableModel) Socios.getModel();
+		update();
+		t.fireTableDataChanged();
+		 in.close();
+		 fileIn.close();
+	      }catch(IOException i) {
+		 i.printStackTrace();
+		 return;
+	      }catch(ClassNotFoundException c) {
+		 System.out.println("Cesium class not found");
+		 c.printStackTrace();
+		 return;
+	      }
+	}else{
+		cesium = new Cesium();
+	}
+
+     }    
+
+    private boolean validaDados() {
+        boolean vazio = this.nome.getText().equals("") || this.contacto.getText().equals("") || this.numero.getText().equals("") || this.curso.getText().equals("") || this.morada.getText().equals("") || this.ano.getText().equals("") ;
+        if (vazio)
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor preencha todos os dados.", "Dados incompletos", 0);
+
+        return !vazio;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,11 +96,216 @@ public class JTableCesium extends javax.swing.JFrame implements Observer{
         // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
+                Add = new javax.swing.JDialog();
+                nome = new javax.swing.JTextField();
+                contacto = new javax.swing.JTextField();
+                numero = new javax.swing.JTextField();
+                curso = new javax.swing.JTextField();
+                morada = new javax.swing.JTextField();
+                ano = new javax.swing.JTextField();
+                jLabel1 = new javax.swing.JLabel();
+                jLabel2 = new javax.swing.JLabel();
+                jLabel3 = new javax.swing.JLabel();
+                jLabel4 = new javax.swing.JLabel();
+                jLabel5 = new javax.swing.JLabel();
+                jLabel6 = new javax.swing.JLabel();
+                add_action = new javax.swing.JButton();
+                Quotas = new javax.swing.JDialog();
+                jScrollPane3 = new javax.swing.JScrollPane();
+                TabelaQuotas = new javax.swing.JTable();
+                jButton5 = new javax.swing.JButton();
+                valor = new javax.swing.JTextField();
+                jScrollPane4 = new javax.swing.JScrollPane();
+                Socios2 = new javax.swing.JTable();
+                jToggleButton1 = new javax.swing.JToggleButton();
+                jButton6 = new javax.swing.JButton();
                 jButton1 = new javax.swing.JButton();
                 jScrollPane2 = new javax.swing.JScrollPane();
                 Socios = new javax.swing.JTable();
                 jButton2 = new javax.swing.JButton();
                 jButton3 = new javax.swing.JButton();
+                jButton4 = new javax.swing.JButton();
+                Exit = new javax.swing.JButton();
+
+                nome.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                nomeActionPerformed(evt);
+                        }
+                });
+
+                curso.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                cursoActionPerformed(evt);
+                        }
+                });
+
+                morada.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                moradaActionPerformed(evt);
+                        }
+                });
+
+                jLabel1.setText("Nome");
+
+                jLabel2.setText("Contacto");
+
+                jLabel3.setText("numero");
+
+                jLabel4.setText("curso");
+
+                jLabel5.setText("morada");
+
+                jLabel6.setText("ano");
+
+                add_action.setText("adicionar");
+                add_action.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                add_actionActionPerformed(evt);
+                        }
+                });
+
+                javax.swing.GroupLayout AddLayout = new javax.swing.GroupLayout(Add.getContentPane());
+                Add.getContentPane().setLayout(AddLayout);
+                AddLayout.setHorizontalGroup(
+                        AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(AddLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, AddLayout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addGap(47, 47, 47)
+                                                .addComponent(ano))
+                                        .addGroup(AddLayout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addGap(40, 40, 40)
+                                                .addComponent(nome))
+                                        .addGroup(AddLayout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(contacto))
+                                        .addGroup(AddLayout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addGap(26, 26, 26)
+                                                .addComponent(numero))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, AddLayout.createSequentialGroup()
+                                                .addComponent(jLabel4)
+                                                .addGap(33, 33, 33)
+                                                .addComponent(curso))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, AddLayout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addGap(26, 26, 26)
+                                                .addComponent(morada)))
+                                .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddLayout.createSequentialGroup()
+                                .addContainerGap(260, Short.MAX_VALUE)
+                                .addComponent(add_action)
+                                .addGap(43, 43, 43))
+                );
+                AddLayout.setVerticalGroup(
+                        AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(AddLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(contacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2))
+                                .addGap(18, 27, Short.MAX_VALUE)
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(morada, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(AddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(39, 39, 39)
+                                .addComponent(add_action)
+                                .addGap(25, 25, 25))
+                );
+
+                TabelaQuotas.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object [][] {
+                                {null, null},
+                                {null, null},
+                                {null, null},
+                                {null, null}
+                        },
+                        new String [] {
+                                "Valor", "Mes"
+                        }
+                ) {
+                        Class[] types = new Class [] {
+                                java.lang.Integer.class, java.lang.String.class
+                        };
+
+                        public Class getColumnClass(int columnIndex) {
+                                return types [columnIndex];
+                        }
+                });
+                jScrollPane3.setViewportView(TabelaQuotas);
+
+                jButton5.setText("Pagar");
+                jButton5.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton5ActionPerformed(evt);
+                        }
+                });
+
+                javax.swing.GroupLayout QuotasLayout = new javax.swing.GroupLayout(Quotas.getContentPane());
+                Quotas.getContentPane().setLayout(QuotasLayout);
+                QuotasLayout.setHorizontalGroup(
+                        QuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                        .addGroup(QuotasLayout.createSequentialGroup()
+                                .addComponent(jButton5)
+                                .addGap(18, 18, 18)
+                                .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                );
+                QuotasLayout.setVerticalGroup(
+                        QuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(QuotasLayout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(QuotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton5)
+                                        .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                );
+
+                Socios2.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object [][] {
+                                {null, null},
+                                {null, null},
+                                {null, null},
+                                {null, null}
+                        },
+                        new String [] {
+                                "Numero", "Nome"
+                        }
+                ) {
+                        Class[] types = new Class [] {
+                                java.lang.Integer.class, java.lang.String.class
+                        };
+
+                        public Class getColumnClass(int columnIndex) {
+                                return types [columnIndex];
+                        }
+                });
+                jScrollPane4.setViewportView(Socios2);
+
+                jToggleButton1.setText("jToggleButton1");
+
+                jButton6.setText("jButton6");
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,17 +318,17 @@ public class JTableCesium extends javax.swing.JFrame implements Observer{
 
                 Socios.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
-                                {null, null, null, null, null, null, null},
-                                {null, null, null, null, null, null, null},
-                                {null, null, null, null, null, null, null},
-                                {null, null, null, null, null, null, null}
+                                {null, null},
+                                {null, null},
+                                {null, null},
+                                {null, null}
                         },
                         new String [] {
-                                "Nome", "Contacto", "Numero", "Curso", "Morada", "Ano", "Quotas"
+                                "Numero", "Nome"
                         }
                 ) {
                         Class[] types = new Class [] {
-                                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
+                                java.lang.Integer.class, java.lang.String.class
                         };
 
                         public Class getColumnClass(int columnIndex) {
@@ -90,69 +351,178 @@ public class JTableCesium extends javax.swing.JFrame implements Observer{
                         }
                 });
 
+                jButton4.setText("Quotas");
+                jButton4.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton4ActionPerformed(evt);
+                        }
+                });
+
+                Exit.setText("Exit");
+                Exit.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                ExitActionPerformed(evt);
+                        }
+                });
+
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                 getContentPane().setLayout(layout);
                 layout.setHorizontalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addGap(0, 1, Short.MAX_VALUE)
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton2)
-                                                .addGap(59, 59, 59)
-                                                .addComponent(jButton3)))
-                                .addContainerGap())
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton4)
+                                .addGap(29, 29, 29)
+                                .addComponent(Exit)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
                 );
                 layout.setVerticalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton1)
                                         .addComponent(jButton2)
-                                        .addComponent(jButton3)))
+                                        .addComponent(jButton3)
+                                        .addComponent(jButton4)
+                                        .addComponent(Exit))
+                                .addContainerGap())
                 );
 
                 pack();
         }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JCesium s = new JCesium(cesium);
-
-        s.setVisible(true);
+		resetField();
+		Add.setVisible(true);
+		Add.pack();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        JCesium s = new JCesium(cesium);
-	s.setVisible(true);
+	resetField();
+	Add.setVisible(true);
         DefaultTableModel t = (DefaultTableModel) Socios.getModel();
         int index = Socios.getSelectedRow();
-        Integer numero = (Integer) t.getValueAt(index, 2);
+        Integer numero = (Integer)  t.getValueAt(index, 0);
+	System.out.println(numero + "asdasdas\n");
 	Aluno edit = cesium.getAluno(numero);
-	s.getNome().setText(edit.getName());
-	s.getContacto().setText(edit.getContact());
-	s.getCurso().setText(edit.getCurso());
-	s.getMorada().setText(edit.getMorada());
-	s.getQuotas().setSelected(edit.isQuotas());
-	s.getNumero().setText(edit.getNumero().toString());
-	s.getAno().setText((edit.getAno().toString()));
+	getNome().setText(edit.getName());
+	getContacto().setText(edit.getContact());
+	getCurso().setText(edit.getCurso());
+	getMorada().setText(edit.getMorada());
+	getNumero().setText(edit.getNumero().toString());
+	getAno().setText((edit.getAno().toString()));
+	Add.pack();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         DefaultTableModel t = (DefaultTableModel) Socios.getModel();
         int index = Socios.getSelectedRow();
-        Integer numero = (Integer) t.getValueAt(index, 2);
-	cesium.removeAluno(numero);
+        Integer numero = (Integer) t.getValueAt(index, 0); cesium.removeAluno(numero);
+	update();
 	t.fireTableDataChanged();
     }//GEN-LAST:event_jButton3ActionPerformed
+	
+        private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+		Quotas.setVisible(true);
+		Quotas.pack();
+		quotasUpdate();
+        }//GEN-LAST:event_jButton4ActionPerformed
+
+        private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
+
+        }//GEN-LAST:event_nomeActionPerformed
+
+        private void cursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursoActionPerformed
+                // TODO add your handling code here:
+        }//GEN-LAST:event_cursoActionPerformed
+
+        private void moradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moradaActionPerformed
+                // TODO add your handling code here:
+        }//GEN-LAST:event_moradaActionPerformed
+
+        private void add_actionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_actionActionPerformed
+                // Add your handling code here:
+                Aluno aluno = new Aluno();
+                if (this.validaDados()) {
+                        aluno.setName(this.nome.getText());
+                        aluno.setContact(this.contacto.getText()) ;
+                        aluno.setNumero(Integer.parseInt((String)this.numero.getText()));
+                        aluno.setCurso(this.curso.getText()) ;
+                        aluno.setMorada(this.morada.getText()) ;
+                        aluno.setAno(Integer.parseInt((String)this.ano.getText()));
+		}
+		cesium.addAluno(aluno);
+		this.update();
+		Add.dispose();
+        }//GEN-LAST:event_add_actionActionPerformed
+
+        private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+		DefaultTableModel t = (DefaultTableModel) Socios.getModel();
+		int index = Socios.getSelectedRow();
+		Integer numero = (Integer)  t.getValueAt(index, 0);
+                Double valor = Double.parseDouble(this.getValor().getText());
+		if(valor >= 5){
+			cesium.pagarQuota(numero,valor);
+			quotasUpdate();
+			DefaultTableModel tabelaQuotas = (DefaultTableModel) TabelaQuotas.getModel();
+			tabelaQuotas.fireTableDataChanged();
+		}
+		else{
+		    javax.swing.JOptionPane.showMessageDialog(this, "Valor insuficiente", "", 0);
+		}
+        }//GEN-LAST:event_jButton5ActionPerformed
+
+        private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+		this.dispose();  //Remove JFrame 1
+		File f = new File("cesium.ser");
+	        try {
+			 FileOutputStream fileOut =
+			 new FileOutputStream("cesium.ser");
+			 ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			 
+			String DATE_FORMAT_NOW = "dd-MM-yyyy";
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+			String stringDate = sdf.format(date );
+			try {
+			Date date2 = sdf.parse(stringDate);
+			} catch(ParseException e){
+			//Exception handling
+			} catch(Exception e){
+			//handle exception
+			}
+			 cesium.setDate(stringDate);
+			 out.writeObject(cesium);
+			 out.close();
+			 fileOut.close();
+		}catch(IOException i) {
+			 i.printStackTrace();
+                }
+		System.exit(0);
+        }//GEN-LAST:event_ExitActionPerformed
+
+	public JTextField getValor() {
+		return valor;
+	}
+
+	private void resetField(){
+	getNome().setText("");
+	getContacto().setText("");
+	getCurso().setText("");
+	getMorada().setText("");
+	getNumero().setText("");
+	getAno().setText("");
+	}
 
     /**
      * @param args the command line arguments
@@ -189,33 +559,97 @@ public class JTableCesium extends javax.swing.JFrame implements Observer{
         });
     }
 
-    public void update(Observable observable, Object obj) {
+	public void update() {
 	DefaultTableModel  model = (DefaultTableModel) Socios.getModel();
 	model.getDataVector().removeAllElements();
 
-        Map<Integer, Aluno> copy = cesium.getAlunos();
-        for (Map.Entry<Integer, Aluno> entry : copy.entrySet()){
-	
+	Map<Integer, Aluno> copy = cesium.getAlunos();
+	for (Map.Entry<Integer, Aluno> entry : copy.entrySet()){
+
 		Aluno aux = entry.getValue();
-           	model.addRow(new Object[]{
-		aux.getName(),
-		aux.getContact(),
+		model.addRow(new Object[]{
 		aux.getNumero(),
-		aux.getCurso(),
-		aux.getMorada(),
-		aux.getAno(),
-		aux.isQuotas(),
-     //append at the end
-        });
-	
+		aux.getName()
+	//append at the end
+	});
+
 	}
+
+	}
+
+	public void quotasUpdate() {
+	DefaultTableModel  model = (DefaultTableModel) TabelaQuotas.getModel();
+	model.getDataVector().removeAllElements();
 	
-    }
+        DefaultTableModel t = (DefaultTableModel) Socios.getModel();
+        int index = Socios.getSelectedRow();
+        Integer numero = (Integer) t.getValueAt(index, 0);
+
+	List<String> copy = cesium.getAluno(numero).getValores();
+	for (String entry : copy){
+		model.addRow(new Object[]{
+		"5",
+		entry	
+	//append at the end
+	});
+
+	}
+
+	}
+	public JTextField getAno() {
+		return ano;
+	}
+
+	public JTextField getContacto() {
+		return contacto;
+	}
+
+	public JTextField getCurso() {
+		return curso;
+	}
+
+	public JTextField getMorada() {
+		return morada;
+	}
+
+	public JTextField getNome() {
+		return nome;
+	}
+
+	public JTextField getNumero() {
+		return numero;
+	}
+
         // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JDialog Add;
+        private javax.swing.JButton Exit;
+        private javax.swing.JDialog Quotas;
         private javax.swing.JTable Socios;
+        private javax.swing.JTable Socios2;
+        private javax.swing.JTable TabelaQuotas;
+        private javax.swing.JButton add_action;
+        private javax.swing.JTextField ano;
+        private javax.swing.JTextField contacto;
+        private javax.swing.JTextField curso;
         private javax.swing.JButton jButton1;
         private javax.swing.JButton jButton2;
         private javax.swing.JButton jButton3;
+        private javax.swing.JButton jButton4;
+        private javax.swing.JButton jButton5;
+        private javax.swing.JButton jButton6;
+        private javax.swing.JLabel jLabel1;
+        private javax.swing.JLabel jLabel2;
+        private javax.swing.JLabel jLabel3;
+        private javax.swing.JLabel jLabel4;
+        private javax.swing.JLabel jLabel5;
+        private javax.swing.JLabel jLabel6;
         private javax.swing.JScrollPane jScrollPane2;
+        private javax.swing.JScrollPane jScrollPane3;
+        private javax.swing.JScrollPane jScrollPane4;
+        private javax.swing.JToggleButton jToggleButton1;
+        private javax.swing.JTextField morada;
+        private javax.swing.JTextField nome;
+        private javax.swing.JTextField numero;
+        private javax.swing.JTextField valor;
         // End of variables declaration//GEN-END:variables
 }
