@@ -1,30 +1,22 @@
 package CesiumModel;
 
-import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-public class Aluno implements Serializable{
+public class Aluno{
    private String name;
    private String contact;
    private Integer numero;
    private String curso;
    private String morada;
    private Integer ano;
-   private List valores;
+   private Boolean quotas;
 
-    public Aluno(String name, String contact, Integer numero, String curso, String morada, Integer ano, Boolean quotas, List valores) {
+    public Aluno(String name, String contact, Integer numero, String curso, String morada, Integer ano, Boolean quotas) {
         this.name = name;
         this.contact = contact;
         this.numero = numero;
         this.curso = curso;
         this.morada = morada;
         this.ano = ano;
-	this.valores = valores;
+        this.quotas = quotas; // Just to know if allready paid lifetime membership
     }
 
     public Aluno(Aluno aluno) {
@@ -35,31 +27,8 @@ public class Aluno implements Serializable{
         this.curso = aluno.getCurso();
         this.morada = aluno.getMorada();
         this.ano = aluno.getAno();
-	this.valores = aluno.getValores();
+        this.quotas = aluno.getQuotas();
     }
-
-
-	public Aluno() {
-        this.name = "";
-        this.contact = "";
-        this.numero = 0;
-        this.curso = "";
-        this.morada = "";
-        this.ano = 0;
-	this.valores = new ArrayList<String>() ; 
-	 String DATE_FORMAT_NOW = "dd-MM-yyyy";
-	 Date date = new Date();
-	 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-	 String stringDate = sdf.format(date );
-	    try {
-		Date date2 = sdf.parse(stringDate);
-	    } catch(ParseException e){
-	     //Exception handling
-	    } catch(Exception e){
-	     //handle exception
-	    }
- 	this.valores.add(stringDate);
-	}
 
     public String getName() {
         return name;
@@ -109,14 +78,14 @@ public class Aluno implements Serializable{
         this.ano = ano;
     }
 
-
-    public List getValores() {
-	return valores;
+    public Boolean isQuotas() {
+        return quotas;
     }
 
-    public void setValores(List valores) {
-	this.valores = valores;
+    public void setQuotas(Boolean quotas) {
+        this.quotas = quotas;
     }
+
 
     @Override
     public boolean equals(Object o) {
