@@ -2,11 +2,13 @@ package business.users;
 
 public class User {
     private String name;
+    private Integer number;
     private String email;
     private String password;
 
-    public User(String name, String email, String password) {
+    public User(String name, Integer number, String email, String password) {
         this.name = name;
+        this.number = number;
         this.email = email;
         this.password = password;
     }
@@ -21,5 +23,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public Integer getNumber() {
+        return number;
     }
 }

@@ -1,23 +1,30 @@
 package business.courses;
 
-import business.users.Student;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Exchange {
     private Integer code;
-    private Set<Student> students;
+    private String course;
+    private HashMap<Integer, String> exchanges;
 
-    public Exchange(Integer code, Set<Student> students) {
+    public Exchange(Integer code, String course, HashMap<Integer, String> exchanges) {
         this.code = code;
-        this.students = students;
+        this.course = course;
+        this.exchanges = exchanges;
     }
 
-    public Set<Student> getStudents() {
-        return students;
-    }
 
     public Integer getCode() {
         return code;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public Set<Map.Entry<Integer, String>> getExchanges() {
+        return exchanges.entrySet();
     }
 }
