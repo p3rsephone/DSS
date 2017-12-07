@@ -6,7 +6,7 @@ public class RoomFullException extends Exception{
         super();
     }
 
-    public RoomFullException(String message)     y {
+    public RoomFullException(String message){
         super(message);
     }
 }
