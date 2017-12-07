@@ -8,7 +8,7 @@ import java.util.Set;
 public class Student extends User{
     private Set<String> shifts;
     private Set<Request> pendingRequests;
-    private Boolean WrkStd;
+    private Boolean statute;
     public Student(String name, String email, String password, Integer number) {
         super(name, number, email, password);
         this.shifts = new HashSet<>();
@@ -28,7 +28,7 @@ public class Student extends User{
         return this.pendingRequests.size();
     }
 
-    public Boolean isWrkStd() {
+    public Boolean isStatute() {
         return this.WrkStd;
     }
 }
