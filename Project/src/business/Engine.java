@@ -42,8 +42,6 @@ public class Engine {
             }
             this.teachers.put(t.getNumber(), t);
         }
-
-
     }
 
     public void addCourse(Course c) {
@@ -61,11 +59,32 @@ public class Engine {
         this.billboard.put(shiftCode, r);
     }
 
-    public void registerExchange(Student s1, String cocode1, String shcode1, Request request) {
-        HashMap<Integer, String> record = new HashMap<>();
-        record.put(s1.getNumber(), shcode1);
-        record.put(request.getStudent(), request.getShift());
-        Exchange e = new Exchange(this.nrOfExchanges++, cocode1, record);
+    public void registerExchange(Student s1, String courseCode, String shcode1, Request request) {
+        Integer s2number = request.getStudent();
+        String shcode2 = request.getShift();
+        Exchange e = new Exchange(this.nrOfExchanges++, courseCode, shcode1, shcode2, s1.getNumber(), s2number);
         this.exchanges.put(e.getCode(), e);
+    }
+
+    public void cancelExchange(Integer code) {
+        Exchange e = this.exchanges.get(code);
+        Integer s1number = e.getOriginStudent();
+        String s1currShift = e.getDestShift();
+        Integer s2number = e.getDestStudent();
+        String s2currShift = e.getOriginShift();
+
+        this.courses.get(e.getCourse()).swap(s1number, s1currShift, s2number, s2currShift);
+    }
+
+    public void defineShiftLimit(String courseId, String shiftId, Integer limit) {
+        this.courses.get(courseId).setShiftLimit(shiftId, limit);
+    }
+
+    public void enrollStudent(String courseId, String shiftId, Integer studentNumber) {
+        this.courses.get(courseId).addStudentToShift(shiftId, studentNumber);
+    }
+
+    public boolean expellStudent(String courseId, String shiftId, Integer studentNumber) {
+        return this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
     }
 }
