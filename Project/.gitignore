@@ -1,7 +1,8 @@
 #Java
 *.class
 
-idea/
+#Intellij
+.idea/
 *.iml
 *.iws
 
