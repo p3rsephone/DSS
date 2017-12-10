@@ -7,12 +7,18 @@ import java.util.Set;
 public class Exchange {
     private Integer code;
     private String course;
-    private HashMap<Integer, String> exchanges;
+    private String originShift;
+    private String destShift;
+    private Integer originStudent;
+    private Integer destStudent;
 
-    public Exchange(Integer code, String course, HashMap<Integer, String> exchanges) {
+    public Exchange(Integer code, String course, String originShift, String destShift, Integer originStudent, Integer destStudent) {
         this.code = code;
         this.course = course;
-        this.exchanges = exchanges;
+        this.originShift = originShift;
+        this.destShift = destShift;
+        this.originStudent = originStudent;
+        this.destStudent = destStudent;
     }
 
 
@@ -24,7 +30,19 @@ public class Exchange {
         return course;
     }
 
-    public Set<Map.Entry<Integer, String>> getExchanges() {
-        return exchanges.entrySet();
+    public String getOriginShift() {
+        return originShift;
+    }
+
+    public String getDestShift() {
+        return destShift;
+    }
+
+    public Integer getOriginStudent() {
+        return originStudent;
+    }
+
+    public Integer getDestStudent() {
+        return destStudent;
     }
 }
