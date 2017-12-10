@@ -9,10 +9,11 @@ public class Student extends User{
     private Set<String> shifts;
     private Set<Request> pendingRequests;
     private Boolean statute;
-    public Student(String name, String email, String password, Integer number) {
+    public Student(String name, String email, String password, Integer number, Boolean statute) {
         super(name, number, email, password);
         this.shifts = new HashSet<>();
         this.pendingRequests = new HashSet<>();
+        this.statute = statute;
     }
 
     public void addShift(String codShift) {
@@ -29,6 +30,6 @@ public class Student extends User{
     }
 
     public Boolean isStatute() {
-        return this.WrkStd;
+        return this.statute;
     }
 }
