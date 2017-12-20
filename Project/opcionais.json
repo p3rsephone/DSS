@@ -1,0 +1,62 @@
+{
+  "MD": {
+      "nome": "Mineração de Dados",
+      "diasem": "ter",
+      "per": "M"
+    },
+    "VC": {
+      "nome": "Visão por Computador",
+      "diasem": "qui",
+      "per": "T"
+    },
+    "CP": {
+      "nome": "Computação Paralela",
+      "diasem": "qua",
+      "per": "M"
+    },
+    "SSI": {
+      "nome": "Segurança de Sistemas Informáticos",
+      "diasem": "ter",
+      "per": "T"
+    },
+    "PDSJ": {
+      "nome": "Processamento de Dados com Streams de Java",
+      "diasem": "qua",
+      "per": "M"
+    },
+    "AEBD": {
+      "nome": "Administração e Exploração de Bases de Dados",
+      "diasem": "ter",
+      "per": "M"
+    },
+    "ER": {
+      "nome": "Engenharia de Requisitos",
+      "diasem": "sex",
+      "per": "T"
+    },
+    "GR": {
+      "nome": "Gestão de Redes",
+      "diasem": "qui",
+      "per": "M"
+    },
+    "ATS": {
+      "nome": "Análise e Teste de Software",
+      "diasem": "ter",
+      "per": "T"
+    },
+    "SPLN": {
+      "nome": "Scripting no Processamento de Linguagem Natural",
+      "diasem": "sex",
+      "per": "M"
+    },
+    "SDB": {
+      "nome": "System Deployment and Benchmarking",
+      "diasem": "qua",
+      "per": "M"
+    },
+    "IATA": {
+      "nome": "Inteligência Ambiente - Tecnologias e Aplicações",
+      "diasem": "qua",
+      "per": "M"
+    }
+}

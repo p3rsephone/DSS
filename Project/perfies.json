@@ -1,0 +1,68 @@
+{
+                "BI":{
+                    "UC1" :{"nome":"BI-UC1-Sistemas Operacionais","diasem":"sex"},
+                    "UC2" :{"nome":"BI-UC2-Data Warehousing", "diasem":"sex"},
+                    "UC3" :{"nome":"BI-UC3-Processamento Analítico de Dados", "diasem":"sex"},
+                    "UC4" :{"nome":"BI-UC4-Análise de Dados", "diasem":"sex"}
+                },
+                "SDC":{
+                    "UC1" :{"nome":"SDC-UC1-Criptografia e Segurança da Informação" ,"diasem":"seg"},
+                    "UC2" :{"nome":"SDC-UC2-Paradigmas de Sistemas Distribuídos","diasem":"seg"},
+                    "UC3" :{"nome":"SDC-UC3-Segurança de Sistemas Informáticos","diasem":"seg"},
+                    "UC4" :{"nome":"SDC-UC4-Sistemas Distribuídos Confiáveis","diasem":"seg"}
+                },
+                "EA":{
+                    "UC1" :{"nome":"EA-UC1-Infraestruturas de Centro de Dados" ,"diasem":"ter"},
+                    "UC2" :{"nome":"EA-UC2-Administração de Base de Dados" ,"diasem":"ter"},
+                    "UC3" :{"nome":"EA-UC3-Arquiteturas Aplicacionais" ,"diasem":"ter"},
+                    "UC4" :{"nome":"EA-UC4-Sistemas Interativos" ,"diasem":"ter"}
+                },
+                "ESS":{
+                    "UC1" :{"nome":"ESS-UC1-Engenharia de Requisitos","diasem":"qui"},
+                    "UC2" :{"nome":"ESS-UC2-Arquiteturas de Software","diasem":"qui"},
+                    "UC3" :{"nome":"ESS-UC3-Gestão do Processo de Software","diasem":"qui"},
+                    "UC4" :{"nome":"ESS-UC4-Engenharia Web","diasem":"qui"}
+                },
+                "CPD":{
+                    "UC1" :{"nome": "CPD-UC1-Arquiteturas Avançadas","diasem":"ter"},
+                    "UC2" :{"nome":"CPD-UC2-Paradigmas de Computação Paralela","diasem":"ter"},
+                    "UC3" :{"nome":"CPD-UC3-Algoritmos Paralelos","diasem":"ter"},
+                    "UC4" :{"nome":"CPD-UC4-Engenharia dos Sistemas de Computação","diasem":"ter"}
+                },
+                "CG":{
+                    "UC1" :{"nome":"CG-UC1-Visualização e Iluminação I","diasem":"qui"},
+                    "UC2" :{"nome":"CG-UC2-Visão por Computador","diasem":"qui"},
+                    "UC3" :{"nome":"CG-UC3-Visualização e Iluminação II","diasem":"qui"},
+                    "UC4" :{"nome":"CG-UC4-Tecnologias e Aplicações","diasem":"qui"}
+                },
+                "ERS":{
+                    "UC1" :{"nome":"ERS-UC1-Tecnologias e Protocolos de Rede" ,"diasem":"sex"},
+                    "UC2" :{"nome":"ERS-UC2-Gestão de Redes","diasem":"sex"},
+                    "UC3" :{"nome":"ERS-UC3-Redes Multi Serviços","diasem":"sex"},
+                    "UC4" :{"nome":"ERS-UC4-Serviços e Sistemas Multimédia","diasem":"sex"}
+                },
+                "Bio":{
+                    "UC1" :{"nome":"Bio-UC1-Algoritmos para Análise de Sequências Biológicas","diasem":"sex"},
+                    "UC2" :{"nome":"Bio-UC2-Laboratórios de Bioinformática","diasem":"sex"},
+                    "UC3" :{"nome":"Bio-UC3-Algoritmos Avançados de Bioinformática","diasem":"sex"},
+                    "UC4" :{"nome":"Bio-UC4-Extração de Conhecimento de Bases de Dados Biológicas","diasem":"sex"}
+                },
+                "SI":{
+                    "UC1" :{"nome":"SI-UC1-Agentes Inteligentes","diasem":"seg"},
+                    "UC2" :{"nome":"SI-UC2-Aprendizaem e Extração de Conhecimento","diasem":"seg"},
+                    "UC3" :{"nome":"SI-UC3-Computação Natural","diasem":"seg"},
+                    "UC4" :{"nome":"SI-UC4-Sistemas Autónomos","diasem":"seg"}
+                },
+                "MFES":{
+                    "UC1" :{"nome":"MFES-UC1-Especificação e Modelação","diasem":"qui"},
+                    "UC2" :{"nome":"MFES-UC2-Análise e Teste de Software","diasem":"qui"},
+                    "UC3" :{"nome":"MFES-UC3-Arquitetura e Cálculo","diasem":"qui"},
+                    "UC4" :{"nome":"MFES-UC4-Verificaçao Formal","diasem":"qui"}
+                },
+                "PLC":{
+                    "UC1" :{"nome":"PLC-UC1-Gramáticas na Compreensão de Software","diasem":"seg"},
+                    "UC2" :{"nome":"PLC-UC2-Processamento e Representação de Informação","diasem":"seg"},
+                    "UC3" :{"nome":"PLC-UC3-Scripting no Processamento de Linguagem Natural","diasem":"seg"},
+                    "UC4" :{"nome":"PLC-UC4-Processamento e Representação de Conhecimento","diasem":"seg"}
+                }
+}
