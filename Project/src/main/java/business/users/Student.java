@@ -9,6 +9,7 @@ public class Student extends User{
     private Set<String> shifts;
     private Set<Request> pendingRequests;
     private Boolean statute;
+
     public Student(String name, String email, String password, Integer number, Boolean statute) {
         super(name, number, email, password);
         this.shifts = new HashSet<>();
