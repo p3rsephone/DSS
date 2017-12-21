@@ -1,5 +1,7 @@
 package business.users;
 
+import business.exceptions.InvalidWeekDayException;
+
 import java.util.HashMap;
 
 public class Schedule {
