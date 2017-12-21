@@ -13,7 +13,7 @@ public class Student extends User{
     private Schedule schedule;
 
     public Student(String name, String email, String password, Integer number, Boolean statute) {
-        super(name, number, username, email, password);
+        super(name, number, email, password);
         this.schedule = new Schedule();
         this.shifts = new HashSet<>();
         this.enrollments = new HashSet<>();

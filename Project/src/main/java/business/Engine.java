@@ -2,7 +2,6 @@ package business;
 
 import business.courses.*;
 import business.exceptions.RoomCapacityExceededException;
-import business.exceptions.TooManyRequestsException;
 import business.exceptions.UserAlredyExistsException;
 import business.users.Student;
 import business.users.Teacher;
@@ -11,11 +10,10 @@ import business.users.User;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Engine {
-    private HashMap<String, Student> students;
-    private HashMap<String, Teacher> teachers;
+    private HashMap<Integer, Student> students;
+    private HashMap<Integer, Teacher> teachers;
     private HashMap<String, Course> courses;
     private HashMap<Integer, Exchange> exchanges;
     private Integer nrOfExchanges;
@@ -36,13 +34,13 @@ public class Engine {
             if(this.students.containsKey(s.getNumber())) {
                 throw new UserAlredyExistsException();
             }
-            this.students.put(u.getUsername(), s);
+            this.students.put(u.getNumber(), s);
         } else {
             Teacher t = (Teacher) u;
             if(this.teachers.containsKey(t.getNumber())) {
                 throw new UserAlredyExistsException();
             }
-            this.teachers.put(t.getUsername(), t);
+            this.teachers.put(t.getNumber(), t);
         }
     }
 
@@ -96,10 +94,10 @@ public class Engine {
         }
     }
 
-    public User login(String login, String password) {
+    public User login(Integer login, String password) {
         if (this.students.containsKey(login)) {
             Student current = this.students.get(login);
-            if (current.getPassword().equals(password) {
+            if (current.getPassword().equals(password)) {
                 return current;
             }
         } else if (this.teachers.containsKey(login)) {
