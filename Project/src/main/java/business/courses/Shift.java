@@ -14,12 +14,12 @@ public class Shift {
     private HashSet<Integer> students;
     private Integer roomCode;
     
-    public Shift(String code, String courseId, Integer limit, Integer roomCode) {
+    public Shift(String code, String courseId, Integer limit) {
         this.code = code;
         this.courseId = courseId;
         this.roomCode = roomCode;
         this.numOfStudents = 0;
-        this.limit = limit;
+        this.limit = -1;
         this.students = new HashSet<>();
     }
 
@@ -63,5 +63,9 @@ public class Shift {
 
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+
+    public void setRoom(Integer roomCode) {
+        this.roomCode = roomCode;
     }
 }

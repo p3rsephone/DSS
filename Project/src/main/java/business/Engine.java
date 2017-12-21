@@ -9,6 +9,7 @@ import business.users.User;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 public class Engine {
@@ -76,6 +77,7 @@ public class Engine {
 
     public void enrollStudent(String courseId, String shiftId, Integer studentNumber) {
         this.courses.get(courseId).addStudentToShift(shiftId, studentNumber);
+        this.students.get(studentNumber).addShift(shiftId);
     }
 
     public boolean expellStudent(String courseId, String shiftId, Integer studentNumber) {
@@ -85,12 +87,11 @@ public class Engine {
     public void makeSwaps(String courseCode) {
         Course c = this.courses.get(courseCode);
 
-        Set<Pair<Integer, Integer>> cycle = c.getLargestCycle();
-        while (cycle != null) {
-            Iterator it = cycle.iterator();
-            while (it.hasNext()) {
-
-            }
+        Set<Map.Entry<String, Shift>> shifts = c.getShifts().entrySet();
+        Iterator<Map.Entry<String, Shift>> it = shifts.iterator();
+        while (it.hasNext()) {
+            String shiftCode = it.next().getKey();
+            c.makeSwaps(shiftCode);
         }
     }
 

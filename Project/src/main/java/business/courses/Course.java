@@ -82,4 +82,12 @@ public class Course {
         // TODO
         return new TreeSet<>();
     }
+
+    public HashMap<String, Shift> getShifts() {
+        return shifts.getShifts();
+    }
+
+    public void makeSwaps(String shiftCode) {
+        // TODO
+    }
 }
