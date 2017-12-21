@@ -3,12 +3,14 @@ package business.courses;
 public class Request {
     private Integer student;
     private String course;
-    private String shift;
+    private String originShift;
+    private String destShift;
 
-    public Request(Integer student, String course, String shift) {
+    public Request(Integer student, String course, String originShift, String destShift) {
         this.student = student;
         this.course = course;
-        this.shift = shift;
+        this.originShift = originShift;
+        this.destShift = destShift;
     }
 
     public Integer getStudent() {
@@ -19,7 +21,12 @@ public class Request {
         return course;
     }
 
-    public String getShift() {
-        return shift;
+
+    public String getOriginShift() {
+        return originShift;
+    }
+
+    public String getDestShift() {
+        return destShift;
     }
 }

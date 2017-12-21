@@ -1,9 +1,8 @@
 package business.courses;
 
 import business.exceptions.RoomCapacityExceededException;
-import business.exceptions.StudentAlredyInShiftException;
+import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
-import business.users.Student;
 
 import java.util.HashSet;
 
@@ -13,15 +12,15 @@ public class Shift {
     private Integer numOfStudents;
     private Integer limit;
     private HashSet<Integer> students;
-    private Room room;
-
-    public Shift(String code, String courseId, Integer limit, Room room) {
+    private Integer roomCode;
+    
+    public Shift(String code, String courseId, Integer limit) {
         this.code = code;
         this.courseId = courseId;
+        this.roomCode = roomCode;
         this.numOfStudents = 0;
-        this.limit = limit;
-        this.room=room;
-        this.students = new HashSet<>(this.room.getCapacity());
+        this.limit = -1;
+        this.students = new HashSet<>();
     }
 
     public String getCode() {
@@ -32,14 +31,6 @@ public class Shift {
         return courseId;
     }
 
-    public void setLimit(Integer limit) throws RoomCapacityExceededException {
-        if(this.room.getCapacity() <= limit) {
-            this.limit = limit;
-        } else {
-            throw new RoomCapacityExceededException();
-        }
-    }
-
     public Integer getLimit() {
         return limit;
     }
@@ -48,9 +39,9 @@ public class Shift {
         return numOfStudents;
     }
 
-    public void addStudent(Integer studentNumber) throws StudentAlredyInShiftException, RoomCapacityExceededException {
+    public void addStudent(Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException {
         if(this.students.contains(studentNumber)) {
-            throw new StudentAlredyInShiftException();
+            throw new StudentAlreadyInShiftException();
         } else if (this.numOfStudents + 1 > this.limit){
             throw new RoomCapacityExceededException();
         } else {
@@ -64,5 +55,17 @@ public class Shift {
         } else {
             return this.students.remove(studentNumber);
         }
+    }
+
+    public Integer getRoomCode() {
+        return roomCode;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public void setRoom(Integer roomCode) {
+        this.roomCode = roomCode;
     }
 }

@@ -1,32 +1,34 @@
 package business.courses;
 
-import business.exceptions.RoomCapacityExceededException;
-import business.exceptions.ShiftAlredyExistsException;
-import business.exceptions.StudentAlredyInShiftException;
-import business.exceptions.StudentNotInShiftException;
+import business.courses.graph.Graph;
+import business.exceptions.*;
+import business.users.Student;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class Course {
     private String code;
     private String name;
-    private HashMap<String, Shift> shifts;
-    private Year year;
+    private Graph shifts;
+    private Integer year;
     private String weekday;
+    private HashMap<String, Request> billboard;
 
-    public Course(String code, String name, Year year, String weekday) {
+    public Course(String code, String name, Integer year, String weekday) {
         this.code = code;
         this.name = name;
         this.year = year;
         this.weekday = weekday;
-        this.shifts = new HashMap<>();
+        this.shifts = new Graph();
+        this.billboard = new HashMap<>();
     }
 
     public void addShift(Shift s) throws ShiftAlredyExistsException {
-        if(this.shifts.containsKey(s.getCode())) {
+        HashMap<String, Shift> sh = this.shifts.getShifts();
+        if(sh.containsKey(s.getCode())) {
             throw new ShiftAlredyExistsException();
         }
-        this.shifts.put(s.getCode(), s);
+        this.shifts.addShift(s);
     }
 
     public String getCode() {
@@ -41,26 +43,18 @@ public class Course {
         return weekday;
     }
 
-    public Year getYear() {
+    public Integer getYear() {
         return year;
     }
 
     public Shift getShift(String shift) {
-        return this.shifts.get(shift);
-    }
-
-    public void setShiftLimit(String shiftId, Integer limit) {
-        try {
-            this.shifts.get(shiftId).setLimit(limit);
-        } catch (RoomCapacityExceededException e) {
-            e.printStackTrace();
-        }
+        return this.shifts.getShift(shift);
     }
 
     public void addStudentToShift(String shiftId, Integer studentNumber) {
         try {
-            this.shifts.get(shiftId).addStudent(studentNumber);
-        } catch (StudentAlredyInShiftException | RoomCapacityExceededException e) {
+            this.shifts.addStudent(shiftId, studentNumber);
+        } catch (StudentAlreadyInShiftException | RoomCapacityExceededException e) {
             e.printStackTrace();
         }
     }
@@ -68,23 +62,32 @@ public class Course {
     public boolean removeStudentFromShift(String shiftId, Integer studentNumber) {
         boolean r = false;
         try {
-            r = this.shifts.get(shiftId).removeStudent(studentNumber);
+            r = this.shifts.removeStudent(shiftId, studentNumber);
         } catch (StudentNotInShiftException e) {
             e.printStackTrace();
         }
         return r;
     }
 
-    public void swap(Integer s1number, String s1currShift, Integer s2number, String s2currShift) {
-        Shift shift1 = this.shifts.get(s1currShift);
-        Shift shift2 = this.shifts.get(s2currShift);
-        try {
-            shift1.removeStudent(s1number);
-            shift1.addStudent(s2number);
-            shift2.removeStudent(s2number);
-            shift2.addStudent(s1number);
-        } catch (StudentNotInShiftException | StudentAlredyInShiftException | RoomCapacityExceededException e) {
-            e.printStackTrace();
-        }
+    public void swap(TreeSet<Request> matchingSet) {
+        // TODO
+    }
+
+
+    public void requestExchange(Student s, String originShift, String destShift) {
+       this.shifts.addRequest(s.getNumber(), originShift, destShift);
+    }
+
+    public Set<Pair<Integer,Integer>> getLargestCycle() {
+        // TODO
+        return new TreeSet<>();
+    }
+
+    public HashMap<String, Shift> getShifts() {
+        return shifts.getShifts();
+    }
+
+    public void makeSwaps(String shiftCode) {
+        // TODO
     }
 }
