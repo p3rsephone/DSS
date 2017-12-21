@@ -1,4 +1,4 @@
-package business.courses;
+package business.utilities;
 
 public class Pair<T, U> {
     public final T t;

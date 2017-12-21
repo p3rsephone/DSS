@@ -7,6 +7,7 @@ import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
 
+import java.net.Inet4Address;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class Engine {
         this.students.get(studentNumber).addShift(shiftId);
     }
 
-    public boolean expellStudent(String courseId, String shiftId, Integer studentNumber) {
+    public Integer expellStudent(String courseId, String shiftId, Integer studentNumber) {
         return this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
     }
 

@@ -4,6 +4,7 @@ import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Shift {
@@ -11,16 +12,18 @@ public class Shift {
     private String courseId;
     private Integer numOfStudents;
     private Integer limit;
-    private HashSet<Integer> students;
+    private HashMap<Integer, Integer> students;  //<number, faltas>
+    private final Integer expectedClasses;
     private Integer roomCode;
     
-    public Shift(String code, String courseId, Integer limit) {
+    public Shift(String code, String courseId, Integer limit, Integer expectedClasses) {
         this.code = code;
         this.courseId = courseId;
+        this.expectedClasses = expectedClasses;
         this.roomCode = roomCode;
         this.numOfStudents = 0;
         this.limit = -1;
-        this.students = new HashSet<>();
+        this.students = new HashMap<>();
     }
 
     public String getCode() {
@@ -40,17 +43,17 @@ public class Shift {
     }
 
     public void addStudent(Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException {
-        if(this.students.contains(studentNumber)) {
+        if(this.students.containsKey(studentNumber)) {
             throw new StudentAlreadyInShiftException();
         } else if (this.numOfStudents + 1 > this.limit){
             throw new RoomCapacityExceededException();
         } else {
-            this.students.add(studentNumber);
+            this.students.put(studentNumber,0);
         }
     }
 
-    public boolean removeStudent(Integer studentNumber) throws StudentNotInShiftException {
-        if(!this.students.contains(studentNumber)) {
+    public Integer removeStudent(Integer studentNumber) throws StudentNotInShiftException {
+        if(!this.students.containsKey(studentNumber)) {
             throw new StudentNotInShiftException();
         } else {
             return this.students.remove(studentNumber);

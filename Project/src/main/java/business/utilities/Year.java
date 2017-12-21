@@ -1,4 +1,4 @@
-package business.courses;
+package business.utilities;
 
 public enum Year {
     FIRST,

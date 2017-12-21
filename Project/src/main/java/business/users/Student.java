@@ -2,6 +2,7 @@ package business.users;
 
 import business.courses.Request;
 import business.exceptions.InvalidWeekDayException;
+import business.utilities.Schedule;
 
 import java.util.HashSet;
 import java.util.Set;

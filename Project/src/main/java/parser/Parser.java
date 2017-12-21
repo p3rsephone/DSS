@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import static business.courses.Year.*;
+import static business.utilities.Year.*;
 
 
 public class Parser {

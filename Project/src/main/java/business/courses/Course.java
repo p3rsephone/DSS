@@ -1,8 +1,9 @@
 package business.courses;
 
-import business.courses.graph.Graph;
+import business.utilities.graph.Graph;
 import business.exceptions.*;
 import business.users.Student;
+import business.utilities.Pair;
 
 import java.util.*;
 
@@ -59,8 +60,8 @@ public class Course {
         }
     }
 
-    public boolean removeStudentFromShift(String shiftId, Integer studentNumber) {
-        boolean r = false;
+    public Integer removeStudentFromShift(String shiftId, Integer studentNumber) {
+        Integer r = 0;
         try {
             r = this.shifts.removeStudent(shiftId, studentNumber);
         } catch (StudentNotInShiftException e) {
