@@ -1,4 +1,4 @@
-package business.users;
+package business.utilities;
 
 import business.exceptions.InvalidWeekDayException;
 

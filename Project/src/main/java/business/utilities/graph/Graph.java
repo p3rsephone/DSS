@@ -1,10 +1,9 @@
-package business.courses.graph;
+package business.utilities.graph;
 
 import business.courses.Shift;
 import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
-import business.users.Student;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -77,7 +76,7 @@ public class Graph {
         res.addStudent(studentNumber);
     }
 
-    public boolean removeStudent(String shiftCode, Integer studentNumber) throws StudentNotInShiftException {
+    public Integer removeStudent(String shiftCode, Integer studentNumber) throws StudentNotInShiftException {
         Shift s = this.getShift(shiftCode);
         return s.removeStudent(studentNumber);
     }

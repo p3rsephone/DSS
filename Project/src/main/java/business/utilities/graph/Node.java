@@ -1,4 +1,4 @@
-package business.courses.graph;
+package business.utilities.graph;
 
 import business.courses.Shift;
 

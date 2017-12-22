@@ -2,6 +2,7 @@ package business.users;
 
 import business.courses.Request;
 import business.exceptions.InvalidWeekDayException;
+import business.utilities.Schedule;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +42,10 @@ public class Student extends User{
 
     public Boolean isStatute() {
         return this.statute;
+    }
+
+    public Integer getNEnrollments() {
+        return this.enrollments.size();
     }
 
     public Boolean isOcuppied(String weekday, String period) {

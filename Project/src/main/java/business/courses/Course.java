@@ -1,22 +1,26 @@
 package business.courses;
 
-import business.courses.graph.Graph;
+import business.utilities.graph.Graph;
 import business.exceptions.*;
 import business.users.Student;
+import business.utilities.Pair;
 
 import java.util.*;
 
 public class Course {
+
     private String code;
     private String name;
+    private String regTeacher;
     private Graph shifts;
     private Integer year;
     private String weekday;
     private HashMap<String, Request> billboard;
 
-    public Course(String code, String name, Integer year, String weekday) {
+    public Course(String code, String name, String regTeacher, Integer year, String weekday) {
         this.code = code;
         this.name = name;
+        this.regTeacher = regTeacher;
         this.year = year;
         this.weekday = weekday;
         this.shifts = new Graph();
@@ -51,6 +55,22 @@ public class Course {
         return this.shifts.getShift(shift);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRegTeacher(String regTeacher) {
+        this.regTeacher = regTeacher;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
     public void addStudentToShift(String shiftId, Integer studentNumber) {
         try {
             this.shifts.addStudent(shiftId, studentNumber);
@@ -59,8 +79,8 @@ public class Course {
         }
     }
 
-    public boolean removeStudentFromShift(String shiftId, Integer studentNumber) {
-        boolean r = false;
+    public Integer removeStudentFromShift(String shiftId, Integer studentNumber) {
+        Integer r = 0;
         try {
             r = this.shifts.removeStudent(shiftId, studentNumber);
         } catch (StudentNotInShiftException e) {
@@ -89,5 +109,13 @@ public class Course {
 
     public void makeSwaps(String shiftCode) {
         // TODO
+    }
+
+    public void missing(Integer studentNumber, String shiftCode) {
+        this.shifts.getShift(shiftCode).foulStudent(studentNumber);
+    }
+
+    public String getRegTeacher() {
+        return regTeacher;
     }
 }
