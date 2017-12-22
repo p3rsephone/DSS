@@ -5,20 +5,21 @@ import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Shift {
     private String code;
     private String courseId;
+    private String teacher;
     private Integer numOfStudents;
     private Integer limit;
     private HashMap<Integer, Integer> students;  //<number, faltas>
     private final Integer expectedClasses;
     private Integer roomCode;
     
-    public Shift(String code, String courseId, Integer limit, Integer expectedClasses) {
+    public Shift(String code, String courseId, Integer limit, String teacher, Integer expectedClasses) {
         this.code = code;
         this.courseId = courseId;
+        this.teacher = teacher;
         this.expectedClasses = expectedClasses;
         this.roomCode = roomCode;
         this.numOfStudents = 0;

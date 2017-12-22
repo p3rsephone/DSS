@@ -10,14 +10,16 @@ import java.util.*;
 public class Course {
     private String code;
     private String name;
+    private String regTeacher;
     private Graph shifts;
     private Integer year;
     private String weekday;
     private HashMap<String, Request> billboard;
 
-    public Course(String code, String name, Integer year, String weekday) {
+    public Course(String code, String name, String regTeacher, Integer year, String weekday) {
         this.code = code;
         this.name = name;
+        this.regTeacher = regTeacher;
         this.year = year;
         this.weekday = weekday;
         this.shifts = new Graph();
