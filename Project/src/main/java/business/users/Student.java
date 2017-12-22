@@ -41,6 +41,18 @@ public class Student extends User{
         return ret;
     }
 
+    public Set<String> getEnrollments() {
+        Set<String> ret = new HashSet<>();
+        ret.addAll(enrollments);
+        return ret;
+    }
+
+    public Set<Request> getRequests() {
+        Set<Request> ret = new HashSet<>();
+        ret.addAll(pendingRequests);
+        return ret;
+    }
+
     public int getNshifts() {
         return this.shifts.size();
     }
