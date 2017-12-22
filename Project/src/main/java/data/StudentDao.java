@@ -125,6 +125,7 @@ public class StudentDao implements Map<String,Student> {
                 while (rs.next()) { //If there are requests associated get their codes and add them
                     Request rq = new Request((Integer)key,rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
                     student.addPendingRequest(rq);
+
                 }
             }
         } catch (Exception e) {
