@@ -31,7 +31,17 @@ public class Student extends User{
         this.enrollments.add(codCourse);
     }
 
-    public int numberEnrollments() {
+    public void addPendingRequests(Request rq) {
+        this.pendingRequests.add(rq);
+    }
+
+    public Set<String> getShifts() {
+        Set<String> ret = new HashSet<>();
+        ret.addAll(shifts);
+        return ret;
+    }
+
+    public int getNshifts() {
         return this.shifts.size();
     }
 
