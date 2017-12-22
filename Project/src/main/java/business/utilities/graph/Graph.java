@@ -5,9 +5,7 @@ import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 public class Graph {
 
@@ -85,5 +83,15 @@ public class Graph {
         Node origin = this.getNode(originShift);
         Node dest = this.getNode(destShift);
         origin.addEdge(studentCode, dest);
+    }
+
+    public void swap(String shiftCode) {
+        Node current = this.getNode(shiftCode);
+        Set<Map.Entry<Integer, Edge>> in = current.getinEdges();
+        Iterator it = in.iterator();
+        while(it.hasNext()) {
+            // TODO
+
+        }
     }
 }

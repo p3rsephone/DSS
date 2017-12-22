@@ -9,21 +9,21 @@ import java.util.HashMap;
 public class Shift {
     private String code;
     private String courseId;
-    private String teacher;
+    private Integer teacher;
     private Integer numOfStudents;
     private Integer limit;
     private HashMap<Integer, Integer> students;  //<number, faltas>
     private final Integer expectedClasses;
-    private Integer roomCode;
-    
-    public Shift(String code, String courseId, Integer limit, String teacher, Integer expectedClasses) {
+    private String roomCode;
+
+    public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, String roomCode) {
         this.code = code;
         this.courseId = courseId;
         this.teacher = teacher;
         this.expectedClasses = expectedClasses;
         this.roomCode = roomCode;
         this.numOfStudents = 0;
-        this.limit = -1;
+        this.limit = limit;
         this.students = new HashMap<>();
     }
 
@@ -61,7 +61,7 @@ public class Shift {
         }
     }
 
-    public Integer getRoomCode() {
+    public String getRoomCode() {
         return roomCode;
     }
 
@@ -69,7 +69,7 @@ public class Shift {
         this.limit = limit;
     }
 
-    public void setRoom(Integer roomCode) {
+    public void setRoom(String roomCode) {
         this.roomCode = roomCode;
     }
 
@@ -80,5 +80,9 @@ public class Shift {
         } else {
             this.students.put(studentNumber, fouls+1);
         }
+    }
+
+    public Integer getTeacher() {
+        return teacher;
     }
 }
