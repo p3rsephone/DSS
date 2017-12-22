@@ -14,9 +14,9 @@ public class Shift {
     private Integer limit;
     private HashMap<Integer, Integer> students;  //<number, faltas>
     private final Integer expectedClasses;
-    private Integer roomCode;
-    
-    public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, Integer roomCode) {
+    private String roomCode;
+
+    public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, String roomCode) {
         this.code = code;
         this.courseId = courseId;
         this.teacher = teacher;
@@ -61,7 +61,7 @@ public class Shift {
         }
     }
 
-    public Integer getRoomCode() {
+    public String getRoomCode() {
         return roomCode;
     }
 
@@ -69,7 +69,7 @@ public class Shift {
         this.limit = limit;
     }
 
-    public void setRoom(Integer roomCode) {
+    public void setRoom(String roomCode) {
         this.roomCode = roomCode;
     }
 

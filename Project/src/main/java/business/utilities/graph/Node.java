@@ -3,6 +3,8 @@ package business.utilities.graph;
 import business.courses.Shift;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Node {
 
@@ -45,6 +47,10 @@ public class Node {
 
     public Shift getShift() {
         return shift;
+    }
+
+    public Set<Map.Entry<Integer,Edge>> getinEdges() {
+        return inEdges.entrySet();
     }
 }
 
