@@ -89,26 +89,19 @@ public class Course {
         return r;
     }
 
-    public void swap(TreeSet<Request> matchingSet) {
-        // TODO
-    }
-
 
     public void requestExchange(Student s, String originShift, String destShift) {
        this.shifts.addRequest(s.getNumber(), originShift, destShift);
     }
 
-    public Set<Pair<Integer,Integer>> getLargestCycle() {
-        // TODO
-        return new TreeSet<>();
-    }
+    // Maybe TODO n-wide exchanges. Let's see if we have the time for an NP problem.
 
     public HashMap<String, Shift> getShifts() {
         return shifts.getShifts();
     }
 
-    public void makeSwaps(String shiftCode) {
-        this.shifts.swap(shiftCode);
+    public Set<Exchange> makeSwaps(String shiftCode) {
+        return this.shifts.swap(shiftCode);
     }
 
     public void missing(Integer studentNumber, String shiftCode) {
@@ -117,5 +110,9 @@ public class Course {
 
     public String getRegTeacher() {
         return regTeacher;
+    }
+
+    public Graph getGraphShifts() {
+        return this.shifts;
     }
 }

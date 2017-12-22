@@ -1,13 +1,11 @@
 package business;
 
 import business.courses.*;
-import business.exceptions.InvalidPhaseException;
-import business.exceptions.RoomCapacityExceededException;
-import business.exceptions.TooManyRequestsException;
-import business.exceptions.UserAlredyExistsException;
+import business.exceptions.*;
 import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
+import business.utilities.graph.Graph;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,8 +66,23 @@ public class Engine {
         this.exchanges.put(e.getCode(), e);
     }
 
-    public void cancelExchange(Integer code) {
-        // TODO
+    public void cancelExchange(Integer code) throws ExchangeDoesNotExistException, ExchangeOutdatedException {
+        if(!this.exchanges.containsKey(code)) {
+            throw new ExchangeDoesNotExistException();
+        } else {
+            Exchange ex = this.exchanges.get(code);
+            Course course = this.courses.get(ex.getCourse());
+            Graph shifts = course.getGraphShifts();
+            Shift origin = shifts.getShift(ex.getDestShift());
+            Shift dest = shifts.getShift(ex.getOriginShift());
+            Exchange newEx = shifts.permute(origin, dest, ex.getDestStudent(), ex.getOriginStudent());
+            if(newEx != null) {
+                newEx.setCourse(ex.getCourse());
+                newEx.setCode(this.nrOfExchanges++);
+            } else {
+                throw new ExchangeOutdatedException();
+            }
+        }
     }
 
     public void defineShiftLimit(String courseId, String shiftId, Integer limit) throws RoomCapacityExceededException {
@@ -99,7 +112,14 @@ public class Engine {
         Iterator<Map.Entry<String, Shift>> it = shifts.iterator();
         while (it.hasNext()) {
             String shiftCode = it.next().getKey();
-            c.makeSwaps(shiftCode);
+            Set<Exchange> exchanges = c.makeSwaps(shiftCode);
+            Iterator<Exchange> exIt = exchanges.iterator();
+            while (exIt.hasNext()) {
+                Exchange elem = exIt.next();
+                elem.setCode(this.nrOfExchanges++);
+                elem.setCourse(courseCode);
+                this.exchanges.put(this.nrOfExchanges, elem);
+            }
         }
     }
 
