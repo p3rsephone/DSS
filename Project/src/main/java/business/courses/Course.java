@@ -8,6 +8,7 @@ import business.utilities.Pair;
 import java.util.*;
 
 public class Course {
+
     private String code;
     private String name;
     private String regTeacher;
@@ -54,6 +55,22 @@ public class Course {
         return this.shifts.getShift(shift);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRegTeacher(String regTeacher) {
+        this.regTeacher = regTeacher;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
     public void addStudentToShift(String shiftId, Integer studentNumber) {
         try {
             this.shifts.addStudent(shiftId, studentNumber);
@@ -96,5 +113,9 @@ public class Course {
 
     public void missing(Integer studentNumber, String shiftCode) {
         this.shifts.getShift(shiftCode).foulStudent(studentNumber);
+    }
+
+    public String getRegTeacher() {
+        return regTeacher;
     }
 }
