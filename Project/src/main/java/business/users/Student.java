@@ -44,6 +44,10 @@ public class Student extends User{
         return this.statute;
     }
 
+    public Integer getNEnrollments() {
+        return this.enrollments.size();
+    }
+
     public Boolean isOcuppied(String weekday, String period) {
         Boolean res = true;
         try {

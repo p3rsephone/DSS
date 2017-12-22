@@ -13,8 +13,8 @@ public class Teacher extends User {
         this.shifts = new HashSet<>();
     }
 
-    public void addShift(String shiftid) {
-        this.shifts.add(shiftid);
+        public void addShift(String shiftid) {
+            this.shifts.add(shiftid);
     }
 
     public Boolean isBoss() {

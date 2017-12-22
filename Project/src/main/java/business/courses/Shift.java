@@ -71,4 +71,13 @@ public class Shift {
     public void setRoom(Integer roomCode) {
         this.roomCode = roomCode;
     }
+
+    public void foulStudent(Integer studentNumber) {
+        Integer fouls = this.students.get(studentNumber);
+        if(fouls+1 >= 0.25*this.expectedClasses) {
+            this.students.remove(studentNumber);
+        } else {
+            this.students.put(studentNumber, fouls+1);
+        }
+    }
 }

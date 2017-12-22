@@ -1,13 +1,14 @@
 package business;
 
 import business.courses.*;
+import business.exceptions.InvalidPhaseException;
 import business.exceptions.RoomCapacityExceededException;
+import business.exceptions.TooManyRequestsException;
 import business.exceptions.UserAlredyExistsException;
 import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
 
-import java.net.Inet4Address;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,10 +20,12 @@ public class Engine {
     private HashMap<String, Course> courses;
     private HashMap<Integer, Exchange> exchanges;
     private Integer nrOfExchanges;
+    private Integer phase;
     private HashMap<Integer, Room> rooms;
 
     public Engine() {
         this.nrOfExchanges = 0;
+        this.phase = 1;
         this.teachers = new HashMap<>();
         this.students = new HashMap<>();
         this.courses = new HashMap<>();
@@ -50,8 +53,12 @@ public class Engine {
         this.courses.put(c.getCode(), c);
     }
 
-    public void requestExchange(String course, Student s, String originShift, String destShift) {
-        this.courses.get(course).requestExchange(s, originShift, destShift);
+    public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException {
+        if(s.getNrequests() >= s.getNEnrollments()) {
+            throw new TooManyRequestsException();
+        } else {
+            this.courses.get(course).requestExchange(s, originShift, destShift);
+        }
     }
 
     public void registerExchange(Student s1, String courseCode, String shcode1, Request request) {
@@ -114,5 +121,18 @@ public class Engine {
 
     public void allocateStudents() {
         // TODO
+    }
+
+    public void foulStudent(Integer studentNumber, String courseCode, String shiftCode) {
+        this.courses.get(courseCode).missing(studentNumber, shiftCode);
+    }
+
+    public void changePhase(Integer phase) throws InvalidPhaseException {
+        switch (phase) {
+            case 1: this.phase = 1;
+            case 2: this.phase = 2;
+            case 3: this.phase = 3;
+            default: throw new InvalidPhaseException();
+        }
     }
 }

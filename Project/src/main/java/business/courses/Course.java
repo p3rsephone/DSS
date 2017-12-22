@@ -91,4 +91,8 @@ public class Course {
     public void makeSwaps(String shiftCode) {
         // TODO
     }
+
+    public void missing(Integer studentNumber, String shiftCode) {
+        this.shifts.getShift(shiftCode).foulStudent(studentNumber);
+    }
 }
