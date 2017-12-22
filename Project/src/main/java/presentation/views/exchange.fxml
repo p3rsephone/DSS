@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.views.ExchangeController">
+   <children>
+      <DialogPane layoutX="-4.0" layoutY="-5.0" prefHeight="411.0" prefWidth="611.0" />
+      <Button layoutX="259.0" layoutY="320.0" mnemonicParsing="false" onAction="#troca" prefHeight="0.0" prefWidth="90.0" text="Troca" />
+      <VBox alignment="CENTER" layoutX="40.0" layoutY="88.0" prefHeight="202.0" prefWidth="523.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turnos disponiveis" />
+            <Separator orientation="VERTICAL" prefHeight="30.0" prefWidth="11.0" />
+            <ChoiceBox prefWidth="150.0" />
+         </children>
+      </VBox>
+      <Text layoutX="205.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedido de troca">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

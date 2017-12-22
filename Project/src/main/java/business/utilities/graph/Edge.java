@@ -20,7 +20,7 @@ public class Edge {
 
     @Override
     public boolean equals(Object obj) {
-        Graph.Edge e = (Graph.Edge)obj;
+        Edge e = (Edge)obj;
         return e.from == from && e.to == to;
     }
 }
