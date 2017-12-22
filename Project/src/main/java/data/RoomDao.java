@@ -17,15 +17,15 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Returns number of entries in the database
-     * @return
-     * @throws NullPointerException
+     * @return                       Number of entries
+     * @throws NullPointerException  No connection
      */
     @Override
     public int size() {
         int i = 0;
         try {
             conn = Connect.connect();
-            String sql= "SELECT count(*) FROM Room;";
+            String sql= "SELECT count(*) FROM Ups.Room;";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             if(rs.next()) {
@@ -42,7 +42,7 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Checks if database is empty
-     * @return
+     * @return  True if the database is empty, false if it is not
      */
     @Override
     public boolean isEmpty() {
@@ -52,16 +52,16 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Checks if a certain Room code exists in the database
-     * @param key
-     * @return
-     * @throws NullPointerException
+     * @param key                    Room code
+     * @return                       True if the room is in the database
+     * @throws NullPointerException  There is no connection
      */
     @Override
     public boolean containsKey(Object key) {
         boolean r;
         try {
             conn = Connect.connect();
-            String sql = "SELECT Room_code FROM Room WHERE Room_code=?;";
+            String sql = "SELECT Room_code FROM Ups.Room WHERE Room_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(key.toString()));
             ResultSet rs = ps.executeQuery();
@@ -81,15 +81,15 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Gets a Room from the database
-     * @param key
-     * @return
+     * @param key  Room code
+     * @return     Room
      */
     @Override
     public Room get(Object key) {
         Room room = null;
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Room WHERE Room_code=?;";
+            String sql = "SELECT * FROM Ups.Room WHERE Room_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
@@ -106,8 +106,8 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Insert a new room in the database
-     * @param key
-     * @param value
+     * @param key    Room code
+     * @param value  Room
      * @return
      */
     @Override
@@ -115,7 +115,7 @@ public class RoomDao implements Map<String,Room> {
         Room room = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Room\n" +
+            String sql = "INSERT INTO Ups.Room\n" +
                     "VALUES (?, ?)\n" +
                     "ON DUPLICATE KEY UPDATE Room_capacity=VALUES(Room_capacity);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -134,15 +134,15 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Removes a room from the database
-     * @param key
-     * @return
+     * @param key  Room code
+     * @return     Room that was deleted
      */
     @Override
     public Room remove(Object key) {
         Room room = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Room WHERE Room_code = ?;";
+            String sql = "DELETE FROM Ups.Room WHERE Room_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, (String)key);
             ps.executeUpdate();
@@ -156,7 +156,7 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Insert several Rooms into the database
-     * @param m
+     * @param m  Map of all the rooms
      */
     @Override
     public void putAll(Map<? extends String, ? extends Room> m) {
@@ -167,13 +167,13 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Delete every Room from the database
-     * @throws NullPointerException
+     * @throws NullPointerException  No connection
      */
     @Override
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Room;";
+            String sql = "DELETE FROM Ups.Room;";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
         } catch (Exception e) {
@@ -191,14 +191,14 @@ public class RoomDao implements Map<String,Room> {
 
     /**
      * Gets all of the rooms from the database
-     * @return
+     * @return  Collection of all the rooms
      */
     @Override
     public Collection<Room> values() {
         Collection<Room> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Room";
+            String sql = "SELECT * FROM Ups.Room";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
