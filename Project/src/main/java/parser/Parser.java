@@ -10,7 +10,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import static business.utilities.Year.*;
 
 
 public class Parser {
@@ -31,7 +30,7 @@ public class Parser {
         data.forEach((key,value)->
             value.forEach((k,v)-> {
                 String id = k.replace("UC", key);
-                courses.put(id,new Course(id, v.getNome(), regTeacher, FOURTH, v.getDiasem()));
+                courses.put(id,new Course(id, v.getNome(), null , 4 , v.getDiasem()));
             })
         );
     }
