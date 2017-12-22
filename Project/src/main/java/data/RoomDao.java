@@ -51,7 +51,7 @@ public class RoomDao implements Map<String,Room> {
     }
 
     /**
-     * Checks if a certain id exists in the database
+     * Checks if a certain Room code exists in the database
      * @param key
      * @return
      * @throws NullPointerException
@@ -80,7 +80,7 @@ public class RoomDao implements Map<String,Room> {
     }
 
     /**
-     * Gets a room from the database
+     * Gets a Room from the database
      * @param key
      * @return
      */
@@ -132,6 +132,11 @@ public class RoomDao implements Map<String,Room> {
         return room;
     }
 
+    /**
+     * Removes a room from the database
+     * @param key
+     * @return
+     */
     @Override
     public Room remove(Object key) {
         Room room = this.get(key);
