@@ -212,4 +212,8 @@ public class Engine {
     public HashMap<Integer, Exchange> getExchanges() {
         return exchanges;
     }
+
+    public Set<String> getShiftsOfCourse(String code) {
+        return this.getCourse(code).getShifts().keySet();
+    }
 }
