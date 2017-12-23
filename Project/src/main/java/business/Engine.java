@@ -138,6 +138,7 @@ public class Engine {
                 this.exchanges.put(this.nrOfExchanges, res);
                 origin.removePendingRequest(r);
                 dest.findAndRemove(r.getCourse(), r.getDestShift(), res.getOriginShift());
+                System.out.println(dest.getRequests());
             }
 
         } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | ShiftNotValidException e) {

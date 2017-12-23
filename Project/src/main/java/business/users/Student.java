@@ -47,7 +47,13 @@ public class Student extends User{
     }
 
     public void removePendingRequest(Request rq) {
-        this.pendingRequests.remove(rq);
+        Set<Request> res = new HashSet<>();
+        for (Request r : this.pendingRequests) {
+            if (r.getOriginShift().equals(rq.getOriginShift()) && r.getCourse().equals(rq.getCourse())) {
+                res.add(r);
+            }
+        }
+        this.pendingRequests.removeAll(res);
     }
 
     public Set<String> getShifts() {
@@ -91,12 +97,12 @@ public class Student extends User{
     }
 
     public void findAndRemove(String course, String originShift, String destShift) {
-        Request res = null;
+        Set<Request> res = new HashSet<>();
         for (Request r : this.pendingRequests) {
             if (r.getOriginShift().equals(originShift) && r.getCourse().equals(course)) {
-                res = r;
+                res.add(r);
             }
         }
-        this.pendingRequests.remove(res);
+        this.pendingRequests.removeAll(res);
     }
 }
