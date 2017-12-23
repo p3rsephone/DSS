@@ -128,7 +128,7 @@ public class Course {
     }
 
     public void missing(Integer studentNumber, String shiftCode) {
-        this.shifts.get(shiftCode).foulStudent(studentNumber);
+        this.shifts.get(shiftCode).absentStudent(studentNumber);
     }
 
     public Integer getRegTeacher() {

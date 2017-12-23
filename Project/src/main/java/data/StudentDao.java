@@ -290,7 +290,7 @@ public class StudentDao implements Map<String,Student> {
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.Student where Student_number>0;DELETE FROM Ups.StudentShift where Student_number>0;DELETE FROM Ups.StudentCourse where Student_number>0;DELETE FROM Ups.RequestStudent where Student_number>0;";
+            String sql = "DELETE FROM Ups.Student WHERE Student_number>0;DELETE FROM Ups.StudentShift WHERE EXISTS(SELECT Student_number FROM Ups.StudentShift);DELETE FROM Ups.StudentCourse WHERE EXISTS(SELECT Student_number FROM Ups.StudentCourse);DELETE FROM Ups.RequestStudent WHERE EXISTS(SELECT Student_number FROM Ups.RequestStudent);";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
         } catch (Exception e) {
