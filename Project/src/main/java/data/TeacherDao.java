@@ -13,8 +13,8 @@ public class TeacherDao implements Map<String, Teacher> {
 
     /**
      * Returns number of entries in the database
-     * @return
-     * @throws NullPointerException
+     * @return                       Number of entries
+     * @throws NullPointerException  No connection
      */
     @Override
     public int size() {
@@ -37,8 +37,8 @@ public class TeacherDao implements Map<String, Teacher> {
     }
 
     /**
-     * Checks if the database is empty
-     * @return
+     * Checks if database is empty
+     * @return  True if the database is empty, false if it is not
      */
     @Override
     public boolean isEmpty() {
@@ -46,10 +46,10 @@ public class TeacherDao implements Map<String, Teacher> {
     }
 
     /**
-     * Checks if a certain id exists in the database
-     * @param key
-     * @return
-     * @throws NullPointerException
+     * Checks if a certain Teacher number exists in the database
+     * @param key                    Teacher number
+     * @return                       True if the teacher is in the database
+     * @throws NullPointerException  There is no connection
      */
     @Override
     public boolean containsKey(Object key) {
@@ -75,9 +75,9 @@ public class TeacherDao implements Map<String, Teacher> {
     }
 
     /**
-     * Gets a teacher from the database
-     * @param key
-     * @return
+     * Gets a Teacher from the database
+     * @param key  Teacher number
+     * @return     Teacher
      */
     @Override
     public Teacher get(Object key) {
@@ -117,9 +117,9 @@ public class TeacherDao implements Map<String, Teacher> {
     }
 
     /**
-     * Insert a new teacher in the database
-     * @param key
-     * @param value
+     * Insert a new Teacher in the database
+     * @param key    Teacher number
+     * @param value  Teacher
      * @return
      */
     @Override
@@ -146,6 +146,11 @@ public class TeacherDao implements Map<String, Teacher> {
         return teacher;
     }
 
+    /**
+     * Removes a Teacher from the database
+     * @param key  Teacher number
+     * @return     Teacher that was deleted
+     */
     @Override
     public Teacher remove(Object key) {
         Teacher teacher = this.get(key);
@@ -165,7 +170,7 @@ public class TeacherDao implements Map<String, Teacher> {
 
     /**
      * Insert several Teachers into the database
-     * @param m
+     * @param m  Map of all the teachers
      */
     @Override
     public void putAll(Map<? extends String, ? extends Teacher> m) {
@@ -176,7 +181,7 @@ public class TeacherDao implements Map<String, Teacher> {
 
     /**
      * Delete every Teacher from the database
-     * @throws NullPointerException
+     * @throws NullPointerException  No connection
      */
     @Override
     public void clear() {
@@ -199,8 +204,8 @@ public class TeacherDao implements Map<String, Teacher> {
     }
 
     /**
-     * Gets all of the teachers from the database
-     * @return
+     * Gets all of the Teachers from the database
+     * @return  Collection of all the teachers
      */
     @Override
     public Collection<Teacher> values() {
