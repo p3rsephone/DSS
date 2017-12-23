@@ -76,7 +76,7 @@ public class StudentDao implements Map<String,Student> {
     }
 
 
-    public boolean containsValue(Object value) {
+    public boolean containsValue(Object value) { //Makes no sense in this context but has to be implemented
         return false;
     }
 
@@ -303,7 +303,7 @@ public class StudentDao implements Map<String,Student> {
 
     @Override
     public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Não faz sentido mas tem que ser implementado
+        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
     }
 
     /**
@@ -319,38 +319,7 @@ public class StudentDao implements Map<String,Student> {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery(sql);
             while (rs.next()) {
-                Student student = new Student(rs.getString("Student_name"),rs.getString("Student_email"),rs.getString("Student_password"),rs.getInt("Student_number"),rs.getBoolean("Student_statute"));
-                sql="SELECT S.Shift_code FROM Ups.Shift AS S\n" +
-                        "JOIN Ups.StudentShift AS SS ON S.Shift_code=SS.Shift_code\n" +
-                        "WHERE SS.Student_number=?;";
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1,student.getNumber());
-                rs = ps.executeQuery();
-                while (rs.next()) { //If there are shifts associated get their codes and add them
-                    student.addShift(rs.getString("Shift_code"));
-                }
-
-                sql = "SELECT C.Course_code FROM Ups.Course AS C\n" +
-                        "JOIN Ups.StudentCourse AS SC ON C.Course_code=SC.Course_code\n" +
-                        "WHERE SC.Student_number=?;";
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1,student.getNumber());
-                rs = ps.executeQuery();
-                while (rs.next()) { //If there are enrollments associated get their codes and add them
-                    student.addEnrollment(rs.getString("Course_code"));
-                }
-
-                sql="SELECT * FROM Ups.Request AS R\n" +
-                        "JOIN Ups.RequestStudent AS RS ON R.Request_id=RS.Request_id\n" +
-                        "WHERE RS.Student_number=?;";
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1,student.getNumber());
-                rs = ps.executeQuery();
-                while (rs.next()) { //If there are requests associated get their codes and add them
-                    Request rq = new Request(student.getNumber(),rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    student.addPendingRequest(rq);
-
-                }
+                Student student = get(rs.getInt("Student_number"));
                 collection.add(student);
             }
 
@@ -365,6 +334,6 @@ public class StudentDao implements Map<String,Student> {
 
     @Override
     public Set<Entry<String, Student>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Não faz sentido mas tem que ser implementado
+        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
     }
 }
