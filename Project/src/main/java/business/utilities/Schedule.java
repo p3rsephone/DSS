@@ -30,11 +30,8 @@ public class Schedule {
     }
 
     public Boolean usePeriod(String shift, String weekday, String period) throws InvalidWeekDayException {
-        if(this.ocuppiedPeriods == 7) {
-            return false;
-        }
         if (period.equals("morning")) {
-            if(this.morning.get(weekday) != null) {
+            if(this.morning.get(weekday)) {
                 return false;
             } else {
                 this.morning.put(weekday, true);
@@ -42,7 +39,7 @@ public class Schedule {
                 return true;
             }
         } else if (period.equals("afternoon")) {
-            if(this.afternoon.get(weekday) != null) {
+            if(this.afternoon.get(weekday)) {
                 return false;
             } else {
                 this.afternoon.put(weekday, true);
