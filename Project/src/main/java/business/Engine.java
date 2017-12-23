@@ -7,6 +7,7 @@ import business.users.Teacher;
 import business.users.User;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Engine {
@@ -103,14 +104,8 @@ public class Engine {
         }
     }
 
-    public void enrollStudent(String courseId, String shiftId, Integer studentNumber) {
-        try {
-            this.courses.get(courseId).addStudentToShift(shiftId, studentNumber);
-            this.students.get(studentNumber).addEnrollment(courseId);
-        } catch (StudentAlreadyInShiftException | RoomCapacityExceededException e) {
-            e.printStackTrace();
-        }
-        this.students.get(studentNumber).addShift(shiftId);
+    public void enrollStudent(String courseId, Integer studentNumber) {
+        this.students.get(studentNumber).addEnrollment(courseId);
     }
 
     public Integer expellStudent(String courseId, String shiftId, Integer studentNumber) {
@@ -132,10 +127,12 @@ public class Engine {
             if (res != null) {
                 Student origin = this.students.get(res.getOriginStudent());
                 Student dest = this.students.get(res.getDestStudent());
+                Shift destShift = c.getShift(res.getDestShift());
+                Shift origShift = c.getShift(res.getOriginShift());
                 origin.removeShift(res.getOriginShift());
                 dest.removeShift(res.getDestShift());
-                origin.addShift(res.getDestShift());
-                dest.addShift(res.getOriginShift());
+                origin.addShift(destShift);
+                dest.addShift(origShift);
                 res.setCourse(courseCode);
                 res.setCode(this.nrOfExchanges++);
                 this.exchanges.put(this.nrOfExchanges, res);
@@ -143,7 +140,7 @@ public class Engine {
                 dest.findAndRemove(r.getCourse(), r.getDestShift(), res.getOriginShift());
             }
 
-        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException e) {
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | InvalidWeekDayException | ShiftNotValidException e) {
             e.printStackTrace();
         }
     }
@@ -185,7 +182,31 @@ public class Engine {
     }
 
     public void allocateStudents() {
-        // TODO
+        for (Map.Entry<Integer, Student> s : this.students.entrySet()) {
+            Student current = s.getValue();
+            for (String courseCode : current.getEnrollments()) {
+                try {
+                    this.allocateStudent(courseCode, current);
+                } catch (InvalidWeekDayException | RoomCapacityExceededException | StudentAlreadyInShiftException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public Boolean allocateStudent(String courseCode, Student s) throws InvalidWeekDayException, RoomCapacityExceededException, StudentAlreadyInShiftException {
+        Course c = this.courses.get(courseCode);
+        Set<Map.Entry<String, Shift>> es = c.getShifts().entrySet();
+        Boolean res = false;
+        for (Map.Entry<String, Shift> sh : es) {
+            Shift shift = sh.getValue();
+            if (!shift.isFull() && s.addShift(sh.getValue())) {
+                sh.getValue().addStudent(s.getNumber());
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 
     public void foulStudent(Integer studentNumber, String courseCode, String shiftCode) {

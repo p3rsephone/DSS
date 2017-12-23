@@ -103,7 +103,7 @@ public class StudentDao implements Map<String,Student> {
                 ps.setInt(1,(Integer)key);
                 rs = ps.executeQuery();
                 while (rs.next()) { //If there are shifts associated get their codes and add them
-                        student.addShift(rs.getString("Shift_code"));
+                    student.addShift(rs.getString("Shift_code"));
                 }
 
                 sql = "SELECT C.Course_code FROM Ups.Course AS C\n" +
