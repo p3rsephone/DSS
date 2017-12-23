@@ -3,10 +3,7 @@ package business.courses;
 import business.exceptions.*;
 import business.users.Student;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Course {
 
@@ -121,13 +118,15 @@ public class Course {
 
     public void findAndRemove(Request r)  {
         ArrayList<Request> requests = this.billboard.get(r.getDestShift());
-        Set<Request> remove = new HashSet<>();
-        for (Request req : requests) {
-            if(req.getOriginShift().equals(r.getOriginShift()) && req.getCourse().equals(req.getCourse())) {
-                remove.add(req);
+        ArrayList<Request> newR = new ArrayList<>();
+        Iterator<Request> it = requests.iterator();
+        while (it.hasNext()) {
+            Request req = it.next();
+            if(!(req.getOriginShift().equals(r.getOriginShift()) && req.getCourse().equals(req.getCourse()))) {
+                newR.add(req);
             }
         }
-        requests.removeAll(remove);
+        this.billboard.put(r.getDestShift(), newR);
     }
 
     public Exchange swap(String originShift, String destShift, Integer origStudent, Integer destStudent) throws StudentNotInShiftException, RoomCapacityExceededException, StudentAlreadyInShiftException {
