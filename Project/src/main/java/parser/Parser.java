@@ -30,7 +30,7 @@ public class Parser {
         data.forEach((key,value)->
             value.forEach((k,v)-> {
                 String id = k.replace("UC", key);
-                courses.put(id,new Course(id, v.getNome(), null , 4 , v.getDiasem()));
+                courses.put(id,new Course(id, v.getNome(), null , 4));
             })
         );
     }

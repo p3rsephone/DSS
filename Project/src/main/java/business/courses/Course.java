@@ -1,38 +1,34 @@
 package business.courses;
 
-import business.utilities.graph.Graph;
 import business.exceptions.*;
 import business.users.Student;
-import business.utilities.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Course {
 
     private String code;
     private String name;
-    private String regTeacher;
-    private Graph shifts;
+    private Integer regTeacher;
     private Integer year;
-    private String weekday;
-    private HashMap<String, Request> billboard;
+    private HashMap<String, Shift> shifts;
+    private HashMap<String, ArrayList<Request>> billboard;
 
-    public Course(String code, String name, String regTeacher, Integer year, String weekday) {
+    public Course(String code, String name, Integer regTeacher, Integer year) {
         this.code = code;
         this.name = name;
         this.regTeacher = regTeacher;
         this.year = year;
-        this.weekday = weekday;
-        this.shifts = new Graph();
+        this.shifts = new HashMap<>();
         this.billboard = new HashMap<>();
     }
 
     public void addShift(Shift s) throws ShiftAlredyExistsException {
-        HashMap<String, Shift> sh = this.shifts.getShifts();
-        if(sh.containsKey(s.getCode())) {
+        if(this.shifts.containsKey(s.getCode())) {
             throw new ShiftAlredyExistsException();
         }
-        this.shifts.addShift(s);
+        this.shifts.put(s.getCode(), s);
     }
 
     public String getCode() {
@@ -43,23 +39,21 @@ public class Course {
         return name;
     }
 
-    public String getWeekday() {
-        return weekday;
-    }
-
     public Integer getYear() {
         return year;
     }
 
-    public Shift getShift(String shift) {
-        return this.shifts.getShift(shift);
+    public Shift getShift(String shift) throws ShiftNotValidException {
+        if (!this.shifts.containsKey(shift)) {
+            throw new ShiftNotValidException();
+        } else return this.shifts.get(shift);
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setRegTeacher(String regTeacher) {
+    public void setRegTeacher(Integer regTeacher) {
         this.regTeacher = regTeacher;
     }
 
@@ -67,55 +61,81 @@ public class Course {
         this.year = year;
     }
 
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
+    public void addStudentToShift(String shiftId, Integer studentNumber) throws RoomCapacityExceededException, StudentAlreadyInShiftException {
+        Shift s = this.shifts.get(shiftId);
+        s.addStudent(studentNumber);
     }
 
-    public void addStudentToShift(String shiftId, Integer studentNumber) {
-        try {
-            this.shifts.addStudent(shiftId, studentNumber);
-        } catch (StudentAlreadyInShiftException | RoomCapacityExceededException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Integer removeStudentFromShift(String shiftId, Integer studentNumber) {
+    public Integer removeStudentFromShift(String shiftId, Integer studentNumber) throws StudentNotInShiftException {
         Integer r = 0;
-        try {
-            r = this.shifts.removeStudent(shiftId, studentNumber);
-        } catch (StudentNotInShiftException e) {
-            e.printStackTrace();
-        }
+        Shift s = this.shifts.get(shiftId);
+        r = s.removeStudent(studentNumber);
         return r;
     }
 
-    public void swap(TreeSet<Request> matchingSet) {
-        // TODO
+
+    public Request requestExchange(Student s, String originShift, String destShift) {
+        Request r = new Request(s.getNumber(), this.code, originShift, destShift);
+        this.addRequest(r, destShift);
+        return r;
     }
 
-
-    public void requestExchange(Student s, String originShift, String destShift) {
-       this.shifts.addRequest(s.getNumber(), originShift, destShift);
-    }
-
-    public Set<Pair<Integer,Integer>> getLargestCycle() {
-        // TODO
-        return new TreeSet<>();
+    public void addRequest(Request r, String destShift) {
+        if (this.billboard.containsKey(destShift)) {
+            ArrayList<Request> destRequests = this.billboard.get(destShift);
+            destRequests.add(r);
+        } else {
+            ArrayList<Request> ar = new ArrayList<>();
+            ar.add(r);
+            this.billboard.put(destShift,ar);
+        }
     }
 
     public HashMap<String, Shift> getShifts() {
-        return shifts.getShifts();
+        return shifts;
     }
 
-    public void makeSwaps(String shiftCode) {
-        this.shifts.swap(shiftCode);
+    public Exchange makeSwaps(Request r) throws StudentNotInShiftException, StudentAlreadyInShiftException, RoomCapacityExceededException {
+        Exchange res = null;
+        Request dR = null;
+        String destShift = r.getDestShift();
+        String originShift = r.getOriginShift();
+        ArrayList<Request> requests = this.billboard.get(originShift);
+        if(requests != null && !requests.isEmpty()) {
+            for (Request destRequest : requests) {
+                if(destRequest.getDestShift().equals(originShift) && destRequest.getOriginShift().equals((destShift))) {
+                    res = this.swap(originShift, destShift, r.getStudent(), destRequest.getStudent());
+                    dR=destRequest;
+                    break;
+                }
+            }
+            if (dR!=null) {
+                this.billboard.get(dR.getDestShift()).remove(dR);
+                this.billboard.get(r.getDestShift()).remove(r);
+            }
+        }
+        return res;
+    }
+
+    public Exchange swap(String originShift, String destShift, Integer origStudent, Integer destStudent) throws StudentNotInShiftException, RoomCapacityExceededException, StudentAlreadyInShiftException {
+        Shift origin = this.shifts.get(originShift);
+        Shift dest = this.shifts.get(destShift);
+        origin.removeStudent(origStudent);
+        dest.removeStudent(destStudent);
+        origin.addStudent(destStudent);
+        dest.addStudent(origStudent);
+        return new Exchange(originShift, destShift, origStudent, destStudent);
     }
 
     public void missing(Integer studentNumber, String shiftCode) {
-        this.shifts.getShift(shiftCode).foulStudent(studentNumber);
+        this.shifts.get(shiftCode).foulStudent(studentNumber);
     }
 
-    public String getRegTeacher() {
+    public Integer getRegTeacher() {
         return regTeacher;
+    }
+
+    public HashMap<String, ArrayList<Request>> getBillboard() {
+        return billboard;
     }
 }

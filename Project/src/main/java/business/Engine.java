@@ -1,17 +1,12 @@
 package business;
 
 import business.courses.*;
-import business.exceptions.InvalidPhaseException;
-import business.exceptions.RoomCapacityExceededException;
-import business.exceptions.TooManyRequestsException;
-import business.exceptions.UserAlredyExistsException;
+import business.exceptions.*;
 import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 public class Engine {
@@ -21,7 +16,7 @@ public class Engine {
     private HashMap<Integer, Exchange> exchanges;
     private Integer nrOfExchanges;
     private Integer phase;
-    private HashMap<Integer, Room> rooms;
+    private HashMap<String, Room> rooms;
 
     public Engine() {
         this.nrOfExchanges = 0;
@@ -53,11 +48,17 @@ public class Engine {
         this.courses.put(c.getCode(), c);
     }
 
+    public void addRoom(Room r) {
+        this.rooms.put(r.getCode(), r);
+    }
+
     public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException {
         if(s.getNrequests() >= s.getNEnrollments()) {
             throw new TooManyRequestsException();
         } else {
-            this.courses.get(course).requestExchange(s, originShift, destShift);
+            Course c = this.courses.get(course);
+            Request r = c.requestExchange(s, originShift, destShift);
+            this.makeSwaps(r);
         }
     }
 
@@ -68,13 +69,31 @@ public class Engine {
         this.exchanges.put(e.getCode(), e);
     }
 
-    public void cancelExchange(Integer code) {
-        // TODO
+    public void cancelExchange(Integer code) throws ExchangeDoesNotExistException {
+        if (this.exchanges.containsKey(code)) {
+            throw new ExchangeDoesNotExistException();
+        } else {
+            Exchange e = this.exchanges.get(code);
+            Student orig = this.students.get(e.getOriginStudent());
+            Student dest = this.students.get(e.getDestStudent());
+            if (orig.getShifts().contains(e.getDestShift()) && dest.getShifts().contains(e.getOriginShift())) {
+                try {
+                    this.courses.get(e.getCourse()).swap(e.getOriginShift(), e.getDestShift(), e.getDestStudent(), e.getOriginStudent());
+                } catch (StudentNotInShiftException | RoomCapacityExceededException | StudentAlreadyInShiftException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 
     public void defineShiftLimit(String courseId, String shiftId, Integer limit) throws RoomCapacityExceededException {
         Course course = this.courses.get(courseId);
-        Shift shift = course.getShift(shiftId);
+        Shift shift = null;
+        try {
+            shift = course.getShift(shiftId);
+        } catch (ShiftNotValidException e) {
+            e.printStackTrace();
+        }
         Room r = this.rooms.get(shift.getRoomCode());
         if(r.getCapacity() <= limit) {
             shift.setLimit(limit);
@@ -84,22 +103,46 @@ public class Engine {
     }
 
     public void enrollStudent(String courseId, String shiftId, Integer studentNumber) {
-        this.courses.get(courseId).addStudentToShift(shiftId, studentNumber);
+        try {
+            this.courses.get(courseId).addStudentToShift(shiftId, studentNumber);
+            this.students.get(studentNumber).addEnrollment(courseId);
+        } catch (StudentAlreadyInShiftException | RoomCapacityExceededException e) {
+            e.printStackTrace();
+        }
         this.students.get(studentNumber).addShift(shiftId);
     }
 
     public Integer expellStudent(String courseId, String shiftId, Integer studentNumber) {
-        return this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
+        Integer fouls = -1;
+        try {
+            fouls = this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
+        } catch (StudentNotInShiftException e) {
+            e.printStackTrace();
+        }
+
+        return fouls;
     }
 
-    public void makeSwaps(String courseCode) {
-        Course c = this.courses.get(courseCode);
+    public void makeSwaps(Request r) {
+        try {
+            String courseCode = r.getCourse();
+            String shiftCode  = r.getDestShift();
+            Course c = this.courses.get(courseCode);
+            Exchange res = c.makeSwaps(r);
+            if (res != null) {
+                Student origin = this.students.get(res.getOriginStudent());
+                Student dest = this.students.get(res.getDestStudent());
+                origin.removeShift(res.getOriginShift());
+                dest.removeShift(res.getDestShift());
+                origin.addShift(res.getDestShift());
+                dest.addShift(res.getOriginShift());
+                res.setCourse(courseCode);
+                res.setCode(this.nrOfExchanges++);
+                this.exchanges.put(this.nrOfExchanges, res);
+            }
 
-        Set<Map.Entry<String, Shift>> shifts = c.getShifts().entrySet();
-        Iterator<Map.Entry<String, Shift>> it = shifts.iterator();
-        while (it.hasNext()) {
-            String shiftCode = it.next().getKey();
-            c.makeSwaps(shiftCode);
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException e) {
+            e.printStackTrace();
         }
     }
 
@@ -134,5 +177,17 @@ public class Engine {
             case 3: this.phase = 3;
             default: throw new InvalidPhaseException();
         }
+    }
+
+    public HashMap<Integer, Student> getStudents() {
+        return students;
+    }
+
+    public Course getCourse(String c) {
+        return this.courses.get(c);
+    }
+
+    public HashMap<Integer, Exchange> getExchanges() {
+        return exchanges;
     }
 }
