@@ -106,7 +106,7 @@ public class Student extends User{
 
        for (Request r : pendingRequests){
           if(r.getCourse().equals(courseID))
-              ret = ret.concat(r.getDestShift());
+              ret = ret.concat(r.getDestShift() + ", ");
        }
 
        return ret;
