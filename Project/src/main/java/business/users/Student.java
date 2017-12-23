@@ -1,5 +1,6 @@
 package business.users;
 
+import business.courses.Course;
 import business.courses.Request;
 import business.exceptions.InvalidWeekDayException;
 import business.utilities.Schedule;
@@ -96,5 +97,16 @@ public class Student extends User{
             }
         }
         this.pendingRequests.remove(res);
+    }
+
+    public String requestCourse(String courseID){
+       String ret = "";
+
+       for (Request r : pendingRequests){
+          if(r.getCourse().equals(courseID))
+              ret = ret.concat(r.getDestShift());
+       }
+
+       return ret;
     }
 }
