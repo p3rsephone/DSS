@@ -41,12 +41,52 @@ public class Shift {
         return courseId;
     }
 
-    public Integer getLimit() {
-        return limit;
+    public Integer getTeacher() {
+        return teacher;
     }
 
     public Integer getNumOfStudents() {
         return numOfStudents;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public HashMap<Integer, Integer> getStudents() {
+        return this.students;
+    }
+
+    public Integer getExpectedClasses() {
+        return expectedClasses;
+    }
+
+    public String getRoomCode() {
+        return roomCode;
+    }
+
+    public void setRoom(String roomCode) {
+        this.roomCode = roomCode;
+    }
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
     }
 
     public void addStudent(Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException {
@@ -69,48 +109,13 @@ public class Shift {
         }
     }
 
-    public String getRoomCode() {
-        return roomCode;
-    }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public void setRoom(String roomCode) {
-        this.roomCode = roomCode;
-    }
-
-    public void foulStudent(Integer studentNumber) {
-        Integer fouls = this.students.get(studentNumber);
-        if(fouls+1 >= 0.25*this.expectedClasses) {
+    public void absentStudent(Integer studentNumber) {
+        Integer absences = this.students.get(studentNumber);
+        if(absences+1 >= 0.25*this.expectedClasses) {
             this.students.remove(studentNumber);
         } else {
-            this.students.put(studentNumber, fouls+1);
+            this.students.put(studentNumber, absences+1);
         }
-    }
-
-    public Integer getTeacher() {
-        return teacher;
-    }
-
-    public String getWeekday() {
-        return weekday;
-    }
-
-    public String getPeriod() {
-        return period;
-    }
-
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
-    }
-
-    public void setPeriod(String period) {
-        this.period = period;
-    }
-
-    public HashMap<Integer, Integer> getStudents() {
-        return this.students;
     }
 }
