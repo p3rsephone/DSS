@@ -171,7 +171,7 @@ public class Engine {
     public Integer validateRequest(Integer stNumber, String course, String originShift, String destShift) {
         Student s = this.students.get(stNumber);
         Course c = this.courses.get(course);
-        if (s.getNrequests() >= s.getNEnrollments() + 1) {
+        if (s.getNrequests() >= s.getNEnrollments()+1) {
             return 0;
         } else if (originShift.equals(destShift)) {
             return -1;
@@ -253,11 +253,7 @@ public class Engine {
         return exchanges;
     }
 
-    public Set<String> getShiftsOfCourse(String code){
-            return this.getCourse(code).getShifts().keySet();
-    }
-
-    public Integer getPhase() {
-        return phase;
+    public Set<String> getShiftsOfCourse(String code) {
+        return this.getCourse(code).getShifts().keySet();
     }
 }
