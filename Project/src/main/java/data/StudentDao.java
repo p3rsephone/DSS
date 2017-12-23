@@ -124,7 +124,7 @@ public class StudentDao implements Map<String,Student> {
                 rs = ps.executeQuery();
                 while (rs.next()) { //If there are requests associated get their codes and add them
                     Request rq = new Request((Integer)key,rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    student.addPendingRequests(rq);
+                    student.addPendingRequest(rq);
                 }
             }
         } catch (Exception e) {
@@ -347,7 +347,7 @@ public class StudentDao implements Map<String,Student> {
                 rs = ps.executeQuery();
                 while (rs.next()) { //If there are requests associated get their codes and add them
                     Request rq = new Request(student.getNumber(),rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    student.addPendingRequests(rq);
+                    student.addPendingRequest(rq);
                 }
                 collection.add(student);
             }
