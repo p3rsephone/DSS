@@ -164,6 +164,26 @@ public class Engine {
         return null;
     }
 
+    public void registerShift(Course c, Shift s) throws ShiftAlredyExistsException {
+        c.addShift(s);
+        Teacher t = this.teachers.get(s.getTeacher());
+        t.addShift(s.getCode());
+    }
+
+    public Integer validateRequest(Integer stNumber, String course, String originShift, String destShift) {
+        Student s = this.students.get(stNumber);
+        Course c = this.courses.get(course);
+        if (s.getNrequests() >= s.getNEnrollments()+1) {
+            return 0;
+        } else if (originShift.equals(destShift)) {
+            return -1;
+        } else if (!c.getShifts().containsKey(originShift) || !c.getShifts().containsKey(destShift)) {
+            return -2;
+        }
+
+        return 1;
+    }
+
     public void allocateStudents() {
         // TODO
     }
@@ -191,5 +211,9 @@ public class Engine {
 
     public HashMap<Integer, Exchange> getExchanges() {
         return exchanges;
+    }
+
+    public Set<String> getShiftsOfCourse(String code) {
+        return this.getCourse(code).getShifts().keySet();
     }
 }
