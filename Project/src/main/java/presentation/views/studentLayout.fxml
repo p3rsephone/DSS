@@ -12,10 +12,11 @@
    <children>
       <VBox layoutX="92.0" layoutY="100.0" prefHeight="200.0" prefWidth="422.0">
          <children>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="141.0" text="C1" />
-                <TableColumn prefWidth="125.0" text="C2" />
+                <TableColumn fx:id="uc" prefWidth="141.0" text="UC" />
+                <TableColumn fx:id="tp" prefWidth="125.0" text="TP" />
+                  <TableColumn fx:id="trocaPendente" prefWidth="155.0" text="Trocas Pedente" />
               </columns>
             </TableView>
          </children>
