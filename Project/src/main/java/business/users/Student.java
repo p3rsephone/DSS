@@ -31,8 +31,12 @@ public class Student extends User{
         this.enrollments.add(codCourse);
     }
 
-    public void addPendingRequests(Request rq) {
+    public void addPendingRequest(Request rq) {
         this.pendingRequests.add(rq);
+    }
+
+    public void removePendingRequest(Request rq) {
+        this.pendingRequests.remove(rq);
     }
 
     public Set<String> getShifts() {
@@ -82,5 +86,15 @@ public class Student extends User{
 
     public void removeShift(String destShift) {
         this.shifts.remove(destShift);
+    }
+
+    public void findAndRemove(String course, String originShift, String destShift) {
+        Request res = null;
+        for (Request r : this.pendingRequests) {
+            if (r.getOriginShift().equals(originShift) && r.getDestShift().equals(destShift) && r.getCourse().equals(course)) {
+                res = r;
+            }
+        }
+        this.pendingRequests.remove(res);
     }
 }

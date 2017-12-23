@@ -58,6 +58,7 @@ public class Engine {
         } else {
             Course c = this.courses.get(course);
             Request r = c.requestExchange(s, originShift, destShift);
+            s.addPendingRequest(r);
             this.makeSwaps(r);
         }
     }
@@ -126,7 +127,6 @@ public class Engine {
     public void makeSwaps(Request r) {
         try {
             String courseCode = r.getCourse();
-            String shiftCode  = r.getDestShift();
             Course c = this.courses.get(courseCode);
             Exchange res = c.makeSwaps(r);
             if (res != null) {
@@ -139,6 +139,8 @@ public class Engine {
                 res.setCourse(courseCode);
                 res.setCode(this.nrOfExchanges++);
                 this.exchanges.put(this.nrOfExchanges, res);
+                origin.removePendingRequest(r);
+                dest.findAndRemove(r.getCourse(), r.getDestShift(), res.getOriginShift());
             }
 
         } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException e) {
