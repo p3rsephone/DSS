@@ -79,4 +79,8 @@ public class Student extends User{
         }
         return res;
     }
+
+    public void removeShift(String destShift) {
+        this.shifts.remove(destShift);
+    }
 }

@@ -3,8 +3,10 @@ package business.courses;
 import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
+import business.users.Student;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Shift {
     private String code;
@@ -15,13 +17,17 @@ public class Shift {
     private HashMap<Integer, Integer> students;  //<number, faltas>
     private final Integer expectedClasses;
     private String roomCode;
+    private String weekday;
+    private String period;
 
-    public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, String roomCode) {
+    public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, String roomCode, String weekday, String period) {
         this.code = code;
         this.courseId = courseId;
         this.teacher = teacher;
         this.expectedClasses = expectedClasses;
         this.roomCode = roomCode;
+        this.weekday = weekday;
+        this.period = period;
         this.numOfStudents = 0;
         this.limit = limit;
         this.students = new HashMap<>();
@@ -49,6 +55,7 @@ public class Shift {
         } else if (this.numOfStudents + 1 > this.limit){
             throw new RoomCapacityExceededException();
         } else {
+            this.numOfStudents++;
             this.students.put(studentNumber,0);
         }
     }
@@ -57,6 +64,7 @@ public class Shift {
         if(!this.students.containsKey(studentNumber)) {
             throw new StudentNotInShiftException();
         } else {
+            this.numOfStudents--;
             return this.students.remove(studentNumber);
         }
     }
@@ -84,5 +92,25 @@ public class Shift {
 
     public Integer getTeacher() {
         return teacher;
+    }
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public HashMap<Integer, Integer> getStudents() {
+        return this.students;
     }
 }
