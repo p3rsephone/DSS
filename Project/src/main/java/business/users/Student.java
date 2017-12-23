@@ -33,6 +33,11 @@ public class Student extends User{
 
     }
 
+    public Boolean addShift(String shift) {
+        this.shifts.add(shift);
+        return true;
+    }
+
     public void addEnrollment(String codCourse) {
         this.enrollments.add(codCourse);
     }
