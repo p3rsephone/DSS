@@ -1,244 +1,261 @@
 rooms = {
-    "CP1201":{
+    "CP1-101":{
+        "capacidade":"70"
+    },
+    "CP1-102":{
+        "capacidade":"90"
+    },
+    "CP1-103":{
+        "capacidade":"90"
+    },
+    "CP1-104":{
+        "capacidade":"90"
+    },
+    "CP1-105":{
+        "capacidade":"70"
+    },
+    "CP1-106":{
         "capacidade":"60"
     },
-    "CP1202":{
-        "capacidade":"80"
+    "CP1-107":{
+        "capacidade":"70"
     },
-    "CP1203":{
-        "capacidade":"80"
-    },
-    "CP1204":{
-        "capacidade":"80"
-    },
-    "CP1205":{
+    "CP1-108":{
         "capacidade":"60"
     },
-    "CP1206":{
-        "capacidade":"50"
-    },
-    "CP1207":{
+    "CP1-109":{
         "capacidade":"60"
     },
-    "CP1208":{
+    "CP1-110":{
+        "capacidade":"60"
+    },
+    "CP1-201":{
+        "capacidade":"60"
+    },
+    "CP1-202":{
+        "capacidade":"80"
+    },
+    "CP1-203":{
+        "capacidade":"80"
+    },
+    "CP1-204":{
+        "capacidade":"80"
+    },
+    "CP1-205":{
+        "capacidade":"60"
+    },
+    "CP1-206":{
         "capacidade":"50"
     },
-    "CP1209":{
+    "CP1-207":{
+        "capacidade":"60"
+    },
+    "CP1-208":{
         "capacidade":"50"
     },
-    "CP1210":{
+    "CP1-209":{
         "capacidade":"50"
     },
-    "DI201":{
+    "CP1-210":{
+        "capacidade":"50"
+    },
+    "CP2-101":{
+        "capacidade":"70"
+    },
+    "CP2-102":{
+        "capacidade":"90"
+    },
+    "CP2-103":{
+        "capacidade":"90"
+    },
+    "CP2-104":{
+        "capacidade":"90"
+    },
+    "CP2-105":{
+        "capacidade":"70"
+    },
+    "CP2-106":{
+        "capacidade":"60"
+    },
+    "CP2-107":{
+        "capacidade":"70"
+    },
+    "CP2-108":{
+        "capacidade":"60"
+    },
+    "CP2-109":{
+        "capacidade":"60"
+    },
+    "CP2-110":{
+        "capacidade":"60"
+    },
+    "CP2-111":{
+        "capacidade":"70"
+    },
+    "CP2-112":{
+        "capacidade":"60"
+    },
+    "CP2-113":{
+        "capacidade":"70"
+    },
+    "CP2-114":{
+        "capacidade":"60"
+    },
+    "CP2-115":{
+        "capacidade":"60"
+    },
+    "CP2-116":{
+        "capacidade":"60"
+    },
+    "CP2-201":{
+        "capacidade":"70"
+    },
+    "CP2-202":{
+        "capacidade":"90"
+    },
+    "CP2-203":{
+        "capacidade":"90"
+    },
+    "CP2-204":{
+        "capacidade":"90"
+    },
+    "CP2-205":{
+        "capacidade":"70"
+    },
+    "CP2-206":{
+        "capacidade":"60"
+    },
+    "CP2-207":{
+        "capacidade":"70"
+    },
+    "CP2-208":{
+        "capacidade":"60"
+    },
+    "CP2-209":{
+        "capacidade":"60"
+    },
+    "CP2-210":{
+        "capacidade":"60"
+    },
+    "CP3-101":{
+        "capacidade":"70"
+    },
+    "CP3-102":{
+        "capacidade":"90"
+    },
+    "CP3-103":{
+        "capacidade":"90"
+    },
+    "CP3-104":{
+        "capacidade":"90"
+    },
+    "CP3-105":{
+        "capacidade":"70"
+    },
+    "CP3-106":{
+        "capacidade":"60"
+    },
+    "CP3-107":{
+        "capacidade":"70"
+    },
+    "CP3-108":{
+        "capacidade":"60"
+    },
+    "CP3-109":{
+        "capacidade":"60"
+    },
+    "CP3-110":{
+        "capacidade":"60"
+    },
+    "CP3-201":{
+        "capacidade":"70"
+    },
+    "CP3-202":{
+        "capacidade":"90"
+    },
+    "CP3-203":{
+        "capacidade":"90"
+    },
+    "CP3-204":{
+        "capacidade":"90"
+    },
+    "CP3-205":{
+        "capacidade":"70"
+    },
+    "CP3-206":{
+        "capacidade":"60"
+    },
+    "CP3-207":{
+        "capacidade":"70"
+    },
+    "CP3-208":{
+        "capacidade":"60"
+    },
+    "CP3-209":{
+        "capacidade":"60"
+    },
+    "CP3-210":{
+        "capacidade":"60"
+    },
+    "DI-201":{
         "capacidade":"30"
     },
-    "DI202":{
+    "DI-202":{
         "capacidade":"30"
     },
-    "DI203":{
+    "DI-203":{
         "capacidade":"25"
     },
-    "DI204":{
+    "DI-204":{
         "capacidade":"25"
     },
-    "DI205":{
+    "DI-205":{
         "capacidade":"25"
     },
-    "DI206":{
+    "DI-206":{
         "capacidade":"25"
     },
-    "D207":{
+    "DI-207":{
         "capacidade":"25"
     },
-    "DI208":{
+    "DI-208":{
         "capacidade":"35"
     },
-    "DI209":{
+    "DI-209":{
         "capacidade":"35"
     },
-    "DI210":{
+    "DI-210":{
         "capacidade":"40"
     },
-    "DI101":{
+    "DI-101":{
         "capacidade":"30"
     },
-    "DI102":{
+    "DI-102":{
         "capacidade":"30"
     },
-    "DI103":{
+    "DI-103":{
         "capacidade":"25"
     },
-    "DI104":{
+    "DI-104":{
         "capacidade":"25"
     },
-    "DI105":{
+    "DI-105":{
         "capacidade":"25"
     },
-    "DI106":{
+    "DI-106":{
         "capacidade":"25"
     },
-    "DI107":{
+    "DI-107":{
         "capacidade":"25"
     },
-    "DI108":{
+    "DI-108":{
         "capacidade":"35"
     },
-    "DI109":{
+    "DI-109":{
         "capacidade":"35"
     },
-    "DI110":{
+    "DI-110":{
         "capacidade":"40"
     },
-    "CP1101":{
-        "capacidade":"70"
-    },
-    "CP1102":{
-        "capacidade":"90"
-    },
-    "CP1103":{
-        "capacidade":"90"
-    },
-    "CP1104":{
-        "capacidade":"90"
-    },
-    "CP1105":{
-        "capacidade":"70"
-    },
-    "CP1106":{
-        "capacidade":"60"
-    },
-    "CP1107":{
-        "capacidade":"70"
-    },
-    "CP1108":{
-        "capacidade":"60"
-    },
-    "CP1109":{
-        "capacidade":"60"
-    },
-    "CP1110":{
-        "capacidade":"60"
-    },
-    "CP2101":{
-        "capacidade":"70"
-    },
-    "CP2102":{
-        "capacidade":"90"
-    },
-    "CP2103":{
-        "capacidade":"90"
-    },
-    "CP2104":{
-        "capacidade":"90"
-    },
-    "CP2105":{
-        "capacidade":"70"
-    },
-    "CP2106":{
-        "capacidade":"60"
-    },
-    "CP2107":{
-        "capacidade":"70"
-    },
-    "CP2108":{
-        "capacidade":"60"
-    },
-    "CP2109":{
-        "capacidade":"60"
-    },
-    "CP2110":{
-        "capacidade":"60"
-    },
-    "CP2201":{
-        "capacidade":"70"
-    },
-    "CP2202":{
-        "capacidade":"90"
-    },
-    "CP2203":{
-        "capacidade":"90"
-    },
-    "CP2204":{
-        "capacidade":"90"
-    },
-    "CP2205":{
-        "capacidade":"70"
-    },
-    "CP2206":{
-        "capacidade":"60"
-    },
-    "CP2207":{
-        "capacidade":"70"
-    },
-    "CP2208":{
-        "capacidade":"60"
-    },
-    "CP2209":{
-        "capacidade":"60"
-    },
-    "CP2210":{
-        "capacidade":"60"
-    },
-    "CP3101":{
-        "capacidade":"70"
-    },
-    "CP3102":{
-        "capacidade":"90"
-    },
-    "CP3103":{
-        "capacidade":"90"
-    },
-    "CP3104":{
-        "capacidade":"90"
-    },
-    "CP3105":{
-        "capacidade":"70"
-    },
-    "CP3106":{
-        "capacidade":"60"
-    },
-    "CP3107":{
-        "capacidade":"70"
-    },
-    "CP3108":{
-        "capacidade":"60"
-    },
-    "CP3109":{
-        "capacidade":"60"
-    },
-    "CP3110":{
-        "capacidade":"60"
-    },
-    "CP3201":{
-        "capacidade":"70"
-    },
-    "CP3202":{
-        "capacidade":"90"
-    },
-    "CP3203":{
-        "capacidade":"90"
-    },
-    "CP3204":{
-        "capacidade":"90"
-    },
-    "CP3205":{
-        "capacidade":"70"
-    },
-    "CP3206":{
-        "capacidade":"60"
-    },
-    "CP3207":{
-        "capacidade":"70"
-    },
-    "CP3208":{
-        "capacidade":"60"
-    },
-    "CP3209":{
-        "capacidade":"60"
-    },
-    "CP3210":{
-        "capacidade":"60"
-    },
-
 
 }
