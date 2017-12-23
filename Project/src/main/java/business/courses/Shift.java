@@ -120,5 +120,4 @@ public class Shift {
     public boolean isFull() {
         return this.numOfStudents >= this.limit;
     }
-
 }
