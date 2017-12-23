@@ -75,7 +75,7 @@ public class RoomDao implements Map<String,Room> {
     }
 
 
-    public boolean containsValue(Object value) {
+    public boolean containsValue(Object value) { //Makes no sense in this context but has to be implemented
         return false;
     }
 
@@ -186,7 +186,7 @@ public class RoomDao implements Map<String,Room> {
 
     @Override
     public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Não faz sentido mas tem que ser implementado
+        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
     }
 
     /**
@@ -202,7 +202,7 @@ public class RoomDao implements Map<String,Room> {
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Room room = new Room(rs.getString("Room_code"),rs.getInt("Room_capacity"));
+                Room room = get(rs.getString("Room_code"));
                 collection.add(room);
             }
 
@@ -217,6 +217,6 @@ public class RoomDao implements Map<String,Room> {
 
     @Override
     public Set<Entry<String, Room>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Não faz sentido mas tem que ser implementado
+        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
     }
 }
