@@ -1,6 +1,5 @@
 package business.users;
 
-import business.courses.Course;
 import business.courses.Request;
 import business.courses.Shift;
 import business.exceptions.InvalidWeekDayException;
@@ -116,5 +115,6 @@ public class Student extends User{
        }
 
        return ret;
+
     }
 }

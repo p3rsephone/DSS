@@ -54,7 +54,7 @@ public class Engine {
     }
 
     public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException {
-        if(s.getNrequests() >= s.getNEnrollments()) {
+        if(s.getNrequests() >= s.getNEnrollments()+1) {
             throw new TooManyRequestsException();
         } else {
             Course c = this.courses.get(course);
