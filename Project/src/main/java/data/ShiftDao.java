@@ -113,7 +113,7 @@ public class ShiftDao implements Map<String,Shift> {
     }
 
     /**
-     * Insert a new shift in the database
+     * Insert a new Shift in the database
      * @param key    Shift code
      * @param value  Shift
      * @return
@@ -166,7 +166,7 @@ public class ShiftDao implements Map<String,Shift> {
     }
 
     /**
-     * Removes a shift from the database
+     * Removes a Shift from the database
      * @param key  Shift code
      * @return     Shift that was deleted
      */
@@ -233,7 +233,7 @@ public class ShiftDao implements Map<String,Shift> {
     }
 
     /**
-     * Gets all of the shifts from the database
+     * Gets all of the Shifts from the database
      * @return  Collection of all the shifts
      */
     @Override

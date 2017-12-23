@@ -3,10 +3,8 @@ package business.courses;
 import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
-import business.users.Student;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Shift {
     private String code;
