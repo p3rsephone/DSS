@@ -5,6 +5,8 @@ import business.users.Student;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Course {
 
@@ -110,11 +112,22 @@ public class Course {
                 }
             }
             if (dR!=null) {
-                this.billboard.get(dR.getDestShift()).remove(dR);
-                this.billboard.get(r.getDestShift()).remove(r);
+                this.findAndRemove(dR);
+                this.findAndRemove(r);
             }
         }
         return res;
+    }
+
+    public void findAndRemove(Request r)  {
+        ArrayList<Request> requests = this.billboard.get(r.getDestShift());
+        Set<Request> remove = new HashSet<>();
+        for (Request req : requests) {
+            if(req.getOriginShift().equals(r.getOriginShift()) && req.getCourse().equals(req.getCourse())) {
+                remove.add(req);
+            }
+        }
+        requests.removeAll(remove);
     }
 
     public Exchange swap(String originShift, String destShift, Integer origStudent, Integer destStudent) throws StudentNotInShiftException, RoomCapacityExceededException, StudentAlreadyInShiftException {

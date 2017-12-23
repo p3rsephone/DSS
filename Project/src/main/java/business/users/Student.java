@@ -93,7 +93,7 @@ public class Student extends User{
     public void findAndRemove(String course, String originShift, String destShift) {
         Request res = null;
         for (Request r : this.pendingRequests) {
-            if (r.getOriginShift().equals(originShift) && r.getDestShift().equals(destShift) && r.getCourse().equals(course)) {
+            if (r.getOriginShift().equals(originShift) && r.getCourse().equals(course)) {
                 res = r;
             }
         }
