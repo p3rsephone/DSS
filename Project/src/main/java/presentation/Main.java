@@ -28,60 +28,56 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Student s1  = new Student("luis","lol@gmail.com","123",77,false);
-
-        Student s2;
-        this.engine = new Engine();
-            engine.addRoom(new Room("CP1201",30));
+        engine = new Engine();
+        Course course = new Course("DSS", "Desenvolvimento de Sistemas de Software", 1, 1);
+        Course course2 = new Course("SD", "Sistemas Distribuidos", 2, 1);
+        Shift tp1 = new Shift("DSS-TP1", "DSS", 1, 1, 10, "DI109", "thu", "afternoon");
+        Shift tp2 = new Shift("DSS-TP2", "DSS", 2, 1, 10, "DI109", "thu", "afternoon");
+        Shift tp3 = new Shift("DSS-TP3", "DSS", 1, 1, 10, "DI109", "thu", "afternoon");
+        Shift sd1 = new Shift("SD-TP1", "SD", 1, 1, 10, "DI109", "thu", "morning");
+        Shift sd2 = new Shift("SD-TP2", "SD", 3, 1, 10, "DI109", "thu", "morning");
+        Shift sd3 = new Shift("SD-TP3", "SD", 1, 1, 10, "DI109", "thu", "morning");
+        Student a1 = new Student("joao", "joao@", "123", 1, false);
+        Student a2 = new Student("maria", "maria@", "123", 2, false);
+        Student a3 = new Student("jose", "jose@", "123", 3, false);
+        Student a4 = new Student("marta", "marta@", "123", 4, false);
+        Student a5 = new Student("david", "david@", "123", 5, false);
+        engine.addCourse(course);
+        engine.addCourse(course2);
         try {
-            engine.changePhase(2);
-        } catch (InvalidPhaseException e) {
-            e.printStackTrace();
-        }
-        try {
-
-            s2 =new Student("andre","xd@gmail.com","123",3,false);
-             Student s3 =new Student("carlos","email@fixe.pt","123",9090,true);
-             Teacher t1 =new Teacher("lol",1,"stor@edut.edu","123",true);
-            s1.addEnrollment("UC1");
-            s1.addEnrollment("UC2");
-            s2.addEnrollment("UC1");
-            s1.addShift("TP1");
-            s1.addShift("TP1");
-            s2.addShift("TP2");
-
-            engine.addUser(s1);
-            engine.addUser(s2);
-            engine.addUser(s3);
-            engine.addUser(t1);
-
+            engine.addUser(a1);
+            engine.addUser(a5);
+            engine.addUser(a2);
+            engine.addUser(a3);
+            engine.addUser(a4);
         } catch (UserAlredyExistsException e) {
             e.printStackTrace();
         }
-            Course uc1 = new Course("UC1","uc1",1,1);
-            Shift uc1Shift1 = new Shift("TP1","UC1",30,1,20,"CP1201", "sex","tarde");
-            Shift uc1Shift2 = new Shift("TP2","UC1",30,1,20,"CP1201", "sex", "manha");
-            Shift uc1Shift3 = new Shift("TP3","UC1",30,1,20,"CP1201", "sex", "lol");
-            Course uc2 = new Course("UC2","uc2",1,1);
-            Shift uc2Shift = new Shift("TP1","UC2",30,1,20,"CP1201", "sex", "tarde");
+
         try {
-            uc1.addShift(uc1Shift1);
-            uc1.addShift(uc1Shift2);
-            uc1.addShift(uc1Shift3);
-            uc2.addShift(uc2Shift);
+            course.addShift(tp1);
+            course.addShift(tp2);
+            course.addShift(tp3);
+            course2.addShift(sd1);
+            course2.addShift(sd2);
+            course2.addShift(sd3);
         } catch (ShiftAlredyExistsException e) {
             e.printStackTrace();
         }
-        engine.addCourse(uc1);
-        engine.addCourse(uc2);
-        engine.enrollStudent("UC1","TP1",77);
-        engine.enrollStudent("UC2","TP1", 77);
-        engine.enrollStudent("UC1","TP2",3);
-        try {
-            engine.requestExchange("UC1",s1,"TP1","TP2");
-        } catch (TooManyRequestsException e) {
-            e.printStackTrace();
-        }
+
+        engine.enrollStudent("DSS",  1);
+        engine.enrollStudent("DSS",  2);
+        engine.enrollStudent("DSS",  3);
+        engine.enrollStudent("DSS",  4);
+        engine.enrollStudent("DSS",  5);
+
+        engine.enrollStudent("SD",  1);
+        engine.enrollStudent("SD",  2);
+        engine.enrollStudent("SD",  3);
+        engine.enrollStudent("SD",  4);
+        engine.enrollStudent("SD",  5);
+
+        engine.allocateStudents();
 
         this.primaryStage = primaryStage;
         primaryStage.setTitle("UPS!");
