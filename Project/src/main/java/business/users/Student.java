@@ -1,6 +1,7 @@
 package business.users;
 
 import business.courses.Request;
+import business.courses.Shift;
 import business.exceptions.InvalidWeekDayException;
 import business.utilities.Schedule;
 
@@ -23,8 +24,13 @@ public class Student extends User{
         this.statute = statute;
     }
 
-    public void addShift(String codShift) {
-        this.shifts.add(codShift);
+    public Boolean addShift(Shift s) throws InvalidWeekDayException {
+        if (!this.schedule.isOccuppied(s.getWeekday(), s.getPeriod())) {
+            this.schedule.usePeriod(s.getCode(), s.getWeekday(), s.getPeriod());
+            this.shifts.add(s.getCode());
+            return true;
+        } else return false;
+
     }
 
     public void addEnrollment(String codCourse) {
@@ -74,18 +80,9 @@ public class Student extends User{
         return this.enrollments.size();
     }
 
-    public Boolean isOcuppied(String weekday, String period) {
-        Boolean res = true;
-        try {
-            res = this.schedule.isOcuppied(weekday, period);
-        } catch (InvalidWeekDayException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
     public void removeShift(String destShift) {
         this.shifts.remove(destShift);
+        this.schedule.freePeriod(destShift);
     }
 
     public void findAndRemove(String course, String originShift, String destShift) {
