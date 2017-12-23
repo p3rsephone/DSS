@@ -181,6 +181,7 @@ public class Engine {
 
         return 1;
     }
+
     public String getShift(String courseID, Set<String> shiftsID ){
        Course course = courses.get(courseID);
        HashMap shifts = course.getShifts();
