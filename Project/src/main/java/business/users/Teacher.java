@@ -15,15 +15,26 @@ public class Teacher extends User {
         this.shifts = new HashSet<>();
     }
 
-        public void addShift(String shiftid) {
-            this.shifts.add(shiftid);
-    }
 
-    public Boolean isBoss() {
-        return boss;
+    public Set<String> getShifts() {
+        Set<String> ret = new HashSet<>();
+        ret.addAll(shifts);
+        return ret;
     }
 
     public String getOwnedCourse() {
         return ownedCourse;
+    }
+
+    public void addShift(String shiftid) {
+        this.shifts.add(shiftid);
+    }
+
+    public void setOwnedCourse(String ownedCourse) {
+        this.ownedCourse = ownedCourse;
+    }
+
+    public Boolean isBoss() {
+        return boss;
     }
 }
