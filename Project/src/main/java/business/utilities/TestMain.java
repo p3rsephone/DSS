@@ -65,6 +65,14 @@ public class TestMain {
 
         engine.allocateStudents();
 
+        try {
+            engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP3");
+            engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP1");
+            engine.requestExchange("DSS", a4, "DSS-TP3", "DSS-TP2");
+        } catch (TooManyRequestsException e) {
+            e.printStackTrace();
+        }
+
         for(Map.Entry<Integer, Student> s : engine.getStudents().entrySet()) {
             System.out.println(s.getValue().getNumber() + ": " + s.getValue().getName() + " ||| " + s.getValue().getShifts().toString());
         }

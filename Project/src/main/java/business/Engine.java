@@ -131,8 +131,8 @@ public class Engine {
                 Shift origShift = c.getShift(res.getOriginShift());
                 origin.removeShift(res.getOriginShift());
                 dest.removeShift(res.getDestShift());
-                origin.addShift(destShift);
-                dest.addShift(origShift);
+                origin.addShift(res.getDestShift());
+                dest.addShift(res.getOriginShift());
                 res.setCourse(courseCode);
                 res.setCode(this.nrOfExchanges++);
                 this.exchanges.put(this.nrOfExchanges, res);
@@ -140,7 +140,7 @@ public class Engine {
                 dest.findAndRemove(r.getCourse(), r.getDestShift(), res.getOriginShift());
             }
 
-        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | InvalidWeekDayException | ShiftNotValidException e) {
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | ShiftNotValidException e) {
             e.printStackTrace();
         }
     }
