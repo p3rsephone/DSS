@@ -82,7 +82,7 @@ public class StudentLayoutController {
 
     @FXML
     void pedidoDeTroca(ActionEvent event) throws IOException {
-        int selectedIndex = table.getSelectionModel().getSelectedIndex();
+        CourseTable selectedIndex = table.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/presentation/views/exchange.fxml"));
         AnchorPane page =  loader.load();
@@ -95,8 +95,11 @@ public class StudentLayoutController {
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
         ExchangeController exchangeController = loader.getController();
-        exchangeController.setInstances();
+        exchangeController.setInstances(main.getEngine(),student,selectedIndex.getUc(),selectedIndex.getTp(),selectedIndex.getTrocaPendente().split(", "));
         dialogStage.showAndWait();
+        if(exchangeController.isTrocaClicked()){
+            loadTable();
+        }
 
     }
 

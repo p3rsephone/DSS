@@ -58,14 +58,16 @@ public class Main extends Application {
         } catch (UserAlredyExistsException e) {
             e.printStackTrace();
         }
-            Course uc1 = new Course("UC1","uc1","1",1,"sex");
-            Shift uc1Shift1 = new Shift("TP1","UC1",30,1,20,"CP1201");
-            Shift uc1Shift2 = new Shift("TP2","UC1",30,1,20,"CP1201");
-            Course uc2 = new Course("UC2","uc2","1",1,"sex");
-            Shift uc2Shift = new Shift("TP1","UC2",30,1,20,"CP1201");
+            Course uc1 = new Course("UC1","uc1",1,1);
+            Shift uc1Shift1 = new Shift("TP1","UC1",30,1,20,"CP1201", "sex","tarde");
+            Shift uc1Shift2 = new Shift("TP2","UC1",30,1,20,"CP1201", "sex", "manha");
+            Shift uc1Shift3 = new Shift("TP3","UC1",30,1,20,"CP1201", "sex", "lol");
+            Course uc2 = new Course("UC2","uc2",1,1);
+            Shift uc2Shift = new Shift("TP1","UC2",30,1,20,"CP1201", "sex", "tarde");
         try {
             uc1.addShift(uc1Shift1);
             uc1.addShift(uc1Shift2);
+            uc1.addShift(uc1Shift3);
             uc2.addShift(uc2Shift);
         } catch (ShiftAlredyExistsException e) {
             e.printStackTrace();

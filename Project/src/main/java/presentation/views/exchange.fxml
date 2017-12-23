@@ -17,7 +17,7 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turnos disponiveis" />
             <Separator orientation="VERTICAL" prefHeight="30.0" prefWidth="11.0" />
-            <ChoiceBox prefWidth="150.0" />
+            <ChoiceBox fx:id="tps" prefWidth="150.0" />
          </children>
       </VBox>
       <Text layoutX="205.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedido de troca">
