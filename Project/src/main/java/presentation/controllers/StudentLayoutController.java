@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -82,23 +83,35 @@ public class StudentLayoutController {
 
     @FXML
     void pedidoDeTroca(ActionEvent event) throws IOException {
-        CourseTable selectedIndex = table.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/presentation/views/exchange.fxml"));
-        AnchorPane page =  loader.load();
+        int numberSelected= table.getSelectionModel().getSelectedIndex();
+        if(numberSelected >= 0){
 
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Edit Person");
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        dialogStage.initOwner(primaryStage);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        ExchangeController exchangeController = loader.getController();
-        exchangeController.setInstances(main.getEngine(),student,selectedIndex.getUc(),selectedIndex.getTp(),selectedIndex.getTrocaPendente().split(", "));
-        dialogStage.showAndWait();
-        if(exchangeController.isTrocaClicked()){
-            loadTable();
+            CourseTable selectedIndex = table.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/presentation/views/exchange.fxml"));
+            AnchorPane page =  loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            ExchangeController exchangeController = loader.getController();
+            exchangeController.setInstances(main.getEngine(),student,selectedIndex.getUc(),selectedIndex.getTp(),selectedIndex.getTrocaPendente().split(", "));
+            dialogStage.showAndWait();
+
+            if(exchangeController.isTrocaClicked()){
+                loadTable();
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Nenhuma uc selecrionada para troca !");
+            alert.showAndWait();
         }
 
     }
@@ -108,36 +121,5 @@ public class StudentLayoutController {
         this.student = student;
         this.loadTable();
     }
-    /*
-    public boolean showPersonEditDialog(Person person) {
-        try {
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/presentation/views/exchange.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the person into the controller.
-            PersonEditDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setPerson(person);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    */
 }
 
