@@ -3,7 +3,9 @@ package business.courses;
 import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
+import business.users.Student;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Shift {
@@ -129,5 +131,15 @@ public class Shift {
 
     public void setGivenClasses(Integer givenClasses) {
         this.givenClasses = givenClasses;
+    }
+
+    public void markAbsent(ArrayList<Integer> missingStudents) throws StudentNotInShiftException {
+        for (Integer s : missingStudents) {
+            if (!this.students.containsKey(s)) {
+                throw new StudentNotInShiftException();
+            } else {
+                this.absentStudent(s);
+            }
+        }
     }
 }

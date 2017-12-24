@@ -7,10 +7,8 @@ import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Engine {
     private HashMap<Integer, Student> students;
@@ -292,5 +290,13 @@ public class Engine {
         c.cancelRequest(r);
         Student s = this.students.get(student);
         s.cancelRequest(r);
+    }
+
+    public void markAbsent(String courseCode, String shiftCode, ArrayList<Integer> students) {
+        try {
+            this.courses.get(courseCode).markAbsent(shiftCode, students);
+        } catch (StudentNotInShiftException e) {
+            e.printStackTrace();
+        }
     }
 }

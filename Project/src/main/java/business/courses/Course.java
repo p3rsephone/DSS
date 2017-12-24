@@ -155,4 +155,8 @@ public class Course {
         ArrayList<Request> bill = this.billboard.get(r.getDestShift());
         bill.remove(r);
     }
+
+    public void markAbsent(String shiftCode, ArrayList<Integer> students) throws StudentNotInShiftException {
+        this.shifts.get(shiftCode).markAbsent(students);
+    }
 }
