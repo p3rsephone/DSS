@@ -6,12 +6,12 @@ import java.util.Set;
 public class Teacher extends User {
     private Set<String> shifts;
     private Boolean boss;
-    private String ownedCourse;
+    private String course;
 
     public Teacher(String name, Integer number, String email, String password, Boolean isBoss) {
         super(name, number, email, password);
         this.boss = isBoss;
-        this.ownedCourse = null;
+        this.course = null;
         this.shifts = new HashSet<>();
     }
 
@@ -22,16 +22,16 @@ public class Teacher extends User {
         return ret;
     }
 
-    public String getOwnedCourse() {
-        return ownedCourse;
+    public String getCourse() {
+        return course;
     }
 
     public void addShift(String shiftid) {
         this.shifts.add(shiftid);
     }
 
-    public void setOwnedCourse(String ownedCourse) {
-        this.ownedCourse = ownedCourse;
+    public void setCourse(String course) {
+        this.course = course;
     }
 
     public Boolean isBoss() {

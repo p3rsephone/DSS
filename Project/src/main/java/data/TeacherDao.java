@@ -96,7 +96,7 @@ public class TeacherDao implements Map<String, Teacher> {
                 ps.setInt(1,(Integer) key);
                 rs = ps.executeQuery();
                 if (rs.next()) { //If it has one, adds owned course
-                    teacher.setOwnedCourse(rs.getString("Course_code"));
+                    teacher.setCourse(rs.getString("Course_code"));
                 }
 
                 sql = "SELECT Shift_code FROM Ups.Shift WHERE Teacher_number = ?;" ;
