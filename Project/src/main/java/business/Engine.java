@@ -8,6 +8,7 @@ import business.users.Teacher;
 import business.users.User;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -74,20 +75,24 @@ public class Engine {
         this.exchanges.put(e.getCode(), e);
     }
 
-    public void cancelExchange(Integer code) throws ExchangeDoesNotExistException {
+    public void cancelExchange(Integer code) throws ExchangeDoesNotExistException, StudentNotInShiftException, ExchangeAlreadyCancelledException {
         if (this.exchanges.containsKey(code)) {
             throw new ExchangeDoesNotExistException();
         } else {
             Exchange e = this.exchanges.get(code);
             Student orig = this.students.get(e.getOriginStudent());
             Student dest = this.students.get(e.getDestStudent());
-            if (orig.getShifts().contains(e.getDestShift()) && dest.getShifts().contains(e.getOriginShift())) {
+            if (e.isCancelled()) {
+                throw new ExchangeAlreadyCancelledException();
+            } else if (orig.getShifts().contains(e.getDestShift()) && dest.getShifts().contains(e.getOriginShift())) {
                 try {
-                    this.courses.get(e.getCourse()).swap(e.getOriginShift(), e.getDestShift(), e.getDestStudent(), e.getOriginStudent());
-                } catch (StudentNotInShiftException | RoomCapacityExceededException | StudentAlreadyInShiftException e1) {
+                    Exchange n = this.courses.get(e.getCourse()).swap(e.getOriginShift(), e.getDestShift(), e.getDestStudent(), e.getOriginStudent());
+                    e.cancelExchange();
+                    this.exchanges.put(this.nrOfExchanges++, n);
+                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException e1) {
                     e1.printStackTrace();
                 }
-            }
+            } else throw new StudentNotInShiftException();
         }
     }
 
@@ -270,5 +275,15 @@ public class Engine {
 
     public Integer getPhase() {
         return phase;
+    }
+
+    public Set<Exchange> getAllExchangesOfCourse(String courseCode) {
+        Set<Exchange> res = new HashSet<>();
+        Set<Map.Entry<Integer, Exchange>> exchanges = this.exchanges.entrySet();
+        for (Map.Entry<Integer, Exchange> e : exchanges) {
+            Exchange ex = e.getValue();
+            if(ex.getCourse().equals(courseCode)) res.add(ex);
+        }
+        return res;
     }
 }
