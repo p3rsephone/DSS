@@ -116,9 +116,4 @@ public class Shift {
             this.students.put(studentNumber, absences+1);
         }
     }
-
-    public boolean isFull() {
-        return this.numOfStudents >= this.limit;
-    }
-
 }
