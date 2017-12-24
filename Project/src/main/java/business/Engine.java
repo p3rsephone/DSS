@@ -286,4 +286,11 @@ public class Engine {
         }
         return res;
     }
+
+    public void cancelRequest(String student, Request r) {
+        Course c = this.courses.get(r.getCourse());
+        c.cancelRequest(r);
+        Student s = this.students.get(student);
+        s.cancelRequest(r);
+    }
 }

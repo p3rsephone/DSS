@@ -150,4 +150,9 @@ public class Course {
     public HashMap<String, ArrayList<Request>> getBillboard() {
         return billboard;
     }
+
+    public void cancelRequest(Request r) {
+        ArrayList<Request> bill = this.billboard.get(r.getDestShift());
+        bill.remove(r);
+    }
 }
