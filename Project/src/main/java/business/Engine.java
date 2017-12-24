@@ -182,13 +182,13 @@ public class Engine {
         return 1;
     }
     public String getShift(String courseID, Set<String> shiftsID ){
-       Course course = courses.get(courseID);
-       HashMap shifts = course.getShifts();
-       for(String shift : shiftsID){
-          if(shifts.containsKey(shift))
-              return shift;
-       }
-       return "";
+        Course course = courses.get(courseID);
+        HashMap shifts = course.getShifts();
+        for(String shift : shiftsID){
+            if(shifts.containsKey(shift))
+                return shift;
+        }
+        return "";
     }
 
     public void allocateStudents() {
@@ -253,7 +253,7 @@ public class Engine {
     }
 
     public Set<String> getShiftsOfCourse(String code){
-            return this.getCourse(code).getShifts().keySet();
+        return this.getCourse(code).getShifts().keySet();
     }
 
     public Integer getPhase() {

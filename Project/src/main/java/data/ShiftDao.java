@@ -94,7 +94,7 @@ public class ShiftDao implements Map<String,Shift> {
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                shift = new Shift(rs.getString("Shift_code"),rs.getString("Course_code"), rs.getInt("Shift_limit"), rs.getInt("Teacher_number"), rs.getInt("Shit_excepectedClasses"), rs.getString("Room_code"), rs.getString("Shift_weekday"), rs.getString("Shift_period"));
+                shift = new Shift(rs.getString("Shift_code"),rs.getString("Course_code"), rs.getInt("Shift_limit"), rs.getInt("Teacher_number"), rs.getInt("Shift_expectedClasses"), rs.getString("Room_code"), rs.getString("Shift_weekday"), rs.getString("Shift_period"));
 
                 sql = "SELECT * FROM Ups.StudentShift WHERE Shift_code =?";
                 ps = conn.prepareStatement(sql);
