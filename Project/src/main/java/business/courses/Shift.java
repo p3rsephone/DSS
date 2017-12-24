@@ -17,6 +17,7 @@ public class Shift {
     private String roomCode;
     private String weekday;
     private String period;
+    private Integer givenClasses;
 
     public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, String roomCode, String weekday, String period) {
         this.code = code;
@@ -29,6 +30,7 @@ public class Shift {
         this.numOfStudents = 0;
         this.limit = limit;
         this.students = new HashMap<>();
+        this.givenClasses = 0;
     }
 
     public String getCode() {
@@ -121,4 +123,11 @@ public class Shift {
         return this.numOfStudents >= this.limit;
     }
 
+    public Integer getGivenClasses() {
+        return givenClasses;
+    }
+
+    public void setGivenClasses(Integer givenClasses) {
+        this.givenClasses = givenClasses;
+    }
 }
