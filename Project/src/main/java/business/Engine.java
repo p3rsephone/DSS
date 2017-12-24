@@ -299,4 +299,20 @@ public class Engine {
             e.printStackTrace();
         }
     }
+
+    public Set<Student> getStudentsOfCourse(String courseCode) {
+        Set<Integer> students = new HashSet<>();
+        Set<Student> res = new HashSet<>();
+        Course c = this.courses.get(courseCode);
+        Set<Map.Entry<String, Shift>> shifts = c.getShifts().entrySet();
+        for (Map.Entry<String, Shift> me : shifts) {
+            Shift s = me.getValue();
+            Set<Integer> stud = s.getStudents().keySet();
+            students.addAll(stud);
+        }
+        for (Integer s : students) {
+            res.add(this.students.get(s));
+        }
+        return res;
+    }
 }
