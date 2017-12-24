@@ -86,8 +86,9 @@ public class Engine {
                 throw new ExchangeAlreadyCancelledException();
             } else if (orig.getShifts().contains(e.getDestShift()) && dest.getShifts().contains(e.getOriginShift())) {
                 try {
-                    this.courses.get(e.getCourse()).swap(e.getOriginShift(), e.getDestShift(), e.getDestStudent(), e.getOriginStudent());
-
+                    Exchange n = this.courses.get(e.getCourse()).swap(e.getOriginShift(), e.getDestShift(), e.getDestStudent(), e.getOriginStudent());
+                    e.cancelExchange();
+                    this.exchanges.put(this.nrOfExchanges++, n);
                 } catch (RoomCapacityExceededException | StudentAlreadyInShiftException e1) {
                     e1.printStackTrace();
                 }
