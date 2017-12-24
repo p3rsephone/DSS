@@ -1,4 +1,4 @@
-rooms = {
+{
     "CP1-101":{
         "capacidade":"70"
     },
@@ -256,6 +256,6 @@ rooms = {
     },
     "DI-110":{
         "capacidade":"40"
-    },
+    }
 
 }
