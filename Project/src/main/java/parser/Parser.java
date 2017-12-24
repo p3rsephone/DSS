@@ -104,27 +104,52 @@ public class Parser {
         Map<Integer,Student> data = gson.fromJson(jsonFile, type);
 
         data.forEach((key,value)-> {
-                    try {
-                        engine.addUser(new business.users.Student(value.getName(),value.getEmail(),value.getPassword(),key,Boolean.valueOf(value.getStatute())));
-                    } catch (UserAlredyExistsException e) {
-                        e.printStackTrace();
-                    }
-                    for(String course : value.getCourses()){
-                        engine.enrollStudent(course,key);
-                    }
+            try {
+                engine.addUser(new business.users.Student(value.getName(),value.getEmail(),value.getPassword(),key,Boolean.valueOf(value.getStatute())));
+            } catch (UserAlredyExistsException e) {
+                e.printStackTrace();
+            }
+            value.getCourses().forEach((v)->engine.enrollStudent(v,key));
                 }
         );
     }
-    /*
+
     public static void main(String[] args) {
-        HashMap<String, Course> courses = new HashMap<>();
-        Parser ola = new Parser(courses);
+        Engine engine = new Engine();
+        Parser ola = new Parser(engine);
         try {
-            ola.parseMscProfiles("/perfies.json");
+                ola.parseRoom("/home/resende/DSS/Project/src/main/java/parser/rooms.json");
+                ola.parseCourse("/home/resende/DSS/Project/src/main/java/parser/courses1.json");
+                ola.parseCourse("/home/resende/DSS/Project/src/main/java/parser/courses2.json");
+                ola.parseShift("/home/resende/DSS/Project/src/main/java/parser/shifts1.json");
+                ola.parseShift("/home/resende/DSS/Project/src/main/java/parser/shifts2.json");
+                ola.parseStudent("/home/resende/DSS/Project/src/main/java/parser/student.json");
         } catch (FileNotFoundException e) {
+            System.out.println("Working Directory = " +
+                    System.getProperty("user.dir"));
             System.out.println("File not found");
         }
-        courses.forEach((k,v)->System.out.println(v.getName() + " " + v.getWeekday()));
+        engine.allocateStudents();
+        HashMap<String, Course> courses = engine.getCourses();
+        HashMap<String, business.courses.Room> salas = engine.getRooms();
+        System.out.println("/n");
+        System.out.println("COURSES/n");
+        courses.forEach((k,v)->System.out.println(v.getCode() + " " + v.getName()));
+        System.out.println("/n");
+        System.out.println("SALAS/n");
+        salas.forEach((k,v)->System.out.println(v.getCode() + " " + v.getCapacity()));
+        System.out.println("/n");
+        System.out.println("shifts/n");
+        courses.forEach((k,v)->{
+            System.out.println(v.getCode() + " " + ":");
+            v.getShifts().forEach((key,value)-> System.out.println("/t "+ key +" "+value.getCode() + value.getCourseId()) );
+        });
+        System.out.println("/n");
+        System.out.println("Students/n");
+        engine.getStudents().forEach((key,value)->{
+            System.out.println(key );
+            value.getShifts().forEach(System.out::println);
+        } );
     }
-    */
+
 }

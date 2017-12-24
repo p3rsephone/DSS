@@ -1,37 +1,37 @@
 {
-  "joao":{
+  1:{
+    "name":"joao",
     "email":"joao@",
     "password":"123",
-    "number":1,
     "statute":"false",
-    "course":["TMD","EES","LI1"]
+    "courses":["TMD","EES","CD"]
   },
-  "maria":{
+  2:{
+    "name":"maria",
     "email":"maria@",
     "password":"123",
-    "number":2,
     "statute":"false",
-    "course":["TMD","EES","LI1"]
+    "courses":["TMD","EES","LI1"]
   },
-  "jose":{
+  3:{
+    "name":"jose",
     "email":"jose@",
     "password":"123",
-    "number":3,
     "statute":"false",
-    "course":["TMD","EES","LI1"]
+    "courses":["TMD","EES","LI1"]
   },
-  "marta":{
+  4:{
+    "name":"marta",
     "email":"marta@",
     "password":"123",
-    "number":4,
     "statute":"false",
-    "course":["TMD","EES","LI1"]
+    "courses":["TMD","EES","LI1"]
   },
-  "david":{
+  5:{
+    "name":"david",
     "email":"david@",
     "password":"123",
-    "number":5,
     "statute":"false",
-    "course":["TMD","EES","LI1"]
+    "courses":["TMD","EES","LI1"]
   }
 }
