@@ -1,0 +1,37 @@
+{
+  1:{
+    "name":"joao",
+    "email":"joao@",
+    "password":"123",
+    "statute":"false",
+    "courses":["TMD","EES","CD"]
+  },
+  2:{
+    "name":"maria",
+    "email":"maria@",
+    "password":"123",
+    "statute":"false",
+    "courses":["TMD","EES","LI1"]
+  },
+  3:{
+    "name":"jose",
+    "email":"jose@",
+    "password":"123",
+    "statute":"false",
+    "courses":["TMD","EES","LI1"]
+  },
+  4:{
+    "name":"marta",
+    "email":"marta@",
+    "password":"123",
+    "statute":"false",
+    "courses":["TMD","EES","LI1"]
+  },
+  5:{
+    "name":"david",
+    "email":"david@",
+    "password":"123",
+    "statute":"false",
+    "courses":["TMD","EES","LI1"]
+  }
+}

@@ -252,6 +252,14 @@ public class Engine {
         return exchanges;
     }
 
+    public HashMap<String, Course> getCourses() {
+        return courses;
+    }
+
+    public HashMap<String, Room> getRooms() {
+        return rooms;
+    }
+
     public Set<String> getShiftsOfCourse(String code){
         return this.getCourse(code).getShifts().keySet();
     }
