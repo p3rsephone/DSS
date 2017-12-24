@@ -160,7 +160,7 @@ public class StudentDao implements Map<String,Student> {
 
             if (value.getNshifts()>0) { //Insert the shifts
                 int i;
-                sql = "INSERT INTO Ups.StudentShift\n" +
+                sql = "INSERT INTO Ups.StudentShift (Student_number, Shift_code)\n" +
                       "VALUES ";
                 for (i=1;i<value.getNshifts();i++) {
                     sql += "(?,?), ";
