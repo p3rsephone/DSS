@@ -132,7 +132,7 @@ public class Shift {
     public void setGivenClasses(Integer givenClasses) {
         this.givenClasses = givenClasses;
     }
-    
+
     public void markAbsent(ArrayList<Integer> missingStudents) throws StudentNotInShiftException {
         for (Integer s : missingStudents) {
             if (!this.students.containsKey(s)) {
