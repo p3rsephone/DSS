@@ -2,6 +2,7 @@ package business;
 
 import business.courses.*;
 import business.exceptions.*;
+import business.users.DC;
 import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
@@ -18,6 +19,7 @@ public class Engine {
     private Integer nrOfExchanges;
     private Integer phase;
     private HashMap<String, Room> rooms;
+    private DC dc;
 
     public Engine() {
         this.nrOfExchanges = 0;
@@ -27,6 +29,7 @@ public class Engine {
         this.courses = new HashMap<>();
         this.exchanges = new HashMap<>();
         this.rooms = new HashMap<>();
+        this.dc = new DC();
     }
 
     public void addUser(User u) throws UserAlredyExistsException {
@@ -156,7 +159,8 @@ public class Engine {
             Teacher current = this.teachers.get(login);
             if (current.getPassword().equals(password)) {
                 return current;
-            }
+            } else if(dc.getNumber().equals(login) && dc.getPassword().equals(password))
+                    return dc;
         }
 
         return null;
