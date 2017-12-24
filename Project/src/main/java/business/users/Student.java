@@ -117,4 +117,8 @@ public class Student extends User{
        return ret;
 
     }
+
+    public void cancelRequest(Request r) {
+        this.pendingRequests.remove(r);
+    }
 }
