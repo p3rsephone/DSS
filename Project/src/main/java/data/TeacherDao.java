@@ -89,7 +89,7 @@ public class TeacherDao implements Map<String, Teacher> {
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                teacher = new Teacher(rs.getString("Teacher_name"),rs.getInt("Teacher_number"),rs.getString("Teacher_email"),rs.getString("Teacher_password"),rs.getBoolean("Teacher_isBoss"));
+                teacher = new Teacher(rs.getString("Teacher_name"),rs.getInt("Teacher_number"),rs.getString("Teacher_email"),rs.getString("Teacher_password"),rs.getBoolean("Teacher_isBoss"),"");
 
                 sql = "SELECT Course_code FROM Ups.Course WHERE Teacher_number = ?;";
                 ps = conn.prepareStatement(sql);

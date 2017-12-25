@@ -8,10 +8,10 @@ public class Teacher extends User {
     private Boolean boss;
     private String course;
 
-    public Teacher(String name, Integer number, String email, String password, Boolean isBoss) {
+    public Teacher(String name, Integer number, String email, String password, Boolean isBoss, String course) {
         super(name, number, email, password);
         this.boss = isBoss;
-        this.course = null;
+        this.course = course;
         this.shifts = new HashSet<>();
     }
 

@@ -1,4 +1,4 @@
-package parser;
+package business.utilities.parser;
 
 class MscUc{
     private String nome;

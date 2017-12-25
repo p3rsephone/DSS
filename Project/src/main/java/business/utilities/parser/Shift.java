@@ -1,4 +1,4 @@
-package parser;
+package business.utilities.parser;
 
 public class Shift {
     private String course;
