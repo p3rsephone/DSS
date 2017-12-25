@@ -126,7 +126,7 @@
         "period":"afternoon"
     },
     "EA-TP3":{
-        "course":"TMD",
+        "course":"EA",
         "teacher":17,
         "limit":30,
         "classes":32,
@@ -135,7 +135,7 @@
         "period":"afternoon"
     },
     "EA-TP4":{
-        "course":"TMD",
+        "course":"EA",
         "teacher":18,
         "limit":30,
         "classes":32,

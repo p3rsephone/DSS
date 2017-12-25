@@ -30,15 +30,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         engine = new Engine();
-        Parser parse = new Parser(engine);
-        parse.parseRoom("src/main/java/business/utilities/parser/rooms.json");
-        parse.parseCourse("src/main/java/business/utilities/parser/courses1.json");
-        parse.parseCourse("src/main/java/business/utilities/parser/courses2.json");
-        parse.parseShift("src/main/java/business/utilities/parser/shifts1.json");
-        parse.parseShift("src/main/java/business/utilities/parser/shifts2.json");
-        parse.parseStudent("src/main/java/business/utilities/parser/student.json");
-        parse.parseTeacher("src/main/java/business/utilities/parser/teachers.json");
-        engine.allocateStudents();
 
         this.primaryStage = primaryStage;
         primaryStage.setTitle("UPS!");

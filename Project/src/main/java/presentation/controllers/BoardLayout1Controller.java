@@ -3,6 +3,7 @@ package presentation.controllers;
 
 import business.Engine;
 import business.exceptions.InvalidPhaseException;
+import business.utilities.parser.Parser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import presentation.Main;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class BoardLayout1Controller {
@@ -20,6 +22,18 @@ public class BoardLayout1Controller {
     @FXML
     void alocar(ActionEvent event) throws InvalidPhaseException {
         Engine engine = main.getEngine();
+        Parser parse = new Parser(engine);
+        try {
+            parse.parseRoom("src/main/java/business/utilities/parser/rooms.json");
+            parse.parseCourse("src/main/java/business/utilities/parser/courses1.json");
+            parse.parseCourse("src/main/java/business/utilities/parser/courses2.json");
+            parse.parseShift("src/main/java/business/utilities/parser/shifts1.json");
+            parse.parseShift("src/main/java/business/utilities/parser/shifts2.json");
+            parse.parseStudent("src/main/java/business/utilities/parser/student.json");
+            parse.parseTeacher("src/main/java/business/utilities/parser/teachers.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         engine.allocateStudents();
         engine.changePhase(2);
     }

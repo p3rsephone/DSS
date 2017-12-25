@@ -37,11 +37,13 @@ public class LoginController {
         String password = this.password.getText();
         Engine engine = main.getEngine();
 
+        /*
         try {
             engine.changePhase(2);
         } catch (InvalidPhaseException e) {
             e.printStackTrace();
         }
+        */
 
         User u;
         if((u=engine.login(number,password)) != null){
