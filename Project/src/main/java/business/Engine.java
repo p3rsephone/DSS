@@ -7,10 +7,8 @@ import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Engine {
     private HashMap<Integer, Student> students;
@@ -292,5 +290,44 @@ public class Engine {
         c.cancelRequest(r);
         Student s = this.students.get(student);
         s.cancelRequest(r);
+    }
+
+    public void markAbsent(String courseCode, String shiftCode, ArrayList<Integer> students) {
+        try {
+            this.courses.get(courseCode).markAbsent(shiftCode, students);
+        } catch (StudentNotInShiftException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Set<Student> getStudentsOfCourse(String courseCode) {
+        Set<Integer> students = new HashSet<>();
+        Set<Student> res = new HashSet<>();
+        Course c = this.courses.get(courseCode);
+        Set<Map.Entry<String, Shift>> shifts = c.getShifts().entrySet();
+        for (Map.Entry<String, Shift> me : shifts) {
+            Shift s = me.getValue();
+            Set<Integer> stud = s.getStudents().keySet();
+            students.addAll(stud);
+        }
+        for (Integer s : students) {
+            res.add(this.students.get(s));
+        }
+        return res;
+    }
+
+    public Set<Student> getStudentOfShift(String courseCode, String shiftCode) {
+        Set<Student> res = new HashSet<>();
+        Course c = this.courses.get(courseCode);
+        try {
+            Shift shift = c.getShift(shiftCode);
+            Set<Integer> stud = shift.getStudents().keySet();
+            for (Integer s : stud) {
+                res.add(this.students.get(s));
+            }
+        } catch (ShiftNotValidException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 }
