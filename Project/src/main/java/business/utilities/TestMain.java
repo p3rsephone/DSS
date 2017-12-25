@@ -68,9 +68,20 @@ public class TestMain {
         try {
             engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP3");
             engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP1");
-            engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP1");
             engine.requestExchange("DSS", a4, "DSS-TP3", "DSS-TP2");
         } catch (TooManyRequestsException e) {
+            e.printStackTrace();
+        }
+
+        for(Map.Entry<Integer, Student> s : engine.getStudents().entrySet()) {
+            System.out.println(s.getValue().getNumber() + ": " + s.getValue().getName() + " ||| " + s.getValue().getShifts().toString());
+        }
+
+        System.out.println("CANCELLING EXCHANGE");
+
+        try {
+            engine.cancelExchange(1);
+        } catch (ExchangeDoesNotExistException | StudentNotInShiftException | ExchangeAlreadyCancelledException e) {
             e.printStackTrace();
         }
 

@@ -46,10 +46,10 @@ public class Student extends User{
         this.pendingRequests.add(rq);
     }
 
-    public void removePendingRequest(Request rq) {
+    public void removePendingRequest(String originShift, String courseCode) {
         Set<Request> res = new HashSet<>();
         for (Request r : this.pendingRequests) {
-            if (r.getOriginShift().equals(rq.getOriginShift()) && r.getCourse().equals(rq.getCourse())) {
+            if (r.getOriginShift().equals(originShift) && r.getCourse().equals(courseCode)) {
                 res.add(r);
             }
         }
@@ -96,7 +96,7 @@ public class Student extends User{
         this.schedule.freePeriod(destShift);
     }
 
-    public void findAndRemove(String course, String originShift, String destShift) {
+    public void findAndRemove(String course, String originShift) {
         Set<Request> res = new HashSet<>();
         for (Request r : this.pendingRequests) {
             if (r.getOriginShift().equals(originShift) && r.getCourse().equals(course)) {

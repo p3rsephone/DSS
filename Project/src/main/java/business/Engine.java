@@ -74,7 +74,7 @@ public class Engine {
     }
 
     public void cancelExchange(Integer code) throws ExchangeDoesNotExistException, StudentNotInShiftException, ExchangeAlreadyCancelledException {
-        if (this.exchanges.containsKey(code)) {
+        if (!this.exchanges.containsKey(code)) {
             throw new ExchangeDoesNotExistException();
         } else {
             Exchange e = this.exchanges.get(code);
@@ -84,9 +84,10 @@ public class Engine {
                 throw new ExchangeAlreadyCancelledException();
             } else if (orig.getShifts().contains(e.getDestShift()) && dest.getShifts().contains(e.getOriginShift())) {
                 try {
-                    Exchange n = this.courses.get(e.getCourse()).swap(e.getOriginShift(), e.getDestShift(), e.getDestStudent(), e.getOriginStudent());
+                    Course c = this.courses.get(e.getCourse());
+                    Exchange n = c.swap(e.getDestShift(), e.getOriginShift(), e.getOriginStudent(), e.getDestStudent());
                     e.cancelExchange();
-                    this.exchanges.put(this.nrOfExchanges++, n);
+                    this.updateShifts(n, orig, dest, c.getCode());
                 } catch (RoomCapacityExceededException | StudentAlreadyInShiftException e1) {
                     e1.printStackTrace();
                 }
@@ -133,23 +134,24 @@ public class Engine {
             if (res != null) {
                 Student origin = this.students.get(res.getOriginStudent());
                 Student dest = this.students.get(res.getDestStudent());
-                Shift destShift = c.getShift(res.getDestShift());
-                Shift origShift = c.getShift(res.getOriginShift());
-                origin.removeShift(res.getOriginShift());
-                dest.removeShift(res.getDestShift());
-                origin.addShift(res.getDestShift());
-                dest.addShift(res.getOriginShift());
-                res.setCourse(courseCode);
-                res.setCode(this.nrOfExchanges++);
-                this.exchanges.put(this.nrOfExchanges, res);
-                origin.removePendingRequest(r);
-                dest.findAndRemove(r.getCourse(), r.getDestShift(), res.getOriginShift());
-                System.out.println(dest.getRequests());
+                this.updateShifts(res, origin, dest, c.getCode());
             }
 
-        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | ShiftNotValidException e) {
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateShifts(Exchange e, Student origin, Student dest, String courseCode) {
+        origin.removeShift(e.getOriginShift());
+        dest.removeShift(e.getDestShift());
+        origin.addShift(e.getDestShift());
+        dest.addShift(e.getOriginShift());
+        e.setCourse(courseCode);
+        e.setCode(this.nrOfExchanges++);
+        this.exchanges.put(this.nrOfExchanges, e);
+        origin.removePendingRequest(e.getOriginShift(), e.getCourse());
+        dest.findAndRemove(e.getCourse(), e.getDestShift());
     }
 
     public User login(Integer login, String password) {
