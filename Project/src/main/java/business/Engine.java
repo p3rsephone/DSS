@@ -56,7 +56,7 @@ public class Engine {
     }
 
     public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException {
-        if(s.getNrequests() >= s.getNEnrollments()+1) {
+        if (s.getNrequests() >= s.getNEnrollments() + 1) {
             throw new TooManyRequestsException();
         } else {
             Course c = this.courses.get(course);
@@ -64,13 +64,6 @@ public class Engine {
             s.addPendingRequest(r);
             this.makeSwaps(r);
         }
-    }
-
-    public void registerExchange(Student s1, String courseCode, String shcode1, Request request) {
-        Integer s2number = request.getStudent();
-        String shcode2 = request.getOriginShift();
-        Exchange e = new Exchange(this.nrOfExchanges++, courseCode, shcode1, shcode2, s1.getNumber(), s2number);
-        this.exchanges.put(e.getCode(), e);
     }
 
     public void cancelExchange(Integer code) throws ExchangeDoesNotExistException, StudentNotInShiftException, ExchangeAlreadyCancelledException {
@@ -135,6 +128,7 @@ public class Engine {
                 Student origin = this.students.get(res.getOriginStudent());
                 Student dest = this.students.get(res.getDestStudent());
                 this.updateShifts(res, origin, dest, c.getCode());
+                this.exchanges.put(this.nrOfExchanges++, res);
             }
 
         } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException e) {
@@ -148,8 +142,7 @@ public class Engine {
         origin.addShift(e.getDestShift());
         dest.addShift(e.getOriginShift());
         e.setCourse(courseCode);
-        e.setCode(this.nrOfExchanges++);
-        this.exchanges.put(this.nrOfExchanges, e);
+        e.setCode(this.nrOfExchanges);
         origin.removePendingRequest(e.getOriginShift(), e.getCourse());
         dest.findAndRemove(e.getCourse(), e.getDestShift());
     }
