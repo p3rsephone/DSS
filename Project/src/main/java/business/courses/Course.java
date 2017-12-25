@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Course {
 
-    private String code;
+    private String code; 
     private String name;
     private Integer regTeacher;
     private Integer year;
