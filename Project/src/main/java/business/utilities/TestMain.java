@@ -108,10 +108,5 @@ public class TestMain {
             }
         }
 
-        for(Map.Entry<Integer, Student> s : engine.getStudents().entrySet()) {
-            for (Request r : s.getValue().getRequests()) {
-                System.out.println(s.getKey() + " wants " + r.getDestShift());
-            }
-        }
     }
 }

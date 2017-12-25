@@ -107,8 +107,9 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 ps.setInt(1,(Integer)key);
                 rs = ps.executeQuery();
                 while (rs.next()) { //If there are requests associated get their codes and add them
-                    Request rq = new Request((Integer)key,rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    student.addPendingRequest(rq);
+                    //TANIA
+                    //Request rq = new Request(CODE?, (Integer)key,rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
+                    //student.addPendingRequest(rq);
 
                 }
             }
@@ -198,14 +199,15 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 i=1;
                 Integer j=1;
-                for (Request r : value.getRequests()) {
-                    psRequest.setString(j++,r.getOriginShift());
-                    psRequest.setString(j++,r.getDestShift());
-                    psRequest.setString(j++,r.getCourse());
+                //TANIA THIS STOPPED WORKING
+                //for (Request r : value.getRequests()) {
+                //    psRequest.setString(j++,r.getOriginShift());
+                //    psRequest.setString(j++,r.getDestShift());
+                //    psRequest.setString(j++,r.getCourse());
 
-                    ps.setString(i++,r.getCourse());
-                    ps.setInt(i++,r.getStudent());
-                }
+                //    ps.setString(i++,r.getCourse());
+                //    ps.setInt(i++,r.getStudent());
+                //}
                 psRequest.executeUpdate(sqlRequest);
                 ps.executeUpdate(sql);
 

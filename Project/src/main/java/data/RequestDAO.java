@@ -78,8 +78,9 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, rs.getInt("Request_id"));
                 rstudent = ps.executeQuery();
-                request = new Request(rstudent.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                array.add(request);
+                //TANIA THIS STOPPED WORKING
+                //request = new Request(code, rstudent.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
+                //array.add(request);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -63,7 +63,8 @@ public class StudentLayoutController {
         Set<String> courses = student.getEnrollments();
         for(String course :  courses){
             String shift = main.getEngine().getShift(course ,student.getShifts());
-            obList.add(new CourseTable(course,shift,student.requestCourse(course)));
+            //RESENDE THIS STOPPED WORKING
+            //obList.add(new CourseTable(course,shift,student.requestCourse(course)));
         }
         table.getItems().setAll(obList);
     }

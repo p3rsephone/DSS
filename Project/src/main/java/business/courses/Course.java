@@ -73,8 +73,8 @@ public class Course {
     }
 
 
-    public Request requestExchange(Student s, String originShift, String destShift) {
-        Request r = new Request(s.getNumber(), this.code, originShift, destShift);
+    public Request requestExchange(Student s, String originShift, String destShift, Integer code) {
+        Request r = new Request(code, s.getNumber(), this.code, originShift, destShift);
         this.addRequest(r, destShift);
         return r;
     }
@@ -149,6 +149,10 @@ public class Course {
 
     public HashMap<String, ArrayList<Request>> getBillboard() {
         return billboard;
+    }
+
+    public ArrayList<Request> getRequests(String destShift) {
+        return this.billboard.get(destShift);
     }
 
     public void cancelRequest(Request r) {
