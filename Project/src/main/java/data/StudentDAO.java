@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class StudentDao implements Map<String,Student> {
+public class StudentDAO extends DAO implements Map<String,Student> {
 
     private Connection conn;
 
@@ -23,22 +23,7 @@ public class StudentDao implements Map<String,Student> {
      */
     @Override
     public int size() {
-        int i = 0;
-        try {
-            conn = Connect.connect();
-            String sql= "SELECT count(*) FROM Ups.Student;";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) {
-                i = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            throw new NullPointerException(e.getMessage());
-        }
-        finally {
-            Connect.close(conn);
-        }
-        return i;
+        return size("Student");
     }
 
     /**
@@ -47,8 +32,7 @@ public class StudentDao implements Map<String,Student> {
      */
     @Override
     public boolean isEmpty() {
-
-        return size() == 0;
+        return isEmpty("Student");
     }
 
     /**

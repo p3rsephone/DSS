@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ShiftDao implements Map<String,Shift> {
+public class ShiftDAO extends DAO implements Map<String,Shift> {
 
     private Connection conn;
 
@@ -22,22 +22,7 @@ public class ShiftDao implements Map<String,Shift> {
      */
     @Override
     public int size() {
-        int i = 0;
-        try {
-            conn = Connect.connect();
-            String sql= "SELECT count(*) FROM Ups.Shift;";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) {
-                i = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            throw new NullPointerException(e.getMessage());
-        }
-        finally {
-            Connect.close(conn);
-        }
-        return i;
+        return size("Shift");
     }
 
     /**
@@ -46,8 +31,7 @@ public class ShiftDao implements Map<String,Shift> {
      */
     @Override
     public boolean isEmpty() {
-
-        return size() == 0;
+        return isEmpty("Shift");
     }
 
     /**
