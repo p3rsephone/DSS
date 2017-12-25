@@ -89,7 +89,7 @@ public class Engine {
         }
     }
 
-    public void defineShiftLimit(String courseId, String shiftId, Integer limit) throws RoomCapacityExceededException {
+    public void defineShiftLimit(String courseId, String shiftId, Integer limit) throws RoomCapacityExceededException, StudentsDoNotFitInShiftException {
         Course course = this.courses.get(courseId);
         Shift shift = null;
         try {
