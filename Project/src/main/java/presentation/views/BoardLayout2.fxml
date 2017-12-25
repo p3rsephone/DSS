@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.TeacherBossLayoutController">
+   <children>
+      <VBox layoutX="29.0" layoutY="90.0" prefHeight="256.0" prefWidth="543.0">
+         <children>
+            <TableView fx:id="table" prefHeight="256.0" prefWidth="513.0">
+              <columns>
+                  <TableColumn fx:id="codigo" minWidth="0.0" prefWidth="42.0" text="id" />
+                <TableColumn fx:id="aluno1" prefWidth="109.0" text="Aluno1" />
+                <TableColumn fx:id="aluno2" prefWidth="98.0" text="Aluno2" />
+                  <TableColumn fx:id="troca1" minWidth="0.0" prefWidth="90.0" text="Troca1" />
+                  <TableColumn fx:id="troca2" prefWidth="101.0" text="Troca2" />
+                  <TableColumn fx:id="cancelada" prefWidth="101.0" text="cancelada" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <Text layoutX="514.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aluno" />
+      <Text layoutX="55.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trocas" wrappingWidth="91.1259765625">
+         <font>
+            <Font size="19.0" />
+         </font></Text>
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="336.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cancelarTroca" text="Cancelar troca" />
+         </children>
+      </HBox>
+      <Button layoutX="501.0" layoutY="50.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+   </children>
+</AnchorPane>
