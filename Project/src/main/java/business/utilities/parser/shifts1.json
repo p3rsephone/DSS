@@ -39,7 +39,7 @@
   "EES-TP1":{
       "course":"EES",
       "teacher":5,
-      "limit":30,
+      "limit":1,
       "classes":32,
       "roomcode":"CP1-101",
       "weekday":"mon",

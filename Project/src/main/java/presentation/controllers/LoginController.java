@@ -70,8 +70,16 @@ public class LoginController {
                         ups_stage.setScene(student_scene);
                         ups_stage.show();
                     }
-                    if(u instanceof Teacher){
-                        break;
+                    if(u instanceof Teacher && ((Teacher) u).isBoss()){
+                        FXMLLoader load = new FXMLLoader();
+                        load.setLocation(getClass().getResource("/presentation/views/teacherBossLayout.fxml"));
+                        Parent teacher_parent = load.load();
+                        TeacherBossLayoutController tlc = load.getController();
+                        tlc.setInstances(main,main.getEngine(),(Teacher) u);
+                        Scene student_scene = new Scene(teacher_parent);
+                        Stage ups_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        ups_stage.setScene(student_scene);
+                        ups_stage.show();
                     }
                     if(u instanceof DC){
                         break;

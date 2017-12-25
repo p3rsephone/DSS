@@ -10,12 +10,12 @@ import business.exceptions.TooManyRequestsException;
 import business.exceptions.UserAlredyExistsException;
 import business.users.Student;
 import business.users.Teacher;
+import business.utilities.parser.Parser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import parser.Parser;
 import presentation.controllers.LoginController;
 
 import java.io.IOException;
@@ -31,12 +31,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         engine = new Engine();
         Parser parse = new Parser(engine);
-        parse.parseRoom("src/main/java/parser/rooms.json");
-        parse.parseCourse("src/main/java/parser/courses1.json");
-        parse.parseCourse("src/main/java/parser/courses2.json");
-        parse.parseShift("src/main/java/parser/shifts1.json");
-        parse.parseShift("src/main/java/parser/shifts2.json");
-        parse.parseStudent("src/main/java/parser/student.json");
+        parse.parseRoom("src/main/java/business/utilities/parser/rooms.json");
+        parse.parseCourse("src/main/java/business/utilities/parser/courses1.json");
+        parse.parseCourse("src/main/java/business/utilities/parser/courses2.json");
+        parse.parseShift("src/main/java/business/utilities/parser/shifts1.json");
+        parse.parseShift("src/main/java/business/utilities/parser/shifts2.json");
+        parse.parseStudent("src/main/java/business/utilities/parser/student.json");
+        parse.parseTeacher("src/main/java/business/utilities/parser/teachers.json");
         engine.allocateStudents();
 
         this.primaryStage = primaryStage;

@@ -1,4 +1,4 @@
-package parser;
+package business.utilities.parser;
 
 public class Teacher {
     private String name;
@@ -57,11 +57,11 @@ public class Teacher {
         this.boss = boss;
     }
 
-    public String getOwned() {
+    public String getCourse() {
         return owned;
     }
 
-    public void setOwned(String owned) {
-        this.owned = owned;
+    public void setCourse(String owned) {
+        this.owned= owned;
     }
 }
