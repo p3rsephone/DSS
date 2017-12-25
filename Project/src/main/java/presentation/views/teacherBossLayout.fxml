@@ -18,8 +18,9 @@
                   <TableColumn fx:id="codigo" minWidth="0.0" prefWidth="42.0" text="id" />
                 <TableColumn fx:id="aluno1" prefWidth="109.0" text="Aluno1" />
                 <TableColumn fx:id="aluno2" prefWidth="98.0" text="Aluno2" />
-                  <TableColumn fx:id="troca1" minWidth="0.0" prefWidth="157.0" text="Troca1" />
-                  <TableColumn fx:id="troca2" prefWidth="136.0" text="Troca2" />
+                  <TableColumn fx:id="troca1" minWidth="0.0" prefWidth="90.0" text="Troca1" />
+                  <TableColumn fx:id="troca2" prefWidth="101.0" text="Troca2" />
+                  <TableColumn fx:id="cancelada" prefWidth="101.0" text="cancelada" />
               </columns>
             </TableView>
          </children>

@@ -329,18 +329,4 @@ public class Engine {
         return res;
     }
 
-    public Set<Student> getStudentOfShift(String courseCode, String shiftCode) {
-        Set<Student> res = new HashSet<>();
-        Course c = this.courses.get(courseCode);
-        try {
-            Shift shift = c.getShift(shiftCode);
-            Set<Integer> stud = shift.getStudents().keySet();
-            for (Integer s : stud) {
-                res.add(this.students.get(s));
-            }
-        } catch (ShiftNotValidException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
 }

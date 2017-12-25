@@ -6,13 +6,15 @@ public class ExchangeTable {
     private String troca1;
     private String troca2;
     private Integer codigo;
+    private Boolean cancelada;
 
-    public ExchangeTable(String aluno1, String aluno2, String troca1, String troca2, Integer codigo) {
+    public ExchangeTable(String aluno1, String aluno2, String troca1, String troca2, Integer codigo, Boolean cancelada) {
         this.aluno1 = aluno1;
         this.aluno2 = aluno2;
         this.troca1 = troca1;
         this.troca2 = troca2;
         this.codigo = codigo;
+        this.cancelada = cancelada;
     }
 
     public String getAluno1() {
@@ -53,5 +55,13 @@ public class ExchangeTable {
 
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
+    }
+
+    public Boolean getCancelada() {
+        return cancelada;
+    }
+
+    public void setCancelada(Boolean cancelada) {
+        this.cancelada = cancelada;
     }
 }
