@@ -103,8 +103,9 @@ public class CourseDAO extends DAO implements Map<String,Course> {
                 rs = ps.executeQuery();
                 Request request;
                 while (rs.next()) {
-                    request = new Request(rs.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    course.getBillboard().get(rs.getString("Request_destShift")).add(request);
+                    //TANIA THIS STOPPED WORKING
+                    //request = new Request(code, rs.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
+                    //course.getBillboard().get(rs.getString("Request_destShift")).add(request);
                 }
             }
         } catch (Exception e) {

@@ -19,9 +19,11 @@ public class Engine {
     private Integer phase;
     private HashMap<String, Room> rooms;
     private DC dc;
+    private int nrOfRequests;
 
     public Engine() {
         this.nrOfExchanges = 0;
+        this.nrOfRequests = 0;
         this.phase = 1;
         this.teachers = new HashMap<>();
         this.students = new HashMap<>();
@@ -60,7 +62,7 @@ public class Engine {
             throw new TooManyRequestsException();
         } else {
             Course c = this.courses.get(course);
-            Request r = c.requestExchange(s, originShift, destShift);
+            Request r = c.requestExchange(s, originShift, destShift, this.nrOfRequests++);
             s.addPendingRequest(r);
             this.makeSwaps(r);
         }
@@ -82,7 +84,7 @@ public class Engine {
                     Exchange n = c.swap(e.getDestShift(), e.getOriginShift(), e.getOriginStudent(), e.getDestStudent());
                     e.cancelExchange();
                     this.updateShifts(n, orig, dest, c.getCode());
-                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException e1) {
+                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException | RequestInvalidException e1) {
                     e1.printStackTrace();
                 }
             } else throw new StudentNotInShiftException();
@@ -132,20 +134,20 @@ public class Engine {
                 this.exchanges.put(this.nrOfExchanges++, res);
             }
 
-        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException e) {
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | RequestInvalidException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateShifts(Exchange e, Student origin, Student dest, String courseCode) {
+    public void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws RequestInvalidException {
         origin.removeShift(e.getOriginShift());
         dest.removeShift(e.getDestShift());
         origin.addShift(e.getDestShift());
         dest.addShift(e.getOriginShift());
         e.setCourse(courseCode);
         e.setCode(this.nrOfExchanges);
-        origin.removePendingRequest(e.getOriginShift(), e.getCourse());
-        dest.findAndRemove(e.getCourse(), e.getDestShift());
+        origin.removePendingRequest(e.getOriginShift());
+        dest.removePendingRequest(e.getDestShift());
     }
 
     public User login(Integer login, String password) {
@@ -325,6 +327,28 @@ public class Engine {
             }
         } catch (ShiftNotValidException e) {
             e.printStackTrace();
+        }
+        return res;
+    }
+
+    public String concatRequests(Integer student, String courseCode, String originShift, String destShift) {
+        String res = "";
+        Integer counter = 0;
+        Student s = this.students.get(student);
+        ArrayList<Integer> codes = s.getRequests(originShift);
+        Course c = this.courses.get(courseCode);
+        ArrayList<Request> requests = c.getRequests(destShift);
+        for (Integer code : codes) {
+            for (Request r : requests) {
+                if (r.getCode().equals(code) ) {
+                    if (counter > 0) {
+                        res.concat(", " + r.getDestShift());
+                    } else {
+                        res.concat(r.getDestShift());
+                    }
+                    counter++;
+                }
+            }
         }
         return res;
     }

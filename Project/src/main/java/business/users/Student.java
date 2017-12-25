@@ -3,15 +3,18 @@ package business.users;
 import business.courses.Request;
 import business.courses.Shift;
 import business.exceptions.InvalidWeekDayException;
+import business.exceptions.RequestInvalidException;
 import business.utilities.Schedule;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Student extends User{
     private Set<String> shifts;
     private Set<String> enrollments;
-    private Set<Request> pendingRequests;
+    private HashMap<String, ArrayList<Integer>> pendingRequests;
     private Boolean statute;
     private Schedule schedule;
 
@@ -20,7 +23,7 @@ public class Student extends User{
         this.schedule = new Schedule();
         this.shifts = new HashSet<>();
         this.enrollments = new HashSet<>();
-        this.pendingRequests = new HashSet<>();
+        this.pendingRequests = new HashMap<>();
         this.statute = statute;
     }
 
@@ -43,17 +46,21 @@ public class Student extends User{
     }
 
     public void addPendingRequest(Request rq) {
-        this.pendingRequests.add(rq);
+        if(!this.pendingRequests.containsKey(rq.getOriginShift())) {
+            ArrayList<Integer> reqs = new ArrayList<>();
+            reqs.add(rq.getCode());
+            this.pendingRequests.put(rq.getOriginShift(), reqs);
+        } else {
+            ArrayList<Integer> reqs = this.pendingRequests.get(rq.getOriginShift());
+            reqs.add(rq.getCode());
+        }
     }
 
-    public void removePendingRequest(String originShift, String courseCode) {
-        Set<Request> res = new HashSet<>();
-        for (Request r : this.pendingRequests) {
-            if (r.getOriginShift().equals(originShift) && r.getCourse().equals(courseCode)) {
-                res.add(r);
-            }
+    public void removePendingRequest(String originShift) throws RequestInvalidException {
+        if(this.pendingRequests.containsKey(originShift)) {
+            ArrayList<Integer> req = this.pendingRequests.get(originShift);
+            req.clear();
         }
-        this.pendingRequests.removeAll(res);
     }
 
     public Set<String> getShifts() {
@@ -68,10 +75,8 @@ public class Student extends User{
         return ret;
     }
 
-    public Set<Request> getRequests() {
-        Set<Request> ret = new HashSet<>();
-        ret.addAll(pendingRequests);
-        return ret;
+    public ArrayList<Integer> getRequests(String originShift) {
+        return this.pendingRequests.get(originShift);
     }
 
     public int getNshifts() {
@@ -96,25 +101,10 @@ public class Student extends User{
         this.schedule.freePeriod(destShift);
     }
 
-    public void findAndRemove(String course, String originShift) {
-        Set<Request> res = new HashSet<>();
-        for (Request r : this.pendingRequests) {
-            if (r.getOriginShift().equals(originShift) && r.getCourse().equals(course)) {
-                res.add(r);
-            }
-        }
-        this.pendingRequests.removeAll(res);
-    }
 
-    public String requestCourse(String courseID){
-       String ret = "";
-
-       for (Request r : pendingRequests){
-          if(r.getCourse().equals(courseID))
-              ret = ret.concat(r.getDestShift() + ", ");
-       }
-
-       return ret;
+    public ArrayList<Integer> requestCourse(String originShift){
+       ArrayList<Integer> res = this.pendingRequests.get(originShift);
+       return res;
 
     }
 
