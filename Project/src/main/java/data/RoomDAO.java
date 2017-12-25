@@ -2,16 +2,14 @@ package data;
 
 import business.courses.Room;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class RoomDao implements Map<String,Room> {
+public class RoomDAO extends DAO implements Map<String,Room>  {
 
     private Connection conn;
 
@@ -22,22 +20,7 @@ public class RoomDao implements Map<String,Room> {
      */
     @Override
     public int size() {
-        int i = 0;
-        try {
-            conn = Connect.connect();
-            String sql= "SELECT count(*) FROM Ups.Room;";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) {
-                i = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            throw new NullPointerException(e.getMessage());
-        }
-        finally {
-            Connect.close(conn);
-        }
-        return i;
+        return size("Room");
     }
 
     /**
@@ -46,8 +29,7 @@ public class RoomDao implements Map<String,Room> {
      */
     @Override
     public boolean isEmpty() {
-
-        return size() == 0;
+        return isEmpty("Room");
     }
 
     /**

@@ -5,7 +5,7 @@ import business.courses.Request;
 import java.sql.*;
 import java.util.*;
 
-public class RequestDao implements Map<String,ArrayList<Request>> {
+public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
 
     private Connection conn;
 
@@ -16,22 +16,7 @@ public class RequestDao implements Map<String,ArrayList<Request>> {
      */
     @Override
     public int size() {
-        int i = 0;
-        try {
-            conn = Connect.connect();
-            String sql= "SELECT count(DISTINCT Course_code) FROM Ups.Request;";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) {
-                i = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            throw new NullPointerException(e.getMessage());
-        }
-        finally {
-            Connect.close(conn);
-        }
-        return i;
+        return size("Request");
     }
 
     /**
@@ -40,8 +25,7 @@ public class RequestDao implements Map<String,ArrayList<Request>> {
      */
     @Override
     public boolean isEmpty() {
-
-        return size() == 0;
+        return isEmpty("Request");
     }
 
     /**

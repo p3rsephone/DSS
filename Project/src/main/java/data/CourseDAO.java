@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
-public class CourseDao implements Map<String,Course> {
+public class CourseDAO extends DAO implements Map<String,Course> {
 
     private Connection conn;
 
@@ -21,22 +21,7 @@ public class CourseDao implements Map<String,Course> {
      */
     @Override
     public int size() {
-        int i = 0;
-        try {
-            conn = Connect.connect();
-            String sql= "SELECT count(*) FROM Ups.Course;";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) {
-                i = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            throw new NullPointerException(e.getMessage());
-        }
-        finally {
-            Connect.close(conn);
-        }
-        return i;
+        return size("Course");
     }
 
     /**
@@ -45,8 +30,7 @@ public class CourseDao implements Map<String,Course> {
      */
     @Override
     public boolean isEmpty() {
-
-        return size() == 0;
+        return isEmpty("Course");
     }
 
     /**
