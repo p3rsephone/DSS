@@ -70,7 +70,7 @@ public class Engine {
         if (!this.exchanges.containsKey(code)) {
             throw new ExchangeDoesNotExistException();
         } else {
-            this.exchanges.forEach((k,v)-> System.out.println("a chave e " + k+ ""));
+            //this.exchanges.forEach((k,v)-> System.out.println("a chave e " + k+ ""));
             Exchange e = this.exchanges.get(code);
             Student orig = this.students.get(e.getOriginStudent());
             Student dest = this.students.get(e.getDestStudent());
