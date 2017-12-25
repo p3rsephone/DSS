@@ -54,7 +54,15 @@ public class LoginController {
                         alert.showAndWait();
                     }
                     if(u instanceof DC){
-                         break;
+                        FXMLLoader load = new FXMLLoader();
+                        load.setLocation(getClass().getResource("/presentation/views/boardLayout1.fxml"));
+                        Parent board_parent= load.load();
+                        BoardLayout1Controller blc = load.getController();
+                        blc.setMain(main);
+                        Scene student_scene = new Scene(board_parent);
+                        Stage ups_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        ups_stage.setScene(student_scene);
+                        ups_stage.show();
                     }
                         break;
                 case 2:
