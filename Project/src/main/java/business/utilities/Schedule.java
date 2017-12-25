@@ -50,7 +50,7 @@ public class Schedule {
     }
 
     public Boolean freePeriod(String shift) {
-        if (this.shifts.containsKey(shift)) {
+        if (!this.shifts.containsKey(shift)) {
             return false;
         }
         Pair<String, String> sc = this.shifts.get(shift);
