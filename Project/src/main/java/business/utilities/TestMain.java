@@ -77,12 +77,24 @@ public class TestMain {
             System.out.println(s.getValue().getNumber() + ": " + s.getValue().getName() + " ||| " + s.getValue().getShifts().toString());
         }
 
+        for (Exchange e : engine.getAllExchangesOfCourse("DSS")) {
+            System.out.println("Code: " + e.getCode() + " => student " + e.getOriginStudent() + " went from " + e.getOriginShift() + " to " + e.getDestShift() + ". Switched with " + e.getDestStudent());
+            System.out.println("Cancelled? " + e.isCancelled());
+        }
+
         System.out.println("CANCELLING EXCHANGE");
 
         try {
-            engine.cancelExchange(1);
+            engine.cancelExchange(0);
         } catch (ExchangeDoesNotExistException | StudentNotInShiftException | ExchangeAlreadyCancelledException e) {
             e.printStackTrace();
+        }
+
+
+        for (Map.Entry<Integer, Exchange> entry : engine.getExchanges().entrySet()) {
+            Exchange e = entry.getValue();
+            System.out.println("Code: " + e.getCode() + " => student " + e.getOriginStudent() + " went from " + e.getOriginShift() + " to " + e.getDestShift() + ". Switched with " + e.getDestStudent());
+            System.out.println("Cancelled? " + e.isCancelled());
         }
 
         for(Map.Entry<Integer, Student> s : engine.getStudents().entrySet()) {
