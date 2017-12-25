@@ -7,10 +7,10 @@ import java.util.*;
 
 public class Course {
 
-    private String code; //Course_code
-    private String name; //Course_name
-    private Integer regTeacher; //Teacher_number
-    private Integer year; //Course_year
+    private String code; 
+    private String name;
+    private Integer regTeacher;
+    private Integer year;
     private HashMap<String, Shift> shifts;
     private HashMap<String, ArrayList<Request>> billboard;
 
