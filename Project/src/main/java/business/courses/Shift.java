@@ -3,6 +3,7 @@ package business.courses;
 import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
+import business.exceptions.StudentsDoNotFitInShiftException;
 import business.users.Student;
 
 import java.util.ArrayList;
@@ -55,8 +56,11 @@ public class Shift {
         return limit;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
+    public void setLimit(Integer newLimit) throws StudentsDoNotFitInShiftException {
+        if(newLimit < this.students.size()) {
+            throw new StudentsDoNotFitInShiftException();
+        }
+        this.limit = newLimit;
     }
 
     public HashMap<Integer, Integer> getStudents() {
