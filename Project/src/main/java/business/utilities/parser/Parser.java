@@ -60,8 +60,10 @@ public class Parser {
         data.forEach((key,value)->{
             Course c = engine.getCourse(value.getCourse());
                     try {
-                        c.addShift(new business.courses.Shift(key,value.getCourse(),value.getLimit(),value.getTeacher(),value.getClasses(),value.getRoomcode(),value.getWeekday(),value.getPeriod()));
-                        engine.addCourse(c);
+
+                        engine.registerShift(c,
+                                new business.courses.Shift(key,value.getCourse(),value.getLimit(),value.getTeacher()
+                                        ,value.getClasses(),value.getRoomcode(),value.getWeekday(),value.getPeriod()));
                     } catch (ShiftAlredyExistsException e) {
                         e.printStackTrace();
                     }

@@ -111,4 +111,11 @@ public class Student extends User{
     public void cancelRequest(Request r) {
         this.pendingRequests.remove(r);
     }
+
+    @Override
+    public String toString() {
+        return  super.toString()+
+               "statute=" + statute ;
+
+    }
 }

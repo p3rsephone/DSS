@@ -1,7 +1,7 @@
 {
     "CD-TP1":{
         "course":"CD",
-        "teacher":11,
+        "teacher":81,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-107",
@@ -10,7 +10,7 @@
     },
     "CD-TP2":{
         "course":"CD",
-        "teacher":12,
+        "teacher":82,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-108",
@@ -19,7 +19,7 @@
     },
     "CD-TP3":{
         "course":"CD",
-        "teacher":11,
+        "teacher":81,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-107",
@@ -28,7 +28,7 @@
     },
     "CD-TP4":{
         "course":"CD",
-        "teacher":12,
+        "teacher":82,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-108",
@@ -37,7 +37,7 @@
     },
     "ALG-TP1":{
         "course":"ALG",
-        "teacher":13,
+        "teacher":83,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-110",
@@ -46,7 +46,7 @@
     },
     "ALG-TP2":{
         "course":"ALG",
-        "teacher":14,
+        "teacher":84,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-110",
@@ -55,7 +55,7 @@
     },
     "ALG-TP3":{
         "course":"ALG",
-        "teacher":13,
+        "teacher":83,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-110",
@@ -64,7 +64,7 @@
     },
     "ALG-TP4":{
         "course":"ALG",
-        "teacher":14,
+        "teacher":84,
         "limit":30,
         "classes":32,
         "roomcode":"CP1-110",
@@ -73,7 +73,7 @@
     },
     "ArqC-TP1":{
         "course":"ArqC",
-        "teacher":15,
+        "teacher":85,
         "limit":30,
         "classes":32,
         "roomcode":"DI-201",
@@ -82,7 +82,7 @@
     },
     "ArqC-TP2":{
         "course":"ArqC",
-        "teacher":16,
+        "teacher":86,
         "limit":30,
         "classes":32,
         "roomcode":"DI-201",
@@ -91,7 +91,7 @@
     },
     "ArqC-TP3":{
         "course":"ArqC",
-        "teacher":15,
+        "teacher":85,
         "limit":30,
         "classes":32,
         "roomcode":"DI-201",
@@ -100,7 +100,7 @@
     },
     "ArqC-TP4":{
         "course":"ArqC",
-        "teacher":16,
+        "teacher":86,
         "limit":30,
         "classes":32,
         "roomcode":"DI-201",
@@ -109,7 +109,7 @@
     },
     "EA-TP1":{
         "course":"EA",
-        "teacher":17,
+        "teacher":87,
         "limit":30,
         "classes":32,
         "roomcode":"CP2-111",
@@ -118,7 +118,7 @@
     },
     "EA-TP2":{
         "course":"EA",
-        "teacher":18,
+        "teacher":88,
         "limit":30,
         "classes":32,
         "roomcode":"CP2-111",
@@ -127,7 +127,7 @@
     },
     "EA-TP3":{
         "course":"EA",
-        "teacher":17,
+        "teacher":87,
         "limit":30,
         "classes":32,
         "roomcode":"CP2-111",
@@ -136,7 +136,7 @@
     },
     "EA-TP4":{
         "course":"EA",
-        "teacher":18,
+        "teacher":88,
         "limit":30,
         "classes":32,
         "roomcode":"CP2-111",

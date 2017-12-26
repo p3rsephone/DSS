@@ -120,7 +120,15 @@ public class LoginController {
                         break;
                     }
                     if(u instanceof Teacher){
-                        break;
+                        FXMLLoader load = new FXMLLoader();
+                        load.setLocation((getClass().getResource("/presentation/views/teacherLayout.fxml")));
+                        Parent root =  load.load();
+                        TeacherLayoutController controller = load.getController();
+                        controller.setInstances(main, (Teacher) u);
+                        Scene scene = new Scene(root);
+                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
                     }
                     break;
             }

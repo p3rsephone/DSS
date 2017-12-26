@@ -3,9 +3,9 @@ package presentation.controllers.utilities;
 public class StudentTable {
     private String numero;
     private String nome;
-    private String faltas;
+    private Integer faltas;
 
-    public StudentTable(String numero, String nome, String faltas) {
+    public StudentTable(String numero, String nome, Integer faltas) {
         this.numero = numero;
         this.nome = nome;
         this.faltas = faltas;
@@ -27,11 +27,11 @@ public class StudentTable {
         this.nome = nome;
     }
 
-    public String getFaltas() {
+    public Integer getFaltas() {
         return faltas;
     }
 
-    public void setFaltas(String faltas) {
+    public void setFaltas(Integer faltas) {
         this.faltas = faltas;
     }
 }

@@ -100,7 +100,7 @@ public class Engine {
             e.printStackTrace();
         }
         Room r = this.rooms.get(shift.getRoomCode());
-        if(r.getCapacity() <= limit) {
+        if(r.getCapacity() >= limit) {
             shift.setLimit(limit);
         } else {
             throw new RoomCapacityExceededException();
@@ -302,6 +302,10 @@ public class Engine {
         }
     }
 
+    public Integer getAbsentment(String courseCode, String shiftCode, Integer student) throws StudentNotInShiftException {
+        return  this.courses.get(courseCode).getAbsentment(shiftCode,student);
+    }
+
     public Set<Student> getStudentsOfCourse(String courseCode) {
         Set<Integer> students = new HashSet<>();
         Set<Student> res = new HashSet<>();
@@ -318,14 +322,14 @@ public class Engine {
         return res;
     }
 
-    public Set<Student> getStudentOfShift(String courseCode, String shiftCode) {
+    public Set<Student> getStudentOfShift(String courseCode,String shiftCode) {
         Set<Student> res = new HashSet<>();
         Course c = this.courses.get(courseCode);
         try {
-            Shift shift = c.getShift(shiftCode);
-            Set<Integer> stud = shift.getStudents().keySet();
-            for (Integer s : stud) {
-                res.add(this.students.get(s));
+                Shift shift = c.getShift(shiftCode);
+                Set<Integer> stud = shift.getStudents().keySet();
+                for (Integer s : stud) {
+                    res.add(this.students.get(s));
             }
         } catch (ShiftNotValidException e) {
             e.printStackTrace();

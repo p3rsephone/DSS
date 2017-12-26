@@ -29,4 +29,10 @@ public class User {
         return number;
     }
 
+    @Override
+    public String toString() {
+        return "nome ='" + name + ' ' +
+                ", numero=" + number
+                ;
+    }
 }
