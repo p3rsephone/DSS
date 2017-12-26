@@ -395,4 +395,11 @@ public class Engine {
 
         return res;
     }
+
+    public void addStudentToShift(String courseCode, String shiftCode, Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException {
+        Course c = this.courses.get(courseCode);
+        c.addStudentToShift(shiftCode, studentNumber);
+        Student s = this.students.get(studentNumber);
+        s.addShift(shiftCode);  
+    }
 }
