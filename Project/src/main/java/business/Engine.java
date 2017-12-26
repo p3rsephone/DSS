@@ -337,18 +337,20 @@ public class Engine {
         Student s = this.students.get(student);
         ArrayList<Integer> codes = s.getRequests(originShift);
         Course c = this.courses.get(courseCode);
-        Set<Map.Entry<String, ArrayList<Request>>> req = c.getRequests().entrySet();
-        for (Integer code : codes) {
-            for (Map.Entry<String, ArrayList<Request>> entry : req) {
-                ArrayList<Request> requests = entry.getValue();
-                for (Request r : requests) {
-                    if (r.getCode().equals(code) ) {
-                        if (counter > 0) {
-                            res = res.concat(", " + r.getDestShift());
-                        } else {
-                            res = res.concat(r.getDestShift());
+        if (s != null && codes != null && c !=null) {
+            Set<Map.Entry<String, ArrayList<Request>>> req = c.getRequests().entrySet();
+            for (Integer code : codes) {
+                for (Map.Entry<String, ArrayList<Request>> entry : req) {
+                    ArrayList<Request> requests = entry.getValue();
+                    for (Request r : requests) {
+                        if (r.getCode().equals(code) ) {
+                            if (counter > 0) {
+                                res = res.concat(", " + r.getDestShift());
+                            } else {
+                                res = res.concat(r.getDestShift());
+                            }
+                            counter++;
                         }
-                        counter++;
                     }
                 }
             }
