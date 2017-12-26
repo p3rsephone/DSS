@@ -57,7 +57,7 @@ public class Student extends User{
     }
 
     public void removePendingRequest(String originShift) throws RequestInvalidException {
-        if(this.pendingRequests.containsKey(originShift)) {
+        if( this.pendingRequests.containsKey(originShift)) {
             ArrayList<Integer> req = this.pendingRequests.get(originShift);
             req.clear();
         }
