@@ -1,10 +1,7 @@
 package presentation.controllers;
 
 import business.Engine;
-import business.exceptions.RoomCapacityExceededException;
-import business.exceptions.StudentAlreadyInShiftException;
-import business.exceptions.StudentNotInShiftException;
-import business.exceptions.StudentsDoNotFitInShiftException;
+import business.exceptions.*;
 import business.users.Student;
 import business.users.Teacher;
 import javafx.beans.value.ChangeListener;
@@ -136,8 +133,19 @@ public class TeacherLayoutController {
 
         if (result.isPresent()){
             try {
-                //HELLO RESENDE
-                engine.addStudentToShift(teacher.getCourse(),shift.getValue(),Integer.parseInt(result.get()) );
+                try {
+                    engine.addStudentToShift(teacher.getCourse(),shift.getValue(),Integer.parseInt(result.get()) );
+                } catch (ShiftNotValidException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Turno nao e valido !");
+                    alert.showAndWait();
+                } catch (InvalidWeekDayException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Dia da seman invalido !");
+                    alert.showAndWait();
+                }
             } catch (StudentAlreadyInShiftException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
