@@ -57,7 +57,7 @@ public class Engine {
         this.rooms.put(r.getCode(), r);
     }
 
-    public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException {
+    public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException, ShiftNotValidException {
         if (s.getNrequests() >= s.getNEnrollments() + 1) {
             throw new TooManyRequestsException();
         } else {
@@ -84,7 +84,7 @@ public class Engine {
                     Exchange n = c.swap(e.getDestShift(), e.getOriginShift(), e.getOriginStudent(), e.getDestStudent());
                     e.cancelExchange();
                     this.updateShifts(n, orig, dest, c.getCode());
-                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException | RequestInvalidException e1) {
+                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException | RequestInvalidException | InvalidWeekDayException | ShiftNotValidException e1) {
                     e1.printStackTrace();
                 }
             } else throw new StudentNotInShiftException();
@@ -124,7 +124,7 @@ public class Engine {
         return fouls;
     }
 
-    public void makeSwaps(Request r) {
+    public void makeSwaps(Request r) throws ShiftNotValidException {
         try {
             String courseCode = r.getCourse();
             Course c = this.courses.get(courseCode);
@@ -136,16 +136,19 @@ public class Engine {
                 this.exchanges.put(this.nrOfExchanges++, res);
             }
 
-        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | RequestInvalidException e) {
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | RequestInvalidException | InvalidWeekDayException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws RequestInvalidException {
+    public void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws RequestInvalidException, ShiftNotValidException, InvalidWeekDayException {
+        Course c = this.courses.get(courseCode);
+        Shift o = c.getShift(e.getOriginShift());
+        Shift d = c.getShift(e.getDestShift());
         origin.removeShift(e.getOriginShift());
         dest.removeShift(e.getDestShift());
-        origin.addShift(e.getDestShift());
-        dest.addShift(e.getOriginShift());
+        origin.addShift(d);
+        dest.addShift(o);
         e.setCourse(courseCode);
         e.setCode(this.nrOfExchanges);
         origin.removePendingRequest(e.getOriginShift());
@@ -400,10 +403,11 @@ public class Engine {
         return res;
     }
 
-    public void addStudentToShift(String courseCode, String shiftCode, Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException {
+    public void addStudentToShift(String courseCode, String shiftCode, Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException, ShiftNotValidException, InvalidWeekDayException {
         Course c = this.courses.get(courseCode);
         c.addStudentToShift(shiftCode, studentNumber);
         Student s = this.students.get(studentNumber);
-        s.addShift(shiftCode);  
+        Shift shift = c.getShift(shiftCode);
+        s.addShift(shift);
     }
 }

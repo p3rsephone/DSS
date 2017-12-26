@@ -136,6 +136,7 @@ public class TeacherLayoutController {
 
         if (result.isPresent()){
             try {
+                //HELLO RESENDE
                 engine.addStudentToShift(teacher.getCourse(),shift.getValue(),Integer.parseInt(result.get()) );
             } catch (StudentAlreadyInShiftException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
