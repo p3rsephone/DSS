@@ -2,6 +2,7 @@ package presentation.controllers;
 
 import business.Engine;
 import business.exceptions.RoomCapacityExceededException;
+import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
 import business.exceptions.StudentsDoNotFitInShiftException;
 import business.users.Student;
@@ -134,7 +135,20 @@ public class TeacherLayoutController {
         Optional<String> result = dialog.showAndWait();
 
         if (result.isPresent()){
-                loadTable();
+            try {
+                engine.addStudentToShift(teacher.getCourse(),shift.getValue(),Integer.parseInt(result.get()) );
+            } catch (StudentAlreadyInShiftException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Aluno ja se encontra no turno");
+                alert.showAndWait();
+            } catch (RoomCapacityExceededException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Capacidade da sala ultrapassada impossivel adicionar aluno!");
+                alert.showAndWait();
+            }
+            loadTable();
         }
     }
 
@@ -151,10 +165,6 @@ public class TeacherLayoutController {
             loadTable();
             }
         else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Nenhum aluno selecionado !");
-            alert.showAndWait();
         }
     }
 
