@@ -9,13 +9,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.TeacherBossLayoutController">
+<AnchorPane prefHeight="540.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.BoardLayout2Controller">
    <children>
-      <VBox layoutX="29.0" layoutY="90.0" prefHeight="256.0" prefWidth="543.0">
+      <VBox layoutX="16.0" layoutY="87.0" prefHeight="256.0" prefWidth="611.0">
          <children>
-            <TableView fx:id="table" prefHeight="256.0" prefWidth="513.0">
+            <TableView fx:id="table" prefHeight="256.0" prefWidth="614.0">
               <columns>
                   <TableColumn fx:id="codigo" minWidth="0.0" prefWidth="42.0" text="id" />
+                  <TableColumn fx:id="uc" prefWidth="75.0" text="UC" />
                 <TableColumn fx:id="aluno1" prefWidth="109.0" text="Aluno1" />
                 <TableColumn fx:id="aluno2" prefWidth="98.0" text="Aluno2" />
                   <TableColumn fx:id="troca1" minWidth="0.0" prefWidth="90.0" text="Troca1" />
@@ -25,7 +26,7 @@
             </TableView>
          </children>
       </VBox>
-      <Text layoutX="514.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aluno" />
+      <Text layoutX="523.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DC" />
       <Text layoutX="55.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trocas" wrappingWidth="91.1259765625">
          <font>
             <Font size="19.0" />
@@ -36,5 +37,6 @@
          </children>
       </HBox>
       <Button layoutX="501.0" layoutY="50.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      <Button layoutX="245.0" layoutY="500.0" mnemonicParsing="false" onAction="#mudarFase" text="Mudar de fase" />
    </children>
 </AnchorPane>
