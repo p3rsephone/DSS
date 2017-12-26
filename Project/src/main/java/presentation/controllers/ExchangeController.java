@@ -62,7 +62,10 @@ public class ExchangeController {
                 alert.showAndWait();
             }
         } catch (TooManyRequestsException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Demasiados requestes !");
+            alert.showAndWait();
         }
 
     }
