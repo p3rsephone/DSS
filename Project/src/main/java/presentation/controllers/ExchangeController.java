@@ -1,6 +1,7 @@
 package presentation.controllers;
 
 import business.Engine;
+import business.exceptions.ShiftNotValidException;
 import business.exceptions.TooManyRequestsException;
 import business.users.Student;
 import javafx.collections.FXCollections;
@@ -53,11 +54,11 @@ public class ExchangeController {
                 alert.setContentText("Turno nao selecionado !");
                 alert.showAndWait();
             }
-        } catch (TooManyRequestsException e) {
+        } catch (TooManyRequestsException | ShiftNotValidException e) {
             e.printStackTrace();
         }
 
-        }
+    }
 
     public void setInstances(Engine engine, Student student, String course, String originShift, String[] pedingRequest){
         this.engine = engine;
