@@ -115,6 +115,8 @@ public class Engine {
         Integer fouls = -1;
         try {
             fouls = this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
+            Student s = this.students.get(studentNumber);
+            s.removeShift(shiftId);
         } catch (StudentNotInShiftException e) {
             e.printStackTrace();
         }
