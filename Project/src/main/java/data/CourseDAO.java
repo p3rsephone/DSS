@@ -57,7 +57,7 @@ public class CourseDAO extends DAO implements Map<String,Course> {
         return r;
     }
 
-
+    @Override
     public boolean containsValue(Object value) { //Makes no sense in this context but has to be implemented
         return false;
     }
@@ -84,29 +84,15 @@ public class CourseDAO extends DAO implements Map<String,Course> {
                 ps.setString(1, key.toString());
                 rs = ps.executeQuery();
                 Shift shift;
+                HashMap <String, Shift> shifts = null;
                 while (rs.next()) {
-                    shift = new Shift(rs.getString("Shift_code"),rs.getString("Course_code"), rs.getInt("Shift_limit"), rs.getInt("Teacher_number"), rs.getInt("Shift_expectedClasses"), rs.getString("Room_code"), rs.getString("Shift_weekday"), rs.getString("Shift_period"));
-
-                    sql = "SELECT * FROM Ups.StudentShift WHERE Shift_code =?";
-                    ps = conn.prepareStatement(sql);
-                    ps.setString(1,shift.getCode());
-                    rs = ps.executeQuery();
-                    while (rs.next()) {
-                        shift.getStudents().put(rs.getInt("Student_number"),rs.getInt("StudentShift_absences"));
-                    }
-                    course.addShift(shift);
+                    shift = new ShiftDAO().get(rs.getString("Shift_code"));
+                    shifts.put(rs.getString("Shift_code"),shift);
                 }
+                course.setShifts(shifts);
 
-                sql = "SELECT * FROM Ups.Request WHERE Course_code = ?";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1,course.getCode());
-                rs = ps.executeQuery();
-                Request request;
-                while (rs.next()) {
-                    //TANIA THIS STOPPED WORKING
-                    //request = new Request(code, rs.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    //course.getBillboard().get(rs.getString("Request_destShift")).add(request);
-                }
+                HashMap <String, ArrayList<Request>> requests = new RequestDAO().getRequestsFromCourse(key.toString());
+                course.setBillboard(requests);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,36 +123,14 @@ public class CourseDAO extends DAO implements Map<String,Course> {
             ps.setInt(4, value.getRegTeacher());
             ps.executeUpdate();
 
-            sql = sql = "INSERT INTO Ups.Shift\n" +  //Insert or update Shifts
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
-                    "ON DUPLICATE KEY UPDATE Shift_limit=VALUES(Shift_limit), Shift_expectedClasses = VALUES(Shift_expectedClasses), Shift_weekday = VALUES(Shift_weekday), Shift_period = VALUES(Shift_period), Course_code = VALUES(Course_code), Room_code = VALUES(Room_code), Teacher_number=VALUES(Teacher_number);";
-            ps = conn.prepareStatement(sql);
+            //Insert shifts
             for (Shift s : value.getShifts().values()) {
-                ps.setString(1, s.getCode());
-                ps.setInt(2, s.getNumOfStudents());
-                ps.setInt(3, s.getLimit());
-                ps.setInt(4, s.getExpectedClasses());
-                ps.setString(5, s.getWeekday());
-                ps.setString(6, s.getPeriod());
-                ps.setString(7, s.getCourseId());
-                ps.setString(8, s.getRoomCode());
-                ps.setInt(9, s.getTeacher());
-                ps.executeUpdate();
+               new ShiftDAO().put(s.getCode(),s);
             }
 
             //Insert requests from billboard
-            sql = "INSERT INTO Ups.Request (Request_originShift, Request_destShift, Course_code)\n" +
-                  "VALUES (?, ?, ?);";
-            ps = conn.prepareStatement(sql);
-            String dest;
             for (ArrayList<Request> a : value.getBillboard().values()) {
-                dest = a.get(0).getDestShift();
-                for (Request r : a) {
-                    ps.setString(1,r.getOriginShift());
-                    ps.setString(2,dest);
-                    ps.setString(3,r.getCourse());
-                    ps.executeUpdate();
-                }
+                new RequestDAO().put(a.get(0).getDestShift(), a);
             }
             course = value;
         } catch (Exception e) {
@@ -191,14 +155,15 @@ public class CourseDAO extends DAO implements Map<String,Course> {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
             ps.executeUpdate();
-            sql = "DELETE FROM Ups.Shift WHERE Course_code = ?;";
+            sql = "SELECT Shift_code FROM Ups.Shift WHERE Course_code = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
-            ps.executeUpdate();
-            sql = "DELETE FROM Ups.Request WHERE Course_code = ?;";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
-            ps.executeUpdate();
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                new ShiftDAO().remove(rs.getString("Shift_code"));
+            }
+            new RequestDAO().removeFromCourse(key);
+
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
@@ -226,9 +191,12 @@ public class CourseDAO extends DAO implements Map<String,Course> {
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.Course;DELETE FROM Ups.Request WHERE EXISTS(SELECT Course_code FROM Ups.Request);DELETE FROM Ups.Shift WHERE EXISTS(SELECT Course_code FROM Ups.Shift);";
+            String sql = "DELETE FROM Ups.Course;DELETE FROM Ups.StudentCourse WHERE EXISTS(SELECT Course_code FROM Ups.StudentCourse);";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
+            new RequestDAO().clear();
+            new ShiftDAO().clear();
+
         } catch (Exception e) {
             //runtime exception!
             throw new NullPointerException(e.getMessage());

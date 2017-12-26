@@ -88,9 +88,11 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer) key);
                 rs = ps.executeQuery();
+                Set<String> shifts = null;
                 while (rs.next()) { // Adds all the shifts
-                    teacher.addShift(rs.getString("Shift_code"));
+                    shifts.add(rs.getString("Shift_code"));
                 }
+                teacher.setShifts(shifts);
             }
 
         } catch (Exception e) {
@@ -112,16 +114,26 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
         Teacher teacher = null;
         try {
             conn = Connect.connect();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Ups.Teacher\n" +
+            String sql = "INSERT INTO Ups.Teacher\n" +
                     "VALUES (?, ?, ?, ?, ?)\n" +
-                    "ON DUPLICATE KEY UPDATE Teacher_name=VALUES(Teacher_name),  Teacher_number = VALUES(Teacher_number), Teacher_email=VALUES(Teacher_email), Teacher_password=VALUES(Teacher_password), Teacher_isBoss=VALUES(Teacher_isBoss)", Statement.RETURN_GENERATED_KEYS);
+            "ON DUPLICATE KEY UPDATE Teacher_name=VALUES(Teacher_name),  Teacher_number = VALUES(Teacher_number), Teacher_email=VALUES(Teacher_email), Teacher_password=VALUES(Teacher_password), Teacher_isBoss=VALUES(Teacher_isBoss)";
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, value.getName());
             ps.setInt(2, value.getNumber());
             ps.setString(3, value.getEmail());
             ps.setString(4,value.getPassword());
             ps.setBoolean(5, value.isBoss());
             ps.executeUpdate();
-            //TODO: Method to update more shit
+
+            sql = "UPDATE Ups.Shift\n" +
+                  "SET Teacher_number = ?\n" +
+                    "WHERE Shift_code = ?";
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1,value.getNumber());
+            for (String s: value.getShifts()) {
+                ps.setString(2,s);
+                ps.executeUpdate();
+            }
             teacher = value;
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,7 +172,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     @Override
     public void putAll(Map<? extends String, ? extends Teacher> m) {
         for(Teacher s : m.values()) {
-            put(s.getNumber().toString(), s); //a primeira parte é inútil.
+            put(s.getNumber().toString(), s);
         }
     }
 

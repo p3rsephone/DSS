@@ -7,10 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class StudentDAO extends DAO implements Map<String,Student> {
 
@@ -86,9 +83,11 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer)key);
                 rs = ps.executeQuery();
+                Set<String> shifts =null;
                 while (rs.next()) { //If there are shifts associated get their codes and add them
-                    student.addShift(rs.getString("Shift_code"));
+                    shifts.add(rs.getString("Shift_code"));
                 }
+                student.setShifts(shifts);
 
                 sql = "SELECT C.Course_code FROM Ups.Course AS C\n" +
                         "JOIN Ups.StudentCourse AS SC ON C.Course_code=SC.Course_code\n" +
@@ -96,22 +95,14 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer)key);
                 rs = ps.executeQuery();
+                Set<String> enrollments =null;
                 while (rs.next()) { //If there are enrollments associated get their codes and add them
-                        student.addEnrollment(rs.getString("Course_code"));
+                        enrollments.add(rs.getString("Course_code"));
                 }
+                student.setEnrollments(enrollments);
 
-                sql="SELECT * FROM Ups.Request AS R\n" +
-                        "JOIN Ups.RequestStudent AS RS ON R.Request_id=RS.Request_id\n" +
-                        "WHERE RS.Student_number=?;";
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1,(Integer)key);
-                rs = ps.executeQuery();
-                while (rs.next()) { //If there are requests associated get their codes and add them
-                    //TANIA
-                    //Request rq = new Request(CODE?, (Integer)key,rs.getString("Course_code"),rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                    //student.addPendingRequest(rq);
-
-                }
+                HashMap <String, ArrayList<Integer>> requests = new RequestDAO().getPendingRequestsFromStudent(key);
+                student.setPendingRequests(requests);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,7 +149,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                     ps.setInt(i++,value.getNumber());
                     ps.setString(i++,s);
                 }
-                ps.executeUpdate(sql);
+                ps.executeUpdate();
             }
 
             if (value.getNEnrollments()>0) { //Insert enrollments
@@ -172,8 +163,8 @@ public class StudentDAO extends DAO implements Map<String,Student> {
 
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 i=1;
-                String sqlWhoTeacher = "SELECT Teacher_Course_number FROM Ups.Course WHERE Course_code=?;";
-                PreparedStatement psTeacher = conn.prepareStatement(sqlWhoTeacher);
+                String sqlTeacher = "SELECT Teacher_number FROM Ups.Course WHERE Course_code=?;";
+                PreparedStatement psTeacher = conn.prepareStatement(sqlTeacher);
                 for (String s : value.getEnrollments()) {
                     psTeacher.setString(1,s);
                     Integer teacherCode = psTeacher.executeQuery().getInt("Teacher_Course_number"); //Get Course's Teacher
@@ -181,35 +172,25 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                     ps.setString(i++,s);
                     ps.setInt(i++,teacherCode);
                 }
-                ps.executeUpdate(sql);
+                ps.executeUpdate();
             }
             if (value.getNrequests()>0) { //Insert requests
                 int i;
-                sql = "INSERT INTO Ups.RequestStudent (Request_Course_code, Student_number)\n" +
+                sql = "INSERT INTO Ups.RequestStudent (Request_code, Student_number)\n" +
                         "VALUES ";
-                String sqlRequest = "INSERT INTO Ups.Request (Request_originShift, Request_destShift, Course_code)\n" +
-                                     "VALUES ";
-                for (i=1;i<value.getNrequests();i++) {
+                for (i=1;i<value.getAllNRequests();i++) {
                     sql += "(?,?), ";
-                    sqlRequest += "(?,?,?), ";
                 }
                 sql +="(?,?);" ;
-                sqlRequest += "(?,?,?);";
-                PreparedStatement psRequest = conn.prepareStatement(sqlRequest, Statement.RETURN_GENERATED_KEYS);
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 i=1;
-                Integer j=1;
-                //TANIA THIS STOPPED WORKING
-                //for (Request r : value.getRequests()) {
-                //    psRequest.setString(j++,r.getOriginShift());
-                //    psRequest.setString(j++,r.getDestShift());
-                //    psRequest.setString(j++,r.getCourse());
-
-                //    ps.setString(i++,r.getCourse());
-                //    ps.setInt(i++,r.getStudent());
-                //}
-                psRequest.executeUpdate(sqlRequest);
-                ps.executeUpdate(sql);
+                for (ArrayList<Integer> a : value.getPendingRequests().values()) {
+                    for (Integer r : a) {
+                        ps.setInt(i++,r);
+                        ps.setInt(i++,value.getNumber());
+                    }
+                }
+                ps.executeUpdate();
 
             }
 

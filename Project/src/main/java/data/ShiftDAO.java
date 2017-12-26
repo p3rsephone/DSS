@@ -108,18 +108,19 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
         try {
             conn = Connect.connect();
             String sql = "INSERT INTO Ups.Shift\n" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
-                    "ON DUPLICATE KEY UPDATE Shift_limit=VALUES(Shift_limit), Shift_expectedClasses = VALUES(Shift_expectedClasses), Shift_weekday = VALUES(Shift_weekday), Shift_period = VALUES(Shift_period), Course_code = VALUES(Course_code), Room_code = VALUES(Room_code), Teacher_number=VALUES(Teacher_number);";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
+                    "ON DUPLICATE KEY UPDATE Shift_limit=VALUES(Shift_limit), Shift_expectedClasses = VALUES(Shift_expectedClasses), Shift_givenClasses = VALUES(Shift_givenClasses), Shift_weekday = VALUES(Shift_weekday), Shift_period = VALUES(Shift_period), Course_code = VALUES(Course_code), Room_code = VALUES(Room_code), Teacher_number=VALUES(Teacher_number);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, value.getCode());
             ps.setInt(2, value.getNumOfStudents());
             ps.setInt(3, value.getLimit());
             ps.setInt(4, value.getExpectedClasses());
-            ps.setString(5, value.getWeekday());
-            ps.setString(6, value.getPeriod());
-            ps.setString(7, value.getCourseId());
-            ps.setString(8, value.getRoomCode());
-            ps.setInt(9, value.getTeacher());
+            ps.setInt(5, value.getGivenClasses());
+            ps.setString(6, value.getWeekday());
+            ps.setString(7, value.getPeriod());
+            ps.setString(8, value.getCourseId());
+            ps.setString(9, value.getRoomCode());
+            ps.setInt(10, value.getTeacher());
             ps.executeUpdate();
 
             if (value.getNumOfStudents()>0) { //Insert absences
@@ -129,7 +130,8 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
                 for (i = 1; i < value.getNumOfStudents(); i++) {
                     sql += "(?,?,?), ";
                 }
-                sql += "(?,?,?);";
+                sql += "(?,?,?)\n" +
+                        "ON DUPLICATE KEY UPDATE StudentShift_absences = VALUES(Shift_absences);";
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
                 i=1;
@@ -138,6 +140,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
                     ps.setString(i++,value.getCode()); //Shift_code
                     ps.setInt(i++,value.getStudents().get(n)); //StudentShift_absences
                 }
+                ps.executeUpdate();
             }
 
             shift = value;
@@ -164,15 +167,10 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
             ps.setString(1, (String)key);
             ps.executeUpdate();
 
-            if (shift.getNumOfStudents()>0) {
-                sql="DELETE FROM Ups.StudentShift WHERE Shift_code= ? AND Student_number = ?;";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, (String)key);
-                for (Integer i : shift.getStudents().keySet()) {
-                    ps.setInt(2,i);
-                    ps.executeUpdate();
-                }
-            }
+            sql="DELETE FROM Ups.StudentShift WHERE Shift_code= ?;";
+            ps.setString(1, (String)key);
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
         } finally {
