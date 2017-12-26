@@ -10,7 +10,8 @@
    <children>
       <VBox alignment="CENTER" layoutX="92.0" layoutY="100.0" prefHeight="200.0" prefWidth="422.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#alocar" text="Alocar Alunos" />
+            <Button fx:id="reniniciar" mnemonicParsing="false" onAction="#reset" text="Reiniciar alocaçao" />
+            <Button fx:id="alocarAlunos" mnemonicParsing="false" onAction="#alocar" text="Alocar Alunos" />
             <Separator orientation="VERTICAL" prefHeight="5.0" prefWidth="3.0" />
             <Separator orientation="VERTICAL" prefHeight="5.0" prefWidth="3.0" />
          </children>

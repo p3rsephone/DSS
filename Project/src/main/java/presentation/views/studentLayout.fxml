@@ -25,7 +25,7 @@
       <Text layoutX="92.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turnos" />
       <HBox alignment="CENTER" layoutX="200.0" layoutY="299.0" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#pedidoDeTroca" text="Pedido de  troca" />
+            <Button fx:id="pedidoTroca" mnemonicParsing="false" onAction="#pedidoDeTroca" text="Pedido de  troca" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" />

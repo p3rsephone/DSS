@@ -15,10 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -47,6 +44,9 @@ public class StudentLayoutController {
 
     @FXML
     private TableColumn<CourseTable, String> trocaPendente;
+
+    @FXML
+    private Button pedidoTroca;
 
     @FXML
     private void initialize() {
@@ -119,6 +119,11 @@ public class StudentLayoutController {
     void setInstances(Main main, Student student){
         this.main = main;
         this.student = student;
+        if(main.getEngine().getPhase().equals(3)){
+            pedidoTroca.setVisible(false);
+            pedidoTroca.setManaged(false);
+            trocaPendente.setVisible(false);
+        }
         this.loadTable();
     }
 }
