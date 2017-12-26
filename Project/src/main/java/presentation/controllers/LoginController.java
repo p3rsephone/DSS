@@ -114,10 +114,26 @@ public class LoginController {
                     break;
                 case 3:
                     if(u instanceof Student){
-                        break;
+                        FXMLLoader load = new FXMLLoader();
+                        load.setLocation(getClass().getResource("/presentation/views/studentLayout.fxml"));
+                        Parent student_parent = load.load();
+                        StudentLayoutController slc = load.getController();
+                        slc.setInstances(main,(Student) u);
+                        Scene student_scene = new Scene(student_parent);
+                        Stage ups_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        ups_stage.setScene(student_scene);
+                        ups_stage.show();
                     }
                     if(u instanceof DC){
-                        break;
+                        FXMLLoader load = new FXMLLoader();
+                        load.setLocation(getClass().getResource("/presentation/views/boardLayout1.fxml"));
+                        Parent board_parent= load.load();
+                        BoardLayout1Controller blc = load.getController();
+                        blc.setMain(main);
+                        Scene student_scene = new Scene(board_parent);
+                        Stage ups_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        ups_stage.setScene(student_scene);
+                        ups_stage.show();
                     }
                     if(u instanceof Teacher){
                         FXMLLoader load = new FXMLLoader();

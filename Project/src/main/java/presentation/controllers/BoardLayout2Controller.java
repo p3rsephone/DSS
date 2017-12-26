@@ -134,8 +134,17 @@ public class BoardLayout2Controller {
     }
 
     @FXML
-    void mudarFase(ActionEvent event) throws InvalidPhaseException {
+    void mudarFase(ActionEvent event) throws InvalidPhaseException, IOException {
         engine.changePhase(3);
+        FXMLLoader load = new FXMLLoader();
+        load.setLocation((getClass().getResource("/presentation/views/boardLayout1.fxml")));
+        Parent root =  load.load();
+        BoardLayout1Controller controller = load.getController();
+        controller.setMain(main);
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public void setMain(Main main){

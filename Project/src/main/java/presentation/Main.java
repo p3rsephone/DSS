@@ -36,6 +36,10 @@ public class Main extends Application {
         showLoginView();
     }
 
+    public void resetEngine(){
+        engine = new Engine();
+    }
+
     public void showLoginView() throws IOException {
         FXMLLoader ola = new FXMLLoader();
         ola.setLocation((getClass().getResource("/presentation/views/login.fxml")));
