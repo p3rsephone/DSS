@@ -32,8 +32,7 @@ public class BoardLayout1Controller {
     void reset(ActionEvent event) throws InvalidPhaseException, IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Look, a Confirmation Dialog");
-        alert.setContentText("Are you ok with this?");
+        alert.setContentText("Quer reiniciar o processo de alocação?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
