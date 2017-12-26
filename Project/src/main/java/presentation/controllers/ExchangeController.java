@@ -61,7 +61,7 @@ public class ExchangeController {
                 alert.setContentText("Turno nao selecionado !");
                 alert.showAndWait();
             }
-        } catch (TooManyRequestsException | ShiftNotValidException e) {
+        } catch (TooManyRequestsException e) {
             e.printStackTrace();
         }
 
