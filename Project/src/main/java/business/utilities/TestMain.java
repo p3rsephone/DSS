@@ -75,8 +75,6 @@ public class TestMain {
             engine.requestExchange("DSS", a4, "DSS-TP3", "DSS-TP2");
         } catch (TooManyRequestsException | ShiftNotValidException e) {
             e.printStackTrace();
-        } catch (ShiftNotValidException e) {
-            e.printStackTrace();
         }
 
         for(Map.Entry<Integer, Student> s : engine.getStudents().entrySet()) {
