@@ -331,22 +331,25 @@ public class Engine {
         return res;
     }
 
-    public String concatRequests(Integer student, String courseCode, String originShift, String destShift) {
+    public String concatRequests(Integer student, String courseCode, String originShift) {
         String res = "";
         Integer counter = 0;
         Student s = this.students.get(student);
         ArrayList<Integer> codes = s.getRequests(originShift);
         Course c = this.courses.get(courseCode);
-        ArrayList<Request> requests = c.getRequests(destShift);
+        Set<Map.Entry<String, ArrayList<Request>>> req = c.getRequests().entrySet();
         for (Integer code : codes) {
-            for (Request r : requests) {
-                if (r.getCode().equals(code) ) {
-                    if (counter > 0) {
-                        res.concat(", " + r.getDestShift());
-                    } else {
-                        res.concat(r.getDestShift());
+            for (Map.Entry<String, ArrayList<Request>> entry : req) {
+                ArrayList<Request> requests = entry.getValue();
+                for (Request r : requests) {
+                    if (r.getCode().equals(code) ) {
+                        if (counter > 0) {
+                            res = res.concat(", " + r.getDestShift());
+                        } else {
+                            res = res.concat(r.getDestShift());
+                        }
+                        counter++;
                     }
-                    counter++;
                 }
             }
         }

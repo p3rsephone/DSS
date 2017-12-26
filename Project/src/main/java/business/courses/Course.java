@@ -151,6 +151,10 @@ public class Course {
         return billboard;
     }
 
+    public HashMap<String, ArrayList<Request>> getRequests() {
+        return this.billboard;
+    }
+
     public ArrayList<Request> getRequests(String destShift) {
         return this.billboard.get(destShift);
     }
