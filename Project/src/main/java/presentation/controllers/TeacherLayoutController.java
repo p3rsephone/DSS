@@ -134,7 +134,6 @@ public class TeacherLayoutController {
         Optional<String> result = dialog.showAndWait();
 
         if (result.isPresent()){
-                engine.enrollStudent(teacher.getCourse(), Integer.parseInt(result.get()));
                 loadTable();
         }
     }
