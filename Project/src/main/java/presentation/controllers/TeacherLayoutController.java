@@ -1,7 +1,6 @@
 package presentation.controllers;
 
 import business.Engine;
-import business.courses.Exchange;
 import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentNotInShiftException;
 import business.exceptions.StudentsDoNotFitInShiftException;
@@ -19,10 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import presentation.Main;
 import presentation.controllers.utilities.StudentTable;
@@ -126,7 +122,21 @@ public class TeacherLayoutController {
 
     @FXML
     void adcionarAluno(ActionEvent event) {
+        Set<Student> alunos =engine.getStudentsWithoutShift(teacher.getCourse());
+        ArrayList<String> choices =
+                alunos.stream()
+                        .map(a-> a.getNumber().toString())
+                        .collect(Collectors.toCollection(ArrayList::new));
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null,choices);
+        dialog.setTitle("Choice Dialog");
+        dialog.setContentText("Alunos:");
 
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()){
+                engine.enrollStudent(teacher.getCourse(), Integer.parseInt(result.get()));
+                loadTable();
+        }
     }
 
     @FXML
