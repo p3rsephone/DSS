@@ -5,6 +5,7 @@ import business.courses.Course;
 import business.courses.Exchange;
 import business.exceptions.ExchangeAlreadyCancelledException;
 import business.exceptions.ExchangeDoesNotExistException;
+import business.exceptions.InvalidPhaseException;
 import business.exceptions.StudentNotInShiftException;
 import business.users.Teacher;
 import javafx.collections.FXCollections;
@@ -133,8 +134,8 @@ public class BoardLayout2Controller {
     }
 
     @FXML
-    void mudarFase(ActionEvent event) {
-
+    void mudarFase(ActionEvent event) throws InvalidPhaseException {
+        engine.changePhase(3);
     }
 
     public void setMain(Main main){

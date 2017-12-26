@@ -146,4 +146,12 @@ public class Shift {
             }
         }
     }
+
+    public Integer getAbsentment(Integer student) throws StudentNotInShiftException {
+        if (!this.students.containsKey(student)) {
+            throw new StudentNotInShiftException();
+        } else {
+            return this.students.get(student);
+        }
+    }
 }

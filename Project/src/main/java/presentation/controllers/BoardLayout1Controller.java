@@ -27,10 +27,10 @@ public class BoardLayout1Controller {
             parse.parseRoom("src/main/java/business/utilities/parser/rooms.json");
             parse.parseCourse("src/main/java/business/utilities/parser/courses1.json");
             parse.parseCourse("src/main/java/business/utilities/parser/courses2.json");
+            parse.parseTeacher("src/main/java/business/utilities/parser/teachers.json");
             parse.parseShift("src/main/java/business/utilities/parser/shifts1.json");
             parse.parseShift("src/main/java/business/utilities/parser/shifts2.json");
             parse.parseStudent("src/main/java/business/utilities/parser/student.json");
-            parse.parseTeacher("src/main/java/business/utilities/parser/teachers.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 {
   "AL-TP1":{
       "course":"AL",
-      "teacher":1,
+      "teacher":71,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-215",
@@ -10,7 +10,7 @@
   },
   "AL-TP2":{
       "course":"AL",
-      "teacher":2,
+      "teacher":72,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-214",
@@ -19,7 +19,7 @@
   },
   "AL-TP3":{
       "course":"AL",
-      "teacher":1,
+      "teacher":71,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-215",
@@ -28,7 +28,7 @@
   },
   "AL-TP4":{
       "course":"AL",
-      "teacher":2,
+      "teacher":72,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-214",
@@ -38,7 +38,7 @@
 
   "EES-TP1":{
       "course":"EES",
-      "teacher":5,
+      "teacher":75,
       "limit":1,
       "classes":32,
       "roomcode":"CP1-101",
@@ -47,7 +47,7 @@
   },
   "EES-TP2":{
       "course":"EES",
-      "teacher":6,
+      "teacher":76,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-102",
@@ -56,7 +56,7 @@
   },
   "EES-TP3":{
       "course":"EES",
-      "teacher":5,
+      "teacher":75,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-101",
@@ -65,7 +65,7 @@
   },
   "EES-TP4":{
       "course":"EES",
-      "teacher":6,
+      "teacher":76,
       "limit":30,
       "classes":32,
       "roomcode":"CP1-102",
@@ -75,7 +75,7 @@
 
       "LI1-TP1":{
           "course":"LI1",
-          "teacher":7,
+          "teacher":77,
           "limit":30,
           "classes":32,
           "roomcode":"DI-108",
@@ -84,7 +84,7 @@
       },
       "LI1-TP2":{
           "course":"LI1",
-          "teacher":8,
+          "teacher":78,
           "limit":30,
           "classes":32,
           "roomcode":"DI-108",
@@ -93,7 +93,7 @@
       },
       "LI1-TP3":{
           "course":"LI1",
-          "teacher":7,
+          "teacher":77,
           "limit":30,
           "classes":32,
           "roomcode":"DI-108",
@@ -102,7 +102,7 @@
       },
       "LI1-TP4":{
           "course":"LI1",
-          "teacher":8,
+          "teacher":78,
           "limit":30,
           "classes":32,
           "roomcode":"DI-108",
@@ -112,7 +112,7 @@
 
       "TMD-TP1":{
           "course":"TMD",
-          "teacher":9,
+          "teacher":79,
           "limit":30,
           "classes":32,
           "roomcode":"CP2-104",
@@ -121,7 +121,7 @@
       },
       "TMD-TP2":{
           "course":"TMD",
-          "teacher":10,
+          "teacher":80,
           "limit":30,
           "classes":32,
           "roomcode":"CP2-104",
@@ -130,7 +130,7 @@
       },
       "TMD-TP3":{
           "course":"TMD",
-          "teacher":9,
+          "teacher":79,
           "limit":30,
           "classes":32,
           "roomcode":"CP2-104",
@@ -139,7 +139,7 @@
       },
       "TMD-TP4":{
           "course":"TMD",
-          "teacher":10,
+          "teacher":80,
           "limit":30,
           "classes":32,
           "roomcode":"CP2-104",

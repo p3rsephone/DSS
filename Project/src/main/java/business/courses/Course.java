@@ -167,4 +167,8 @@ public class Course {
     public void markAbsent(String shiftCode, ArrayList<Integer> students) throws StudentNotInShiftException {
         this.shifts.get(shiftCode).markAbsent(students);
     }
+
+    public Integer getAbsentment(String shiftCode, Integer student) throws StudentNotInShiftException {
+        return this.shifts.get(shiftCode).getAbsentment(student);
+    }
 }
