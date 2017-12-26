@@ -101,7 +101,15 @@ public class LoginController {
                         }
                     }
                     if(u instanceof DC){
-                        break;
+                        FXMLLoader load = new FXMLLoader();
+                        load.setLocation((getClass().getResource("/presentation/views/boardLayout2.fxml")));
+                        Parent root =  load.load();
+                        BoardLayout2Controller controller = load.getController();
+                        controller.setMain(main);
+                        Scene scene = new Scene(root);
+                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
                     }
                     break;
                 case 3:

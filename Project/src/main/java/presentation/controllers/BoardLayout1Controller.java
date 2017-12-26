@@ -20,7 +20,7 @@ public class BoardLayout1Controller {
     private Main main;
 
     @FXML
-    void alocar(ActionEvent event) throws InvalidPhaseException {
+    void alocar(ActionEvent event) throws InvalidPhaseException, IOException {
         Engine engine = main.getEngine();
         Parser parse = new Parser(engine);
         try {
@@ -36,6 +36,15 @@ public class BoardLayout1Controller {
         }
         engine.allocateStudents();
         engine.changePhase(2);
+        FXMLLoader load = new FXMLLoader();
+        load.setLocation((getClass().getResource("/presentation/views/boardLayout2.fxml")));
+        Parent root =  load.load();
+        BoardLayout2Controller controller = load.getController();
+        controller.setMain(main);
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     @FXML

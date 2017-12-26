@@ -1,6 +1,7 @@
 package presentation.controllers;
 
 import business.Engine;
+import business.courses.Course;
 import business.courses.Exchange;
 import business.exceptions.ExchangeAlreadyCancelledException;
 import business.exceptions.ExchangeDoesNotExistException;
@@ -20,59 +21,68 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import presentation.Main;
-import presentation.controllers.utilities.ExchangeTable;
+import presentation.controllers.utilities.DCTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 public class BoardLayout2Controller {
     private Main main;
     private Engine engine;
-    private Teacher teacher;
     @FXML
-    private TableView<ExchangeTable> table;
+    private TableView<DCTable> table;
 
     @FXML
-    private TableColumn<ExchangeTable, String> codigo;
+    private TableColumn<DCTable, String> codigo;
 
     @FXML
-    private TableColumn<ExchangeTable, String> aluno1;
+    private TableColumn<DCTable,String> uc;
 
     @FXML
-    private TableColumn<ExchangeTable, String> aluno2;
+    private TableColumn<DCTable, String> aluno1;
 
     @FXML
-    private TableColumn<ExchangeTable, String> troca1;
+    private TableColumn<DCTable, String> aluno2;
 
     @FXML
-    private TableColumn<ExchangeTable, String> troca2;
+    private TableColumn<DCTable, String> troca1;
 
     @FXML
-    private TableColumn<ExchangeTable, String> cancelada;
+    private TableColumn<DCTable, String> troca2;
+
+    @FXML
+    private TableColumn<DCTable, String> cancelada;
 
     @FXML
     private void initialize() {
-        codigo.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("codigo"));
-        aluno1.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("aluno1"));
-        aluno2.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("aluno2") );
-        troca1.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("troca1") );
-        troca2.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("troca2") );
-        cancelada.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("cancelada") );
+        codigo.setCellValueFactory(new PropertyValueFactory<DCTable,String>("codigo"));
+        uc.setCellValueFactory(new PropertyValueFactory<DCTable,String>("uc") );
+        aluno1.setCellValueFactory(new PropertyValueFactory<DCTable,String>("aluno1"));
+        aluno2.setCellValueFactory(new PropertyValueFactory<DCTable,String>("aluno2") );
+        troca1.setCellValueFactory(new PropertyValueFactory<DCTable,String>("troca1") );
+        troca2.setCellValueFactory(new PropertyValueFactory<DCTable,String>("troca2") );
+        cancelada.setCellValueFactory(new PropertyValueFactory<DCTable,String>("cancelada") );
     }
 
     private void loadTable(){
-        List<ExchangeTable> list = new ArrayList<>();
-        ObservableList<ExchangeTable> obList = FXCollections.observableList(list);
+        List<DCTable> list = new ArrayList<>();
+        ObservableList<DCTable> obList = FXCollections.observableList(list);
+        Engine engine = main.getEngine();
 
-         Set<Exchange> exchanges = engine.getAllExchangesOfCourse(teacher.getCourse());
-        for(Exchange exchange :  exchanges){
-            obList.add(new ExchangeTable(exchange.getOriginStudent().toString()
-                    ,exchange.getDestStudent().toString(),exchange.getOriginShift()
-                    ,exchange.getDestShift(),exchange.getCode(), exchange.isCancelled()));
-        }
-        table.getItems().setAll(obList);
+         HashMap<String, Course> courses = engine.getCourses();
+         courses.forEach((k,v)->{
+             Set<Exchange> exchanges = engine.getAllExchangesOfCourse(v.getCode());
+             for(Exchange exchange :  exchanges){
+                 obList.add(new DCTable(exchange.getOriginStudent().toString()
+                         ,exchange.getDestStudent().toString(),exchange.getOriginShift()
+                         ,exchange.getDestShift(),exchange.getCode(),exchange.getCourse(), exchange.isCancelled()));
+             }
+             table.getItems().setAll(obList);
+         });
+
     }
 
     @FXML
@@ -94,7 +104,7 @@ public class BoardLayout2Controller {
 
         int numberSelected= table.getSelectionModel().getSelectedIndex();
         if(numberSelected >= 0){
-            ExchangeTable selectedIndex = table.getSelectionModel().getSelectedItem();
+            DCTable selectedIndex = table.getSelectionModel().getSelectedItem();
             try {
                 engine.cancelExchange(selectedIndex.getCodigo());
                 loadTable();
@@ -122,10 +132,14 @@ public class BoardLayout2Controller {
         }
     }
 
-    public void setInstances(Main main, Engine engine, Teacher teacher){
+    @FXML
+    void mudarFase(ActionEvent event) {
+
+    }
+
+    public void setMain(Main main){
         this.main = main;
-        this.engine = engine;
-        this.teacher = teacher;
+        this.engine = main.getEngine();
         loadTable();
     }
 
