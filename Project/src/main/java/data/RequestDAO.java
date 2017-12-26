@@ -59,7 +59,7 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
 
     /**
      * Gets an arraylist of Requests from the database
-     * @param key  Course code
+     * @param key  Request destination shifts
      * @return     Arraylist of requests
      */
     @Override
@@ -68,19 +68,17 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         ArrayList<Request> array = new ArrayList<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.Request WHERE Request_destShift=?;";
+
+            String sql = "SELECT Student_number FROM Ups.RequestStudent AS RS\n" +
+                    "JOIN Ups.Request AS R ON R.Request_code=RS.Request_code\n" +
+                    "WHERE R.Request_destShift=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
             ResultSet rs = ps.executeQuery();
             ResultSet rstudent;
             while (rs.next()) {
-                sql = "SELECT Student_number FROM Ups.RequestStudent WHERE Request_id = ?;" ;
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1, rs.getInt("Request_id"));
-                rstudent = ps.executeQuery();
-                //TANIA THIS STOPPED WORKING
-                //request = new Request(code, rstudent.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-                //array.add(request);
+                request = new Request(rs.getInt("Request_code"), rs.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
+                array.add(request);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,7 +212,7 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         Collection<ArrayList<Request>> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.Request";
+            String sql = "SELECT DISTINCT Request_destShift FROM Ups.Request";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -234,5 +232,81 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
     @Override
     public Set<Entry<String, ArrayList<Request>>> entrySet() {
         throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+    }
+
+    public HashMap<String, ArrayList<Request>> getRequestsFromCourse(Object key) {
+        HashMap<String, ArrayList<Request>> collection = new HashMap<>();
+        try {
+            conn = Connect.connect();
+            String sql = sql = "SELECT Student_number FROM Ups.RequestStudent AS RS\n" +
+                                "JOIN Ups.Request AS R ON R.Request_code=RS.Request_code\n" +
+                                "WHERE R.Course_code = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,key.toString());
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                Request request;
+                    request = new Request(rs.getInt("Request_code"), rs.getInt("Student_number"), rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
+                    collection.putIfAbsent(rs.getString("Request_destShift"), new ArrayList<Request>());
+                    collection.get(rs.getString("Request_destShift")).add(request);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return collection;
+    }
+
+    public void removeFromCourse(Object key) {
+        try {
+            conn = Connect.connect();
+            String sql = "SELECT Request_id FROM Ups.Request WHERE Course_code = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, key.toString());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                sql = "DELETE FROM Ups.RequestStudent WHERE Request_code = ?;";
+                ps =conn.prepareStatement(sql);
+                ps.setInt(1,rs.getInt("Request_code"));
+                ps.executeUpdate();
+            }
+
+            sql = "DELETE FROM Ups.Request WHERE Course_code = ?;";
+            ps.setString(1, key.toString());
+            ps.executeUpdate();
+
+
+        } catch (Exception e) {
+            throw new NullPointerException(e.getMessage());
+        } finally {
+            Connect.close(conn);
+        }
+    }
+
+    public HashMap<String, ArrayList<Integer>> getPendingRequestsFromStudent(Object key) {
+        HashMap<String, ArrayList<Integer>> collection = new HashMap<>();
+        try {
+            conn = Connect.connect();
+            String sql="SELECT R.Request_originShift, R.Request_code FROM Ups.Request AS R\n" +
+                    "JOIN Ups.RequestStudent AS RS ON R.Request_code=RS.Request_code\n" +
+                    "WHERE RS.Student_number=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,key.toString());
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                    collection.putIfAbsent(rs.getString("Request_originShift"), new ArrayList<Integer>());
+                    collection.get(rs.getString("Request_originShift")).add(rs.getInt("Request_code"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return collection;
     }
 }
