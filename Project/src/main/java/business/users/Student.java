@@ -6,10 +6,8 @@ import business.exceptions.InvalidWeekDayException;
 import business.exceptions.RequestInvalidException;
 import business.utilities.Schedule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Student extends User{
     private Set<String> shifts;
@@ -31,18 +29,23 @@ public class Student extends User{
         if (!this.schedule.isOccuppied(s.getWeekday(), s.getPeriod())) {
             this.schedule.usePeriod(s.getCode(), s.getWeekday(), s.getPeriod());
             this.shifts.add(s.getCode());
+            // StudentDAO dbStudent = new StudentDAO();
+            // dbStudent.putStudentShift(studentNumber); UPDATE
             return true;
         } else return false;
 
     }
 
-    public Boolean addShift(String shift) {
-        this.shifts.add(shift);
-        return true;
+    public void setShifts(Set<String> shifts) {
+        this.shifts = shifts;
     }
 
     public void addEnrollment(String codCourse) {
         this.enrollments.add(codCourse);
+    }
+
+    public void setEnrollments(Set<String> enrollments) {
+        this.enrollments = enrollments;
     }
 
     public void addPendingRequest(Request rq) {
@@ -54,6 +57,10 @@ public class Student extends User{
             ArrayList<Integer> reqs = this.pendingRequests.get(rq.getOriginShift());
             reqs.add(rq.getCode());
         }
+    }
+
+    public void setPendingRequests(HashMap<String, ArrayList<Integer>> pendingRequests) {
+        this.pendingRequests = pendingRequests;
     }
 
     public void removePendingRequest(String originShift) throws RequestInvalidException {
@@ -79,6 +86,12 @@ public class Student extends User{
         return this.pendingRequests.get(originShift);
     }
 
+    public HashMap<String, ArrayList<Integer>> getPendingRequests() {
+        HashMap<String, ArrayList<Integer>> ret = new HashMap<>();
+        ret.putAll(this.pendingRequests);
+        return ret;
+    }
+
     public int getNshifts() {
         return this.shifts.size();
     }
@@ -86,6 +99,14 @@ public class Student extends User{
 
     public int getNrequests() {
         return this.pendingRequests.size();
+    }
+
+    public int getAllNRequests() {
+        int sum=0;
+        for (ArrayList a : pendingRequests.values()) {
+            sum += a.size();
+        }
+        return sum;
     }
 
     public Boolean isStatute() {
