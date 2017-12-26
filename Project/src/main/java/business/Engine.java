@@ -357,4 +357,16 @@ public class Engine {
         }
         return res;
     }
+
+    public Set<Student> getEnrolledStudents(String courseCode) {
+        Set<Student> res = new HashSet<>();
+        Set<Map.Entry<Integer,Student>> entries = this.students.entrySet();
+        for (Map.Entry<Integer, Student> entry : entries) {
+            Student s = entry.getValue();
+            if (s.getEnrollments().contains(courseCode)) {
+                res.add(s);
+            }
+        }
+        return res;
+    }
 }
