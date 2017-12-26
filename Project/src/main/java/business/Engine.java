@@ -369,4 +369,28 @@ public class Engine {
         }
         return res;
     }
+
+    public Set<Student> getStudentsWithoutShift(String courseCode) {
+        Course c = this.courses.get(courseCode);
+        Set<Map.Entry<Integer,Student>> entries = this.students.entrySet();
+        HashMap<String, Shift> shifts = c.getShifts();
+        Set<Student> res = new HashSet<>();
+        Boolean isEnrolled;
+        for (Map.Entry<Integer, Student> entry : entries) {
+            isEnrolled = false;
+            Student s = entry.getValue();
+            for (String code : s.getShifts()) {
+                if (isEnrolled)  {
+                    break;
+                } else if (shifts.containsKey(code)) {
+                    isEnrolled = true;
+                }
+            }
+            if (!isEnrolled) {
+                res.add(s);
+            }
+        }
+
+        return res;
+    }
 }
