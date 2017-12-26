@@ -58,7 +58,7 @@ public class Engine {
     }
 
     public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException, ShiftNotValidException {
-        if (s.getNrequests() >= s.getNEnrollments() + 1) {
+        if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
             throw new TooManyRequestsException();
         } else {
             Course c = this.courses.get(course);

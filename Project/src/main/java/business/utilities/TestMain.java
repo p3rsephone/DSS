@@ -73,7 +73,7 @@ public class TestMain {
             engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP1");
             System.out.println(engine.concatRequests(1, "DSS", "DSS-TP2"));
             engine.requestExchange("DSS", a4, "DSS-TP3", "DSS-TP2");
-        } catch (TooManyRequestsException e) {
+        } catch (TooManyRequestsException | ShiftNotValidException e) {
             e.printStackTrace();
         }
 
