@@ -64,7 +64,7 @@ public class ExchangeController {
         } catch (TooManyRequestsException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("Demasiados requestes !");
+            alert.setContentText("Demasiados pedidos!");
             alert.showAndWait();
         }
 
