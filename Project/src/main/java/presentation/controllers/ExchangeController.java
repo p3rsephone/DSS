@@ -43,7 +43,14 @@ public class ExchangeController {
     void troca(ActionEvent event) {
         try {
             if(tps.getValue() != null){
-                engine.requestExchange(course,student,originShift,tps.getValue());
+                try {
+                    engine.requestExchange(course,student,originShift,tps.getValue());
+                } catch (ShiftNotValidException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Turno invalido !");
+                    alert.showAndWait();
+                }
                 Stage dialog= (Stage) ((Node) event.getSource()).getScene().getWindow();
                 dialog.close();
                 setTrocaClicked(true);
