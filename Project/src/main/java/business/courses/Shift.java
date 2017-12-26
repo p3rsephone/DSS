@@ -103,6 +103,8 @@ public class Shift {
         } else {
             this.numOfStudents++;
             this.students.put(studentNumber,0);
+            // ShiftDAO dbShift = new ShiftDAO();
+            // dbShift.putStudentShift(studentNumber); UPDATE
         }
     }
 
@@ -112,6 +114,8 @@ public class Shift {
         } else {
             this.numOfStudents--;
             return this.students.remove(studentNumber);
+            // ShiftDAO dbShift = new ShiftDAO();
+            // dbShift.removeStudentShift(studentNumber); UPDATE
         }
     }
 
@@ -120,8 +124,12 @@ public class Shift {
         Integer absences = this.students.get(studentNumber);
         if(absences+1 >= 0.25*this.expectedClasses) {
             this.students.remove(studentNumber);
+            // ShiftDAO dbShift = new ShiftDAO();
+            // dbShift.removeStudentShift(studentNumber); UPDATE
         } else {
             this.students.put(studentNumber, absences+1);
+            // ShiftDAO dbShift = new ShiftDAO();
+            // dbShift.setAbsences(studentNumber, absences+1); UPDATE
         }
     }
 

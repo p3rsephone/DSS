@@ -28,6 +28,8 @@ public class Course {
             throw new ShiftAlredyExistsException();
         }
         this.shifts.put(s.getCode(), s);
+        // ShiftDAO dbShift = new ShiftDAO();
+        // dbShift.put(s);    OU dbCourse.put(getCode(),this)
     }
 
     public String getCode() {
@@ -48,16 +50,12 @@ public class Course {
         } else return this.shifts.get(shift);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBillboard(HashMap<String, ArrayList<Request>> billboard) {
+        this.billboard = billboard;
     }
 
-    public void setRegTeacher(Integer regTeacher) {
-        this.regTeacher = regTeacher;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setShifts(HashMap<String, Shift> shifts) {
+        this.shifts = shifts;
     }
 
     public void addStudentToShift(String shiftId, Integer studentNumber) throws RoomCapacityExceededException, StudentAlreadyInShiftException {
@@ -83,10 +81,14 @@ public class Course {
         if (this.billboard.containsKey(destShift)) {
             ArrayList<Request> destRequests = this.billboard.get(destShift);
             destRequests.add(r);
+            // RequestDAO dbRequest = new RequestDAO();
+            // dbRequest.putRequest(r); OU dbCourse.put(getCode(),this)
         } else {
             ArrayList<Request> ar = new ArrayList<>();
             ar.add(r);
             this.billboard.put(destShift,ar);
+            // RequestDAO dbRequest = new RequestDAO();
+            // dbRequest.put(ar); OU dbCourse.put(getCode(),this)
         }
     }
 
@@ -127,6 +129,8 @@ public class Course {
             }
         }
         this.billboard.put(r.getDestShift(), newR);
+        // RequestDAO dbRequest = new RequestDAO();
+        // dbRequest.put(r); OU dbCourse.put(getCode(),this)
     }
 
     public Exchange swap(String originShift, String destShift, Integer origStudent, Integer destStudent) throws StudentNotInShiftException, RoomCapacityExceededException, StudentAlreadyInShiftException {
@@ -162,6 +166,8 @@ public class Course {
     public void cancelRequest(Request r) {
         ArrayList<Request> bill = this.billboard.get(r.getDestShift());
         bill.remove(r);
+        // RequestDAO dbRequest = new RequestDAO();
+        // dbRequest.remove(r); OU dbCourse.put(getCode(),this)
     }
 
     public void markAbsent(String shiftCode, ArrayList<Integer> students) throws StudentNotInShiftException {
