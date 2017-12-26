@@ -112,7 +112,7 @@ public class TestMain {
             }
         }
 
-        engine.getEnrolledStudents("DSS").forEach(s -> System.out.println(s.getNumber()));
+        engine.getStudentsWithoutShift("DSS").forEach(s -> System.out.println(s.getNumber()));
 
     }
 }
