@@ -26,12 +26,16 @@ public class Teacher extends User {
         return course;
     }
 
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
     public void addShift(String shiftid) {
         this.shifts.add(shiftid);
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setShifts(Set<String> shifts) {
+        this.shifts = shifts;
     }
 
     public Boolean isBoss() {
