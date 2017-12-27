@@ -78,7 +78,6 @@ public class Engine {
         if (!this.exchanges.containsKey(code)) {
             throw new ExchangeDoesNotExistException();
         } else {
-            //this.exchanges.forEach((k,v)-> System.out.println("a chave e " + k+ ""));
             Exchange e = this.exchanges.get(code);
             Student orig = this.students.get(e.getOriginStudent());
             Student dest = this.students.get(e.getDestStudent());
@@ -465,5 +464,23 @@ public class Engine {
         Student s = this.students.get(studentNumber);
         Shift shift = c.getShift(shiftCode);
         s.addShift(shift);
+    }
+
+    public Request getRequest(Integer studentNumber, String courseCode, String originShift, String destShift) throws ShiftNotValidException {
+        Student s = this.students.get(studentNumber);
+        Course c = this.courses.get(courseCode);
+        ArrayList<Request> requests = c.getRequests(destShift);
+        ArrayList<Integer> codes = s.getRequests(originShift);
+        if (codes != null) {
+            for (Request r : requests) {
+                Integer stu = r.getStudent();
+                String ori = r.getOriginShift();
+                String dest = r.getDestShift();
+                if (stu.equals(studentNumber) && ori.equals(originShift) && dest.equals(destShift)) {
+                    return r;
+                }
+            }
+        }
+        return null;
     }
 }
