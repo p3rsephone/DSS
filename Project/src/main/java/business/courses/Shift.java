@@ -8,6 +8,8 @@ import business.users.Student;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Shift {
     private String code;
@@ -120,10 +122,12 @@ public class Shift {
     }
 
 
-    public void absentStudent(Integer studentNumber) {
+    public Boolean absentStudent(Integer studentNumber) {
+        Boolean res = false;
         Integer absences = this.students.get(studentNumber);
         if(absences+1 >= 0.25*this.expectedClasses) {
             this.students.remove(studentNumber);
+            res = true;
             // ShiftDAO dbShift = new ShiftDAO();
             // dbShift.removeStudentShift(studentNumber); UPDATE
         } else {
@@ -131,6 +135,7 @@ public class Shift {
             // ShiftDAO dbShift = new ShiftDAO();
             // dbShift.setAbsences(studentNumber, absences+1); UPDATE
         }
+        return res;
     }
 
     public boolean isFull() {
@@ -145,14 +150,19 @@ public class Shift {
         this.givenClasses = givenClasses;
     }
 
-    public void markAbsent(ArrayList<Integer> missingStudents) throws StudentNotInShiftException {
+    public Set<Integer> markAbsent(ArrayList<Integer> missingStudents) throws StudentNotInShiftException {
+        Set<Integer> res = new HashSet<>();
         for (Integer s : missingStudents) {
             if (!this.students.containsKey(s)) {
                 throw new StudentNotInShiftException();
             } else {
-                this.absentStudent(s);
+                Boolean expelled = this.absentStudent(s);
+                if (expelled) {
+                    res.add(s);
+                }
             }
         }
+        return res;
     }
 
     public Integer getAbsentment(Integer student) throws StudentNotInShiftException {

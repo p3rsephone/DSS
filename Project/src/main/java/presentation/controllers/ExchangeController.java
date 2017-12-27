@@ -1,6 +1,7 @@
 package presentation.controllers;
 
 import business.Engine;
+import business.exceptions.InvalidWeekDayException;
 import business.exceptions.ShiftNotValidException;
 import business.exceptions.TooManyRequestsException;
 import business.users.Student;
@@ -48,7 +49,12 @@ public class ExchangeController {
                 } catch (ShiftNotValidException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
-                    alert.setContentText("Turno invalido !");
+                    alert.setContentText("Turno inválido!");
+                    alert.showAndWait();
+                } catch (InvalidWeekDayException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Dia da semana inválido!");
                     alert.showAndWait();
                 }
                 Stage dialog= (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -58,7 +64,7 @@ public class ExchangeController {
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setContentText("Turno nao selecionado !");
+                alert.setContentText("Turno não selecionado!");
                 alert.showAndWait();
             }
         } catch (TooManyRequestsException e) {

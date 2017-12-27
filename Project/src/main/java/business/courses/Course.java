@@ -70,7 +70,6 @@ public class Course {
         return r;
     }
 
-
     public Request requestExchange(Student s, String originShift, String destShift, Integer code) {
         Request r = new Request(code, s.getNumber(), this.code, originShift, destShift);
         this.addRequest(r, destShift);
@@ -170,8 +169,8 @@ public class Course {
         // dbRequest.remove(r); OU dbCourse.put(getCode(),this)
     }
 
-    public void markAbsent(String shiftCode, ArrayList<Integer> students) throws StudentNotInShiftException {
-        this.shifts.get(shiftCode).markAbsent(students);
+    public Set<Integer> markAbsent(String shiftCode, ArrayList<Integer> students) throws StudentNotInShiftException {
+        return this.shifts.get(shiftCode).markAbsent(students);
     }
 
     public Integer getAbsentment(String shiftCode, Integer student) throws StudentNotInShiftException {
