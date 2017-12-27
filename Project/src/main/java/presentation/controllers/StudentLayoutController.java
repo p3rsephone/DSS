@@ -23,10 +23,8 @@ import javafx.stage.Stage;
 import presentation.Main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-    import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StudentLayoutController {
 
@@ -113,6 +111,11 @@ public class StudentLayoutController {
             alert.setContentText("Nenhuma uc selecrionada para troca !");
             alert.showAndWait();
         }
+
+    }
+
+    @FXML
+    void cancelRequest(ActionEvent event) {
 
     }
 
