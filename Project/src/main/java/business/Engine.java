@@ -58,18 +58,20 @@ public class Engine {
     }
 
     public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException, ShiftNotValidException, InvalidWeekDayException {
-        if (s.isStatute()) {
-            s.removeShift(originShift);
-            Course c = this.courses.get(course);
-            Shift shift = c.getShift(destShift);
-            s.addShift(shift);
-        } else if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
+         if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
             throw new TooManyRequestsException();
         } else {
             Course c = this.courses.get(course);
             Request r = c.requestExchange(s, originShift, destShift, this.nrOfRequests++);
             s.addPendingRequest(r);
             this.makeSwaps(r);
+            if (s.isStatute() && s.getRequests(originShift).size() != 0) {
+                s.removeShift(originShift);
+                Shift shift = c.getShift(destShift);
+                s.addShift(shift);
+                ArrayList<Integer> reqs = s.getRequests(originShift);
+                reqs.remove(r.getCode());
+            }
         }
     }
 
