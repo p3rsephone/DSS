@@ -116,7 +116,18 @@ public class StudentLayoutController {
 
     @FXML
     void cancelRequest(ActionEvent event) {
+       CourseTable selectedIndex = table.getSelectionModel().getSelectedItem();
+       List<String> pedingRequest = new ArrayList<>(main.getEngine().getRequests(student.getNumber(), selectedIndex.getUc(), selectedIndex.getTp()));
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null,pedingRequest);
+        dialog.setTitle("Choice Dialog");
+        dialog.setContentText("Cancelar troca:");
 
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()){
+
+           main.getEngine().cancelRequest(student.getNumber(),);
+        }
     }
 
     void setInstances(Main main, Student student){
