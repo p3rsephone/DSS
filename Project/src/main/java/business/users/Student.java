@@ -131,8 +131,8 @@ public class Student extends User{
     }
 
     public void cancelRequest(Request r) {
-        String destShift = r.getDestShift();
-        ArrayList<Integer> reqs = this.pendingRequests.get(destShift);
+        String originShift = r.getOriginShift();
+        ArrayList<Integer> reqs = this.pendingRequests.get(originShift);
         if (reqs != null) {
             reqs.remove(r.getCode());
         }
