@@ -400,28 +400,6 @@ public class Engine {
         return res;
     }
 
-    public Set<String> getRequests(Integer student, String courseCode, String originShift) {
-        Set<String> res = new HashSet<>();
-        Integer counter = 0;
-        Student s = this.students.get(student);
-        ArrayList<Integer> codes = s.getRequests(originShift);
-        Course c = this.courses.get(courseCode);
-        if (s != null && codes != null && c !=null) {
-            Set<Map.Entry<String, ArrayList<Request>>> req = c.getRequests().entrySet();
-            for (Integer code : codes) {
-                for (Map.Entry<String, ArrayList<Request>> entry : req) {
-                    ArrayList<Request> requests = entry.getValue();
-                    for (Request r : requests) {
-                        if (r.getCode().equals(code) ) {
-                           res.add(r.getDestShift());
-                        }
-                    }
-                }
-            }
-        }
-        return res;
-    }
-
     public Set<Student> getEnrolledStudents(String courseCode) {
         Set<Student> res = new HashSet<>();
         Set<Map.Entry<Integer,Student>> entries = this.students.entrySet();
