@@ -106,4 +106,3 @@ public class BoardLayout1Controller {
     }
 
 }
-
