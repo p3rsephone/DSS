@@ -57,7 +57,13 @@ public class Engine {
         this.rooms.put(r.getCode(), r);
     }
 
-    public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException, ShiftNotValidException {
+    public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException, ShiftNotValidException, InvalidWeekDayException {
+        if (s.isStatute()) {
+            s.removeShift(originShift);
+            Course c = this.courses.get(course);
+            Shift shift = c.getShift(destShift);
+            s.addShift(shift);
+        }
         if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
             throw new TooManyRequestsException();
         } else {
@@ -299,7 +305,13 @@ public class Engine {
 
     public void markAbsent(String courseCode, String shiftCode, ArrayList<Integer> students) {
         try {
-            this.courses.get(courseCode).markAbsent(shiftCode, students);
+            Course c = this.courses.get(courseCode);
+            Set<Integer> expellStudents = c.markAbsent(shiftCode, students);
+
+            for (Integer stu : expellStudents) {
+                Student s = this.students.get(stu);
+                s.removeShift(shiftCode);
+            }
         } catch (StudentNotInShiftException e) {
             e.printStackTrace();
         }

@@ -10,7 +10,7 @@
     "name":"maria",
     "email":"maria@",
     "password":"123",
-    "statute":"false",
+    "statute":"true",
     "courses":["TMD","EES","LI1"]
   },
   3:{
