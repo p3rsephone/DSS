@@ -25,7 +25,6 @@
             </TableView>
          </children>
       </VBox>
-      <Text layoutX="514.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aluno" />
       <Text layoutX="55.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trocas" wrappingWidth="91.1259765625">
          <font>
             <Font size="19.0" />
@@ -35,6 +34,16 @@
             <Button mnemonicParsing="false" onAction="#cancelarTroca" text="Cancelar troca" />
          </children>
       </HBox>
-      <Button layoutX="501.0" layoutY="50.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      <Button layoutX="489.0" layoutY="38.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UPS!">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="456.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Professor">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

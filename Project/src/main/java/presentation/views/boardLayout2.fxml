@@ -11,7 +11,12 @@
 
 <AnchorPane prefHeight="540.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.BoardLayout2Controller">
    <children>
-      <VBox layoutX="16.0" layoutY="87.0" prefHeight="256.0" prefWidth="611.0">
+      <Text layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UPS!">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <VBox layoutX="16.0" layoutY="110.0" prefHeight="256.0" prefWidth="611.0">
          <children>
             <TableView fx:id="table" prefHeight="256.0" prefWidth="614.0">
               <columns>
@@ -26,8 +31,7 @@
             </TableView>
          </children>
       </VBox>
-      <Text layoutX="523.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DC" />
-      <Text layoutX="55.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trocas" wrappingWidth="91.1259765625">
+      <Text layoutX="55.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trocas" wrappingWidth="91.1259765625">
          <font>
             <Font size="19.0" />
          </font></Text>
@@ -36,7 +40,12 @@
             <Button mnemonicParsing="false" onAction="#cancelarTroca" text="Cancelar troca" />
          </children>
       </HBox>
-      <Button layoutX="501.0" layoutY="50.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      <Button layoutX="564.0" layoutY="49.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
       <Button layoutX="245.0" layoutY="500.0" mnemonicParsing="false" onAction="#mudarFase" text="Mudar de fase" />
+      <Text layoutX="577.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DC">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
