@@ -67,12 +67,7 @@ public class TestMain {
 
         try {
             engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP3");
-            System.out.println(engine.concatRequests(1, "DSS", "DSS-TP2"));
-            engine.getCourse("DSS").getBillboard().forEach((k,v) -> v.forEach(r -> System.out.println(r.getCode())));
-            a1.getRequests("DSS-TP2").forEach(r -> System.out.println(r.toString()));
             engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP1");
-            System.out.println(engine.concatRequests(1, "DSS", "DSS-TP2"));
-            engine.requestExchange("DSS", a4, "DSS-TP3", "DSS-TP2");
         } catch (TooManyRequestsException | ShiftNotValidException | InvalidWeekDayException e) {
             e.printStackTrace();
         }
@@ -85,15 +80,6 @@ public class TestMain {
             System.out.println("Code: " + e.getCode() + " => student " + e.getOriginStudent() + " went from " + e.getOriginShift() + " to " + e.getDestShift() + ". Switched with " + e.getDestStudent());
             System.out.println("Cancelled? " + e.isCancelled());
         }
-
-        System.out.println("CANCELLING EXCHANGE");
-
-        try {
-            engine.cancelExchange(0);
-        } catch (ExchangeDoesNotExistException | StudentNotInShiftException | ExchangeAlreadyCancelledException e) {
-            e.printStackTrace();
-        }
-
 
         for (Map.Entry<Integer, Exchange> entry : engine.getExchanges().entrySet()) {
             Exchange e = entry.getValue();
@@ -114,5 +100,10 @@ public class TestMain {
 
         engine.getStudentsWithoutShift("DSS").forEach(s -> System.out.println(s.getNumber()));
 
+        try {
+            System.out.println(engine.getRequest(1, "DSS", "DSS-TP2", "DSS-TP1").getDestShift());
+        } catch (ShiftNotValidException e) {
+            e.printStackTrace();
+        }
     }
 }
