@@ -1,9 +1,9 @@
 package business.utilities.parser;
 
-public class Room {
+public class ParseRoom {
     private int capacidade;
 
-    public Room(int capacidade) {
+    public ParseRoom(int capacidade) {
         this.capacidade = capacidade;
     }
 

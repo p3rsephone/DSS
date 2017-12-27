@@ -1,12 +1,9 @@
 package presentation.controllers;
 
 
-import business.Engine;
-import business.courses.Course;
-import business.courses.Exchange;
-import business.courses.Shift;
+import business.exceptions.ShiftNotValidException;
 import business.users.Student;
-import business.utilities.CourseTable;
+import presentation.controllers.utilities.CourseTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,10 +20,7 @@ import javafx.stage.Stage;
 import presentation.Main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-    import java.util.Set;
+import java.util.*;
 
 public class StudentLayoutController {
 
@@ -114,6 +108,39 @@ public class StudentLayoutController {
             alert.showAndWait();
         }
 
+    }
+
+    @FXML
+    void cancelRequest(ActionEvent event) {
+        int numberSelected= table.getSelectionModel().getSelectedIndex();
+        if(numberSelected>=0){
+            CourseTable selectedIndex = table.getSelectionModel().getSelectedItem();
+            List<String> pedingRequest = new ArrayList<>(main.getEngine().getRequests(student.getNumber(), selectedIndex.getUc(), selectedIndex.getTp()));
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(null,pedingRequest);
+            dialog.setTitle("Choice Dialog");
+            dialog.setContentText("Cancelar troca:");
+
+            Optional<String> result = dialog.showAndWait();
+
+            if (result.isPresent()){
+
+                try {
+                    main.getEngine().cancelRequest(student.getNumber(),main.getEngine().getRequest(student.getNumber(),selectedIndex.getUc(),selectedIndex.getTp(),result.get()));
+                    loadTable();
+                } catch (ShiftNotValidException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Turno invalido!");
+                    alert.showAndWait();
+                }
+            }
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Turno nao selecionado!");
+            alert.showAndWait();
+        }
     }
 
     void setInstances(Main main, Student student){

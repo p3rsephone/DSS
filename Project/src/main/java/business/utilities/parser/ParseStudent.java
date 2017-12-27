@@ -1,20 +1,20 @@
 package business.utilities.parser;
 
-public class Teacher {
+import java.util.List;
+
+public class ParseStudent {
     private String name;
-    private int number;
     private String email;
     private String password;
-    private String boss;
-    private String owned;
+    private String statute;
+    private List<String> courses;
 
-    public Teacher(String name, int number, String email, String password, String boss, String owned) {
+    public ParseStudent(String name, String email, String password, String statute, List<String> courses) {
         this.name = name;
-        this.number = number;
         this.email = email;
         this.password = password;
-        this.boss = boss;
-        this.owned = owned;
+        this.statute = statute;
+        this.courses = courses;
     }
 
     public String getName() {
@@ -23,14 +23,6 @@ public class Teacher {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public String getEmail() {
@@ -49,19 +41,21 @@ public class Teacher {
         this.password = password;
     }
 
-    public String getBoss() {
-        return boss;
+    public String getStatute() {
+        return statute;
     }
 
-    public void setBoss(String boss) {
-        this.boss = boss;
+    public void setStatute(String statute) {
+        this.statute = statute;
     }
 
-    public String getCourse() {
-        return owned;
+    public List<String> getCourses() {
+        return courses;
     }
 
-    public void setCourse(String owned) {
-        this.owned= owned;
+    public void setCourses(List<String> courses) {
+        this.courses = courses;
     }
+
+
 }

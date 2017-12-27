@@ -63,8 +63,7 @@ public class Engine {
             Course c = this.courses.get(course);
             Shift shift = c.getShift(destShift);
             s.addShift(shift);
-        }
-        if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
+        } else if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
             throw new TooManyRequestsException();
         } else {
             Course c = this.courses.get(course);
@@ -295,7 +294,7 @@ public class Engine {
         return res;
     }
 
-    public void cancelRequest(String student, Request r) {
+    public void cancelRequest(Integer student, Request r) {
         Course c = this.courses.get(r.getCourse());
         c.cancelRequest(r);
         Student s = this.students.get(student);

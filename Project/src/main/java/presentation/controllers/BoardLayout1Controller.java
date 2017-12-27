@@ -57,13 +57,13 @@ public class BoardLayout1Controller {
         Engine engine = main.getEngine();
         Parser parse = new Parser(engine);
         try {
-            parse.parseRoom("src/main/java/business/utilities/parser/rooms.json");
-            parse.parseCourse("src/main/java/business/utilities/parser/courses1.json");
-            parse.parseCourse("src/main/java/business/utilities/parser/courses2.json");
-            parse.parseTeacher("src/main/java/business/utilities/parser/teachers.json");
-            parse.parseShift("src/main/java/business/utilities/parser/shifts1.json");
-            parse.parseShift("src/main/java/business/utilities/parser/shifts2.json");
-            parse.parseStudent("src/main/java/business/utilities/parser/student.json");
+            parse.parseRoom("src/main/resources/rooms.json");
+            parse.parseCourse("src/main/resources/courses1.json");
+            parse.parseCourse("src/main/resources/courses2.json");
+            parse.parseTeacher("src/main/resources/teachers.json");
+            parse.parseShift("src/main/resources/shifts1.json");
+            parse.parseShift("src/main/resources/shifts2.json");
+            parse.parseStudent("src/main/resources/student.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

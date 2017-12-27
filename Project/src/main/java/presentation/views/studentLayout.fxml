@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
@@ -23,13 +23,13 @@
       </VBox>
       <Text layoutX="514.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aluno" />
       <Text layoutX="92.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turnos" />
-      <HBox alignment="CENTER" layoutX="200.0" layoutY="299.0" prefHeight="100.0" prefWidth="200.0">
+      <Button layoutX="501.0" layoutY="50.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      <VBox alignment="CENTER" layoutX="196.0" layoutY="300.0" prefHeight="100.0" prefWidth="208.0">
          <children>
             <Button fx:id="pedidoTroca" mnemonicParsing="false" onAction="#pedidoDeTroca" text="Pedido de  troca" />
+            <Separator orientation="VERTICAL" prefHeight="14.0" prefWidth="0.0" />
+            <Button mnemonicParsing="false" onAction="#cancelRequest" text="Cancelar pedido de troca" />
          </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" />
-      <HBox alignment="BOTTOM_RIGHT" layoutX="400.0" layoutY="299.0" prefHeight="100.0" prefWidth="200.0" />
-      <Button layoutX="501.0" layoutY="50.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      </VBox>
    </children>
 </AnchorPane>
