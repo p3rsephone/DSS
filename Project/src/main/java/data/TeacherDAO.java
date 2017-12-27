@@ -18,7 +18,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
      */
     @Override
     public int size() {
-        return size("ParseTeacher");
+        return size("Teacher");
     }
 
     /**
@@ -27,12 +27,12 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
      */
     @Override
     public boolean isEmpty() {
-        return isEmpty("ParseTeacher");
+        return isEmpty("Teacher");
     }
 
     /**
-     * Checks if a certain ParseTeacher number exists in the database
-     * @param key                    ParseTeacher number
+     * Checks if a certain Teacher number exists in the database
+     * @param key                    Teacher number
      * @return                       True if the teacher is in the database
      * @throws NullPointerException  There is no connection
      */
@@ -41,7 +41,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
         boolean r;
         try {
             conn = Connect.connect();
-            String sql = "SELECT Teacher_name FROM Ups.ParseTeacher WHERE Teacher_number =?;";
+            String sql = "SELECT Teacher_name FROM Ups.Teacher WHERE Teacher_number =?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(key.toString()));
             ResultSet rs = ps.executeQuery();
@@ -60,23 +60,23 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     }
 
     /**
-     * Gets a ParseTeacher from the database
-     * @param key  ParseTeacher number
-     * @return     ParseTeacher
+     * Gets a Teacher from the database
+     * @param key  Teacher number
+     * @return     Teacher
      */
     @Override
     public Teacher get(Object key) {
         Teacher teacher = null;
         try {
             conn = Connect.connect();
-            String sql= "SELECT * FROM Ups.ParseTeacher WHERE Teacher_number=?;";
+            String sql= "SELECT * FROM Ups.Teacher WHERE Teacher_number=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 teacher = new Teacher(rs.getString("Teacher_name"),rs.getInt("Teacher_number"),rs.getString("Teacher_email"),rs.getString("Teacher_password"),rs.getBoolean("Teacher_isBoss"),"");
 
-                sql = "SELECT Course_code FROM Ups.ParseCourse WHERE Teacher_number = ?;";
+                sql = "SELECT Course_code FROM Ups.Course WHERE Teacher_number = ?;";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer) key);
                 rs = ps.executeQuery();
@@ -84,7 +84,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
                     teacher.setCourse(rs.getString("Course_code"));
                 }
 
-                sql = "SELECT Shift_code FROM Ups.ParseShift WHERE Teacher_number = ?;" ;
+                sql = "SELECT Shift_code FROM Ups.Shift WHERE Teacher_number = ?;" ;
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer) key);
                 rs = ps.executeQuery();
@@ -104,9 +104,9 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     }
 
     /**
-     * Insert a new ParseTeacher in the database
-     * @param key    ParseTeacher number
-     * @param value  ParseTeacher
+     * Insert a new Teacher in the database
+     * @param key    Teacher number
+     * @param value  Teacher
      * @return
      */
     @Override
@@ -114,7 +114,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
         Teacher teacher = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Ups.ParseTeacher\n" +
+            String sql = "INSERT INTO Ups.Teacher\n" +
                     "VALUES (?, ?, ?, ?, ?)\n" +
             "ON DUPLICATE KEY UPDATE Teacher_name=VALUES(Teacher_name),  Teacher_number = VALUES(Teacher_number), Teacher_email=VALUES(Teacher_email), Teacher_password=VALUES(Teacher_password), Teacher_isBoss=VALUES(Teacher_isBoss)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -125,7 +125,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
             ps.setBoolean(5, value.isBoss());
             ps.executeUpdate();
 
-            sql = "UPDATE Ups.ParseShift\n" +
+            sql = "UPDATE Ups.Shift\n" +
                   "SET Teacher_number = ?\n" +
                     "WHERE Shift_code = ?";
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -144,16 +144,16 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     }
 
     /**
-     * Removes a ParseTeacher from the database
-     * @param key  ParseTeacher number
-     * @return     ParseTeacher that was deleted
+     * Removes a Teacher from the database
+     * @param key  Teacher number
+     * @return     Teacher that was deleted
      */
     @Override
     public Teacher remove(Object key) {
         Teacher teacher = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseTeacher WHERE Teacher_number = ?;";
+            String sql = "DELETE FROM Ups.Teacher WHERE Teacher_number = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, (String)key);
             ps.executeUpdate();
@@ -177,14 +177,14 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     }
 
     /**
-     * Delete every ParseTeacher from the database
+     * Delete every Teacher from the database
      * @throws NullPointerException  No connection
      */
     @Override
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseTeacher WHERE Teacher_number>0;";
+            String sql = "DELETE FROM Ups.Teacher WHERE Teacher_number>0;";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
         } catch (Exception e) {
@@ -209,7 +209,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
         Collection<Teacher> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseTeacher";
+            String sql = "SELECT * FROM Ups.Teacher";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {

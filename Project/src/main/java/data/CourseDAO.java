@@ -21,7 +21,7 @@ public class CourseDAO extends DAO implements Map<String,Course> {
      */
     @Override
     public int size() {
-        return size("ParseCourse");
+        return size("Course");
     }
 
     /**
@@ -30,12 +30,12 @@ public class CourseDAO extends DAO implements Map<String,Course> {
      */
     @Override
     public boolean isEmpty() {
-        return isEmpty("ParseCourse");
+        return isEmpty("Course");
     }
 
     /**
-     * Checks if a certain ParseCourse code exists in the database
-     * @param key                    ParseCourse code
+     * Checks if a certain Course code exists in the database
+     * @param key                    Course code
      * @return                       True if the course is in the database
      * @throws NullPointerException  There is no connection
      */
@@ -44,7 +44,7 @@ public class CourseDAO extends DAO implements Map<String,Course> {
         boolean r;
         try {
             conn = Connect.connect();
-            String sql = "SELECT Course_code FROM Ups.ParseCourse WHERE Course_code=?;";
+            String sql = "SELECT Course_code FROM Ups.Course WHERE Course_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
             ResultSet rs = ps.executeQuery();
@@ -63,23 +63,23 @@ public class CourseDAO extends DAO implements Map<String,Course> {
     }
 
     /**
-     * Gets a ParseCourse from the database
-     * @param key  ParseCourse code
-     * @return     ParseCourse
+     * Gets a Course from the database
+     * @param key  Course code
+     * @return     Course
      */
     @Override
     public Course get(Object key) {
         Course course = null;
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseCourse WHERE Course_code=?;";
+            String sql = "SELECT * FROM Ups.Course WHERE Course_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 course = new Course(rs.getString("Course_code"),rs.getString("Course_name"), rs.getInt("Teacher_number"), rs.getInt("Course_year"));
 
-                sql = "SELECT * FROM Ups.ParseShift WHERE Course_code=?;";
+                sql = "SELECT * FROM Ups.Shift WHERE Course_code=?;";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, key.toString());
                 rs = ps.executeQuery();
@@ -104,8 +104,8 @@ public class CourseDAO extends DAO implements Map<String,Course> {
 
     /**
      * Insert a new course in the database
-     * @param key    ParseCourse code
-     * @param value  ParseCourse
+     * @param key    Course code
+     * @param value  Course
      * @return
      */
     @Override
@@ -113,7 +113,7 @@ public class CourseDAO extends DAO implements Map<String,Course> {
         Course course = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Ups.ParseCourse\n" +
+            String sql = "INSERT INTO Ups.Course\n" +
                     "VALUES (?, ?, ?, ?)\n" +
                     "ON DUPLICATE KEY UPDATE Course_name=VALUES(Course_name), Course_year=VALUES(Course_year), Course_name=VALUES(Course_name), Teacher_number=VALUES(Teacher_number);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -143,19 +143,19 @@ public class CourseDAO extends DAO implements Map<String,Course> {
 
     /**
      * Removes a course from the database
-     * @param key  ParseCourse code
-     * @return     ParseCourse that was deleted
+     * @param key  Course code
+     * @return     Course that was deleted
      */
     @Override
     public Course remove(Object key) {
         Course course = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseCourse WHERE Course_code = ?;";
+            String sql = "DELETE FROM Ups.Course WHERE Course_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
             ps.executeUpdate();
-            sql = "SELECT Shift_code FROM Ups.ParseShift WHERE Course_code = ?;";
+            sql = "SELECT Shift_code FROM Ups.Shift WHERE Course_code = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1, key.toString());
             ResultSet rs = ps.executeQuery(sql);
@@ -184,14 +184,14 @@ public class CourseDAO extends DAO implements Map<String,Course> {
     }
 
     /**
-     * Delete every ParseCourse from the database
+     * Delete every Course from the database
      * @throws NullPointerException  No connection
      */
     @Override
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseCourse;DELETE FROM Ups.StudentCourse WHERE EXISTS(SELECT Course_code FROM Ups.StudentCourse);";
+            String sql = "DELETE FROM Ups.Course;DELETE FROM Ups.StudentCourse WHERE EXISTS(SELECT Course_code FROM Ups.StudentCourse);";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
             new RequestDAO().clear();
@@ -219,7 +219,7 @@ public class CourseDAO extends DAO implements Map<String,Course> {
         Collection<Course> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseCourse";
+            String sql = "SELECT * FROM Ups.Course";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             Course course;

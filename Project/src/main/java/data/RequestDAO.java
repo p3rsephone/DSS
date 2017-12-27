@@ -30,7 +30,7 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
 
     /**
      * Checks if a there are request of a certain course in the database
-     * @param key                    ParseCourse code
+     * @param key                    Course code
      * @return                       True if the request is in the database
      * @throws NullPointerException  There is no connection
      */

@@ -22,7 +22,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
      */
     @Override
     public int size() {
-        return size("ParseShift");
+        return size("Shift");
     }
 
     /**
@@ -31,12 +31,12 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
      */
     @Override
     public boolean isEmpty() {
-        return isEmpty("ParseShift");
+        return isEmpty("Shift");
     }
 
     /**
-     * Checks if a certain ParseShift code exists in the database
-     * @param key                    ParseShift code
+     * Checks if a certain Shift code exists in the database
+     * @param key                    Shift code
      * @return                       True if the shift is in the database
      * @throws NullPointerException  There is no connection
      */
@@ -45,7 +45,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
         boolean r;
         try {
             conn = Connect.connect();
-            String sql = "SELECT Shift_code FROM Ups.ParseShift WHERE Shift_code=?;";
+            String sql = "SELECT Shift_code FROM Ups.Shift WHERE Shift_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(key.toString()));
             ResultSet rs = ps.executeQuery();
@@ -64,16 +64,16 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
     }
 
     /**
-     * Gets a ParseShift from the database
-     * @param key  ParseShift code
-     * @return     ParseShift
+     * Gets a Shift from the database
+     * @param key  Shift code
+     * @return     Shift
      */
     @Override
     public Shift get(Object key) {
         Shift shift = null;
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseShift WHERE Shift_code=?;";
+            String sql = "SELECT * FROM Ups.Shift WHERE Shift_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
@@ -97,9 +97,9 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
     }
 
     /**
-     * Insert a new ParseShift in the database
-     * @param key    ParseShift code
-     * @param value  ParseShift
+     * Insert a new Shift in the database
+     * @param key    Shift code
+     * @param value  Shift
      * @return
      */
     @Override
@@ -107,7 +107,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
         Shift shift = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Ups.ParseShift\n" +
+            String sql = "INSERT INTO Ups.Shift\n" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
                     "ON DUPLICATE KEY UPDATE Shift_limit=VALUES(Shift_limit), Shift_expectedClasses = VALUES(Shift_expectedClasses), Shift_givenClasses = VALUES(Shift_givenClasses), Shift_weekday = VALUES(Shift_weekday), Shift_period = VALUES(Shift_period), Course_code = VALUES(Course_code), Room_code = VALUES(Room_code), Teacher_number=VALUES(Teacher_number);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -153,16 +153,16 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
     }
 
     /**
-     * Removes a ParseShift from the database
-     * @param key  ParseShift code
-     * @return     ParseShift that was deleted
+     * Removes a Shift from the database
+     * @param key  Shift code
+     * @return     Shift that was deleted
      */
     @Override
     public Shift remove(Object key) {
         Shift shift = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseShift WHERE Shift_code = ?;";
+            String sql = "DELETE FROM Ups.Shift WHERE Shift_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, (String)key);
             ps.executeUpdate();
@@ -191,14 +191,14 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
     }
 
     /**
-     * Delete every ParseShift from the database
+     * Delete every Shift from the database
      * @throws NullPointerException  No connection
      */
     @Override
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseShift; DELETE FROM Ups.StudentShift WHERE EXISTS(SELECT * FROM Ups.StudentShift)";
+            String sql = "DELETE FROM Ups.Shift; DELETE FROM Ups.StudentShift WHERE EXISTS(SELECT * FROM Ups.StudentShift)";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
         } catch (Exception e) {
@@ -223,7 +223,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
         Collection<Shift> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseShift";
+            String sql = "SELECT * FROM Ups.Shift";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {

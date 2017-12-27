@@ -20,7 +20,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
      */
     @Override
     public int size() {
-        return size("ParseStudent");
+        return size("Student");
     }
 
     /**
@@ -29,12 +29,12 @@ public class StudentDAO extends DAO implements Map<String,Student> {
      */
     @Override
     public boolean isEmpty() {
-        return isEmpty("ParseStudent");
+        return isEmpty("Student");
     }
 
     /**
-     * Checks if a certain ParseStudent number exists in the database
-     * @param key                    ParseStudent number
+     * Checks if a certain Student number exists in the database
+     * @param key                    Student number
      * @return                       True if the students is in the database
      * @throws NullPointerException  There is no connection
      */
@@ -43,7 +43,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
         boolean r;
         try {
             conn = Connect.connect();
-            String sql = "SELECT Student_name FROM Ups.ParseStudent WHERE Student_number=?;";
+            String sql = "SELECT Student_name FROM Ups.Student WHERE Student_number=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(key.toString()));
             ResultSet rs = ps.executeQuery();
@@ -62,22 +62,22 @@ public class StudentDAO extends DAO implements Map<String,Student> {
     }
 
     /**
-     * Gets a ParseStudent from the database
-     * @param key  ParseStudent number
-     * @return     ParseStudent
+     * Gets a Student from the database
+     * @param key  Student number
+     * @return     Student
      */
     @Override
     public Student get(Object key) {
         Student student = null;
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseStudent WHERE Student_number=?;";
+            String sql = "SELECT * FROM Ups.Student WHERE Student_number=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 student = new Student(rs.getString("Student_name"),rs.getString("Student_email"),rs.getString("Student_password"),rs.getInt("Student_number"),rs.getBoolean("Student_statute"));
-                sql="SELECT S.Shift_code FROM Ups.ParseShift AS S\n" +
+                sql="SELECT S.Shift_code FROM Ups.Shift AS S\n" +
                     "JOIN Ups.StudentShift AS SS ON S.Shift_code=SS.Shift_code\n" +
                     "WHERE SS.Student_number=?;";
                 ps = conn.prepareStatement(sql);
@@ -89,7 +89,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 }
                 student.setShifts(shifts);
 
-                sql = "SELECT C.Course_code FROM Ups.ParseCourse AS C\n" +
+                sql = "SELECT C.Course_code FROM Ups.Course AS C\n" +
                         "JOIN Ups.StudentCourse AS SC ON C.Course_code=SC.Course_code\n" +
                         "WHERE SC.Student_number=?;";
                 ps = conn.prepareStatement(sql);
@@ -113,9 +113,9 @@ public class StudentDAO extends DAO implements Map<String,Student> {
     }
 
     /**
-     * Insert a new ParseStudent in the database
-     * @param key    ParseStudent number
-     * @param value  ParseStudent
+     * Insert a new Student in the database
+     * @param key    Student number
+     * @param value  Student
      * @return
      */
     @Override
@@ -123,7 +123,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
         Student student = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Ups.ParseStudent\n" +
+            String sql = "INSERT INTO Ups.Student\n" +
                     "VALUES (?, ?, ?, ?, ?)\n" +
                 "ON DUPLICATE KEY UPDATE Student_name=VALUES(Student_name), Student_email=VALUES(Student_email), Student_password=VALUES(Student_password), Student_statute=VALUES(Student_statute);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -163,11 +163,11 @@ public class StudentDAO extends DAO implements Map<String,Student> {
 
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 i=1;
-                String sqlTeacher = "SELECT Teacher_number FROM Ups.ParseCourse WHERE Course_code=?;";
+                String sqlTeacher = "SELECT Teacher_number FROM Ups.Course WHERE Course_code=?;";
                 PreparedStatement psTeacher = conn.prepareStatement(sqlTeacher);
                 for (String s : value.getEnrollments()) {
                     psTeacher.setString(1,s);
-                    Integer teacherCode = psTeacher.executeQuery().getInt("Teacher_Course_number"); //Get ParseCourse's ParseTeacher
+                    Integer teacherCode = psTeacher.executeQuery().getInt("Teacher_Course_number"); //Get Course's Teacher
                     ps.setInt(i++,value.getNumber());
                     ps.setString(i++,s);
                     ps.setInt(i++,teacherCode);
@@ -204,16 +204,16 @@ public class StudentDAO extends DAO implements Map<String,Student> {
     }
 
     /**
-     * Removes a ParseStudent from the database
-     * @param key  ParseStudent number
-     * @return     ParseStudent that was deleted
+     * Removes a Student from the database
+     * @param key  Student number
+     * @return     Student that was deleted
      */
     @Override
     public Student remove(Object key) {
         Student student = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseStudent WHERE Student_number = ?;";
+            String sql = "DELETE FROM Ups.Student WHERE Student_number = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (Integer)key);
             ps.executeUpdate();
@@ -262,7 +262,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.ParseStudent WHERE Student_number>0;DELETE FROM Ups.StudentShift WHERE EXISTS(SELECT Student_number FROM Ups.StudentShift);DELETE FROM Ups.StudentCourse WHERE EXISTS(SELECT Student_number FROM Ups.StudentCourse);DELETE FROM Ups.RequestStudent WHERE EXISTS(SELECT Student_number FROM Ups.RequestStudent);";
+            String sql = "DELETE FROM Ups.Student WHERE Student_number>0;DELETE FROM Ups.StudentShift WHERE EXISTS(SELECT Student_number FROM Ups.StudentShift);DELETE FROM Ups.StudentCourse WHERE EXISTS(SELECT Student_number FROM Ups.StudentCourse);DELETE FROM Ups.RequestStudent WHERE EXISTS(SELECT Student_number FROM Ups.RequestStudent);";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
         } catch (Exception e) {
@@ -287,7 +287,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
         Collection<Student> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.ParseStudent";
+            String sql = "SELECT * FROM Ups.Student";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery(sql);
             while (rs.next()) {
