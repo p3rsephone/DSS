@@ -43,8 +43,8 @@ public class Parser {
     public void parseCourse(String file) throws FileNotFoundException {
         JsonReader jsonReader = new JsonReader(new FileReader(file));
         JsonObject jsonFile = gson.fromJson(jsonReader, JsonObject.class);
-        Type type = new TypeToken<Map<String, business.utilities.parser.Course>>(){}.getType();
-        Map<String, business.utilities.parser.Course> data = gson.fromJson(jsonFile, type);
+        Type type = new TypeToken<Map<String, ParseCourse>>(){}.getType();
+        Map<String, ParseCourse> data = gson.fromJson(jsonFile, type);
 
         data.forEach((key,value)->
             engine.addCourse(new Course(value.getCodigo(),value.getNome(),value.getTeacherReg(),value.getYear()))
@@ -54,8 +54,8 @@ public class Parser {
     public void parseShift(String file) throws FileNotFoundException {
         JsonReader jsonReader = new JsonReader(new FileReader(file));
         JsonObject jsonFile = gson.fromJson(jsonReader, JsonObject.class);
-        Type type = new TypeToken<Map<String, Shift>>(){}.getType();
-        Map<String,Shift> data = gson.fromJson(jsonFile, type);
+        Type type = new TypeToken<Map<String, ParseShift>>(){}.getType();
+        Map<String,ParseShift> data = gson.fromJson(jsonFile, type);
 
         data.forEach((key,value)->{
             Course c = engine.getCourse(value.getCourse());
@@ -73,8 +73,8 @@ public class Parser {
     public void parseRoom(String file) throws FileNotFoundException {
         JsonReader jsonReader = new JsonReader(new FileReader(file));
         JsonObject jsonFile = gson.fromJson(jsonReader, JsonObject.class);
-        Type type = new TypeToken<Map<String, Room>>(){}.getType();
-        Map<String,Room> data = gson.fromJson(jsonFile, type);
+        Type type = new TypeToken<Map<String, ParseRoom>>(){}.getType();
+        Map<String,ParseRoom> data = gson.fromJson(jsonFile, type);
 
         data.forEach((key,value)->{
             engine.addRoom(new business.courses.Room(key,value.getCapacidade()));
@@ -84,8 +84,8 @@ public class Parser {
     public void parseTeacher(String file) throws FileNotFoundException {
         JsonReader jsonReader = new JsonReader(new FileReader(file));
         JsonObject jsonFile = gson.fromJson(jsonReader, JsonObject.class);
-        Type type = new TypeToken<Map<String,Teacher>>(){}.getType();
-        Map<String,Teacher> data = gson.fromJson(jsonFile, type);
+        Type type = new TypeToken<Map<String,ParseTeacher>>(){}.getType();
+        Map<String,ParseTeacher> data = gson.fromJson(jsonFile, type);
 
         data.forEach((key,value)->{
             boolean boss = value.getBoss().equals("y");
@@ -102,8 +102,8 @@ public class Parser {
     public void parseStudent(String file) throws FileNotFoundException {
         JsonReader jsonReader = new JsonReader(new FileReader(file));
         JsonObject jsonFile = gson.fromJson(jsonReader, JsonObject.class);
-        Type type = new TypeToken<Map<Integer, Student>>(){}.getType();
-        Map<Integer,Student> data = gson.fromJson(jsonFile, type);
+        Type type = new TypeToken<Map<Integer, ParseStudent>>(){}.getType();
+        Map<Integer,ParseStudent> data = gson.fromJson(jsonFile, type);
 
         data.forEach((key,value)-> {
             try {

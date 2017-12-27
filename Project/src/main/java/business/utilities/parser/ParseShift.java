@@ -1,6 +1,6 @@
 package business.utilities.parser;
 
-public class Shift {
+public class ParseShift {
     private String course;
     private int teacher;
     private int limit;
@@ -9,7 +9,7 @@ public class Shift {
     private String weekday;
     private String period;
 
-    public Shift(String course, int teacher, int limit, int classes, String roomcode, String weekday, String period) {
+    public ParseShift(String course, int teacher, int limit, int classes, String roomcode, String weekday, String period) {
         this.course = course;
         this.teacher = teacher;
         this.limit = limit;

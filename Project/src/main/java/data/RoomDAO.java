@@ -20,7 +20,7 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
      */
     @Override
     public int size() {
-        return size("Room");
+        return size("ParseRoom");
     }
 
     /**
@@ -29,12 +29,12 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
      */
     @Override
     public boolean isEmpty() {
-        return isEmpty("Room");
+        return isEmpty("ParseRoom");
     }
 
     /**
-     * Checks if a certain Room code exists in the database
-     * @param key                    Room code
+     * Checks if a certain ParseRoom code exists in the database
+     * @param key                    ParseRoom code
      * @return                       True if the room is in the database
      * @throws NullPointerException  There is no connection
      */
@@ -43,7 +43,7 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
         boolean r;
         try {
             conn = Connect.connect();
-            String sql = "SELECT Room_code FROM Ups.Room WHERE Room_code=?;";
+            String sql = "SELECT Room_code FROM Ups.ParseRoom WHERE Room_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(key.toString()));
             ResultSet rs = ps.executeQuery();
@@ -62,16 +62,16 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
     }
 
     /**
-     * Gets a Room from the database
-     * @param key  Room code
-     * @return     Room
+     * Gets a ParseRoom from the database
+     * @param key  ParseRoom code
+     * @return     ParseRoom
      */
     @Override
     public Room get(Object key) {
         Room room = null;
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.Room WHERE Room_code=?;";
+            String sql = "SELECT * FROM Ups.ParseRoom WHERE Room_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, (Integer)key);
             ResultSet rs = ps.executeQuery();
@@ -88,8 +88,8 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
 
     /**
      * Insert a new room in the database
-     * @param key    Room code
-     * @param value  Room
+     * @param key    ParseRoom code
+     * @param value  ParseRoom
      * @return
      */
     @Override
@@ -97,7 +97,7 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
         Room room = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Ups.Room\n" +
+            String sql = "INSERT INTO Ups.ParseRoom\n" +
                     "VALUES (?, ?)\n" +
                     "ON DUPLICATE KEY UPDATE Room_capacity=VALUES(Room_capacity);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -116,15 +116,15 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
 
     /**
      * Removes a room from the database
-     * @param key  Room code
-     * @return     Room that was deleted
+     * @param key  ParseRoom code
+     * @return     ParseRoom that was deleted
      */
     @Override
     public Room remove(Object key) {
         Room room = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.Room WHERE Room_code = ?;";
+            String sql = "DELETE FROM Ups.ParseRoom WHERE Room_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, (String)key);
             ps.executeUpdate();
@@ -148,14 +148,14 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
     }
 
     /**
-     * Delete every Room from the database
+     * Delete every ParseRoom from the database
      * @throws NullPointerException  No connection
      */
     @Override
     public void clear() {
         try {
             conn = Connect.connect();
-            String sql = "DELETE FROM Ups.Room;";
+            String sql = "DELETE FROM Ups.ParseRoom;";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
         } catch (Exception e) {
@@ -180,7 +180,7 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
         Collection<Room> collection = new HashSet<>();
         try {
             conn = Connect.connect();
-            String sql = "SELECT * FROM Ups.Room";
+            String sql = "SELECT * FROM Ups.ParseRoom";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {

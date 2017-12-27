@@ -1,13 +1,9 @@
 package presentation.controllers;
 
 
-import business.Engine;
-import business.courses.Course;
-import business.courses.Exchange;
-import business.courses.Shift;
 import business.exceptions.ShiftNotValidException;
 import business.users.Student;
-import business.utilities.CourseTable;
+import presentation.controllers.utilities.CourseTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +21,6 @@ import presentation.Main;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class StudentLayoutController {
 

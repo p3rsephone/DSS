@@ -1,12 +1,12 @@
 package business.utilities.parser;
 
-public class Course {
+public class ParseCourse {
     private String codigo;
     private String nome;
     private int teacherReg;
     private int year;
 
-    public Course(String codigo, String nome, int teacherReg, int year) {
+    public ParseCourse(String codigo, String nome, int teacherReg, int year) {
         this.codigo = codigo;
         this.nome = nome;
         this.teacherReg = teacherReg;
