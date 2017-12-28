@@ -43,6 +43,9 @@ public class StudentLayoutController {
     private Button pedidoTroca;
 
     @FXML
+    private Button cancelaTroca;
+
+    @FXML
     private void initialize() {
 
         uc.setCellValueFactory(new PropertyValueFactory<CourseTable,String>("uc"));
@@ -150,6 +153,8 @@ public class StudentLayoutController {
             pedidoTroca.setVisible(false);
             pedidoTroca.setManaged(false);
             trocaPendente.setVisible(false);
+            cancelaTroca.setManaged(false);
+            cancelaTroca.setVisible(false);
         }
         this.loadTable();
     }

@@ -28,7 +28,7 @@
          <children>
             <Button fx:id="pedidoTroca" mnemonicParsing="false" onAction="#pedidoDeTroca" text="Pedido de  troca" />
             <Separator orientation="VERTICAL" prefHeight="14.0" prefWidth="0.0" />
-            <Button mnemonicParsing="false" onAction="#cancelRequest" text="Cancelar pedido de troca" />
+            <Button fx:id="cancelaTroca" mnemonicParsing="false" onAction="#cancelRequest" text="Cancelar pedido de troca" />
          </children>
       </VBox>
       <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UPS!">
@@ -36,7 +36,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text layoutX="487.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alunos">
+      <Text layoutX="487.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aluno">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
