@@ -41,7 +41,7 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
             conn = Connect.connect();
             String sql = "SELECT Request_destShift FROM Ups.Request WHERE Request_destShift=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery();
             r = rs.next();
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
                     "JOIN Ups.Request AS R ON R.Request_code=RS.Request_code\n" +
                     "WHERE R.Request_destShift=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery();
             ResultSet rstudent;
             while (rs.next()) {
@@ -99,32 +99,26 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         ArrayList<Request> aRequest = null;
         try {
             conn = Connect.connect();
-            String sql = "INSERT INTO Ups.Request (Request_originShift, Request_destShift, Course_code)\n" +
-                         "VALUES ";
-            String sqlStudent = "INSERT INTO Ups.RequestStudent (Request_Course_code, Student_number)\nVALUES \n";
-            for (int i=1; i<value.size(); i++) {
-                sql += "(?, ?, ?), " ;
-                sqlStudent +="(?, ?), ";
-            }
-            sql += "(?, ?, ?)\n";
-            sqlStudent += "(?, ?);";
-            sql += "ON DUPLICATE KEY UPDATE Request_originShift=VALUES(Request_originShift), Course_code=VALUES(Course_code);";
+            String sql = "INSERT INTO Ups.Request\n" +
+                         "VALUES (?, ?, ?, ?)\n" +
+                         "ON DUPLICATE KEY UPDATE Request_originShift=VALUES(Request_originShift), Course_code=VALUES(Course_code);";
+            String sqlStudent = "INSERT INTO Ups.RequestStudent (Request_code, Student_number)\n"+
+                                "VALUES (?, ?)\n" +
+                                "ON DUPLICATE KEY UPDATE Student_number=VALUES(Student_number);";
 
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement psStudent = conn.prepareStatement(sqlStudent, Statement.RETURN_GENERATED_KEYS);
-            int i=1, j=1;
             for (Request r : value) {
-                ps.setString(i++, r.getOriginShift());
-                ps.setString(i++, r.getDestShift());
-                ps.setString(i++,r.getCourse());
+                ps.setInt(1, r.getCode());
+                ps.setString(2, r.getOriginShift());
+                ps.setString(3, r.getDestShift());
+                ps.setString(4,r.getCourse());
+                ps.executeUpdate(); //Adds all the requests
 
-                psStudent.setString(j++, r.getCourse());
-                psStudent.setInt(j++, r.getStudent());
+                psStudent.setInt(1,r.getCode());
+                psStudent.setInt(2, r.getStudent());
+                psStudent.executeUpdate(); //Associates all the requests to students
             }
-            ps.executeUpdate(); //Adds all the requests
-            psStudent.executeUpdate(); //Associates all the requests to students
-
-
             aRequest = value;
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,19 +138,19 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         ArrayList<Request> aRequest = this.get(key);
         try {
             conn = Connect.connect();
-            String sql = "SELECT Request_id FROM Ups.Request WHERE Request_destShift = ?;";
+            String sql = "SELECT Request_code FROM Ups.Request WHERE Request_destShift = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                sql = "DELETE FROM Ups.RequestStudent WHERE Request_id = ?;";
+                sql = "DELETE FROM Ups.RequestStudent WHERE Request_code = ?;";
                 ps =conn.prepareStatement(sql);
-                ps.setInt(1,rs.getInt("Request_id"));
+                ps.setInt(1,rs.getInt("Request_code"));
                 ps.executeUpdate();
             }
 
             sql = "DELETE FROM Ups.Request WHERE Request_destShift = ?;";
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ps.executeUpdate();
 
 
@@ -238,12 +232,12 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         HashMap<String, ArrayList<Request>> collection = new HashMap<>();
         try {
             conn = Connect.connect();
-            String sql = sql = "SELECT Student_number FROM Ups.RequestStudent AS RS\n" +
+            String sql = "SELECT Student_number, R.Request_code, R.Request_destShift, R.Request_originShift, R.Course_code  FROM Ups.RequestStudent AS RS\n" +
                                 "JOIN Ups.Request AS R ON R.Request_code=RS.Request_code\n" +
                                 "WHERE R.Course_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,key.toString());
-            ResultSet rs = ps.executeQuery(sql);
+            ps.setString(1,(String) key);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Request request;
                     request = new Request(rs.getInt("Request_code"), rs.getInt("Student_number"), rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
@@ -263,9 +257,9 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
     public void removeFromCourse(Object key) {
         try {
             conn = Connect.connect();
-            String sql = "SELECT Request_id FROM Ups.Request WHERE Course_code = ?;";
+            String sql = "SELECT Request_code FROM Ups.Request WHERE Course_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sql = "DELETE FROM Ups.RequestStudent WHERE Request_code = ?;";
@@ -290,14 +284,14 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         HashMap<String, ArrayList<Integer>> collection = new HashMap<>();
         try {
             conn = Connect.connect();
-            String sql="SELECT R.Request_originShift, R.Request_code FROM Ups.Request AS R\n" +
+            String sql="SELECT R.Request_code, R.Request_originShift FROM Ups.Request AS R\n" +
                     "JOIN Ups.RequestStudent AS RS ON R.Request_code=RS.Request_code\n" +
                     "WHERE RS.Student_number=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,key.toString());
-            ResultSet rs = ps.executeQuery(sql);
+            ps.setInt(1,(Integer)key);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                    collection.putIfAbsent(rs.getString("Request_originShift"), new ArrayList<Integer>());
+                    collection.putIfAbsent(rs.getString("Request_originShift"), new ArrayList<>());
                     collection.get(rs.getString("Request_originShift")).add(rs.getInt("Request_code"));
             }
 
@@ -309,4 +303,65 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         }
         return collection;
     }
+
+    public void removeRequest(Object key) {
+        try {
+            conn = Connect.connect();
+            String sql = "DELETE FROM Ups.RequestStudent WHERE Request_code = ?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,Integer.parseInt(key.toString()));
+            ps.executeUpdate();
+
+            sql = "DELETE FROM Ups.Request WHERE Request_code = ?;";
+            ps =conn.prepareStatement(sql);
+            ps.setInt(1,Integer.parseInt(key.toString()));
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new NullPointerException(e.getMessage());
+        } finally {
+            Connect.close(conn);
+        }
+    }
+
+    public Request getRequest(Object key) {
+        Request request = null;
+        try {
+            conn = Connect.connect();
+
+            String sql = "SELECT Student_number FROM Ups.RequestStudent AS RS\n" +
+                    "JOIN Ups.Request AS R ON R.Request_code=RS.Request_code\n" +
+                    "WHERE R.Request_code=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, Integer.parseInt(key.toString()));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                request = new Request(rs.getInt("Request_code"), rs.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return request;
+    }
+
+    public void updateStudent(Integer r, Object keyStudent) {
+        try {
+            conn = Connect.connect();
+            String sql = "INSERT INTO Ups.RequestStudent\n" +
+                    "VALUES (?, ?)\n" +
+                    "ON DUPLICATE KEY UPDATE Student_number=VALUES(Student_number);";
+
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, r);
+            ps.setInt(2, Integer.parseInt(keyStudent.toString()));
+            ps.executeUpdate(); //Adds the request
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+    }
+
+
 }

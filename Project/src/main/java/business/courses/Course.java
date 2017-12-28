@@ -2,6 +2,9 @@ package business.courses;
 
 import business.exceptions.*;
 import business.users.Student;
+import data.CourseDAO;
+import data.RequestDAO;
+import data.ShiftDAO;
 
 import java.util.*;
 
@@ -13,6 +16,7 @@ public class Course {
     private Integer year;
     private HashMap<String, Shift> shifts;
     private HashMap<String, ArrayList<Request>> billboard;
+    private CourseDAO db;
 
     public Course(String code, String name, Integer regTeacher, Integer year) {
         this.code = code;
@@ -21,6 +25,7 @@ public class Course {
         this.year = year;
         this.shifts = new HashMap<>();
         this.billboard = new HashMap<>();
+        this.db = new CourseDAO();
     }
 
     public void addShift(Shift s) throws ShiftAlredyExistsException {
@@ -28,8 +33,7 @@ public class Course {
             throw new ShiftAlredyExistsException();
         }
         this.shifts.put(s.getCode(), s);
-        // ShiftDAO dbShift = new ShiftDAO();
-        // dbShift.put(s);    OU dbCourse.put(getCode(),this)
+        db.put(getCode(),this);
     }
 
     public String getCode() {
@@ -76,19 +80,16 @@ public class Course {
         return r;
     }
 
-    public void addRequest(Request r, String destShift) {
+    private void addRequest(Request r, String destShift) {
         if (this.billboard.containsKey(destShift)) {
             ArrayList<Request> destRequests = this.billboard.get(destShift);
             destRequests.add(r);
-            // RequestDAO dbRequest = new RequestDAO();
-            // dbRequest.putRequest(r); OU dbCourse.put(getCode(),this)
         } else {
             ArrayList<Request> ar = new ArrayList<>();
             ar.add(r);
             this.billboard.put(destShift,ar);
-            // RequestDAO dbRequest = new RequestDAO();
-            // dbRequest.put(ar); OU dbCourse.put(getCode(),this)
         }
+        db.put(getCode(),this);
     }
 
     public HashMap<String, Shift> getShifts() {
@@ -117,19 +118,17 @@ public class Course {
         return res;
     }
 
-    public void findAndRemove(Request r)  {
+    private void findAndRemove(Request r)  {
         ArrayList<Request> requests = this.billboard.get(r.getDestShift());
         ArrayList<Request> newR = new ArrayList<>();
-        Iterator<Request> it = requests.iterator();
-        while (it.hasNext()) {
-            Request req = it.next();
-            if(!(req.getOriginShift().equals(r.getOriginShift()) && req.getCourse().equals(req.getCourse()))) {
+        for (Request req : requests) {
+            if (!(req.getOriginShift().equals(r.getOriginShift()) && req.getCourse().equals(req.getCourse()))) {
                 newR.add(req);
             }
         }
         this.billboard.put(r.getDestShift(), newR);
-        // RequestDAO dbRequest = new RequestDAO();
-        // dbRequest.put(r); OU dbCourse.put(getCode(),this)
+        new RequestDAO().removeRequest(r.getCode());
+        db.put(getCode(),this);
     }
 
     public Exchange swap(String originShift, String destShift, Integer origStudent, Integer destStudent) throws StudentNotInShiftException, RoomCapacityExceededException, StudentAlreadyInShiftException {
@@ -165,15 +164,15 @@ public class Course {
     public void cancelRequest(Request r) {
         ArrayList<Request> bill = this.billboard.get(r.getDestShift());
         bill.remove(r);
-        // RequestDAO dbRequest = new RequestDAO();
-        // dbRequest.remove(r); OU dbCourse.put(getCode(),this)
+        new RequestDAO().removeRequest(r.getCode());
+        db.put(getCode(),this);
     }
 
     public Set<Integer> markAbsent(String shiftCode, ArrayList<Integer> students) throws StudentNotInShiftException {
         return this.shifts.get(shiftCode).markAbsent(students);
     }
 
-    public Integer getAbsentment(String shiftCode, Integer student) throws StudentNotInShiftException {
-        return this.shifts.get(shiftCode).getAbsentment(student);
+    public Integer getAbsences(String shiftCode, Integer student) throws StudentNotInShiftException {
+        return this.shifts.get(shiftCode).getAbsences(student);
     }
 }

@@ -75,7 +75,7 @@ public class TeacherLayoutController {
             try {
                 obList.add(
                         new StudentTable(aluno.getNumber().toString(),aluno.getName(),
-                                engine.getAbsentment(teacher.getCourse(),
+                                engine.getAbsences(teacher.getCourse(),
                                         engine.getShift(teacher.getCourse(),aluno.getShifts()),aluno.getNumber()
                                 )
                         )

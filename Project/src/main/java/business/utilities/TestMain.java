@@ -7,6 +7,8 @@ import business.courses.Request;
 import business.courses.Shift;
 import business.exceptions.*;
 import business.users.Student;
+import data.DAO;
+import data.EngineDAO;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -64,6 +66,7 @@ public class TestMain {
         engine.enrollStudent("SD",  5);
 
         engine.allocateStudents();
+        new EngineDAO().addForeignKeys();
 
         try {
             engine.requestExchange("DSS", a1, "DSS-TP2", "DSS-TP3");

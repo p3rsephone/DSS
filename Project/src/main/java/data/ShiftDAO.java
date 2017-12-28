@@ -6,10 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ShiftDAO extends DAO implements Map<String,Shift> {
 
@@ -47,7 +44,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
             conn = Connect.connect();
             String sql = "SELECT Shift_code FROM Ups.Shift WHERE Shift_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(key.toString()));
+            ps.setString(1, (String)key);
             ResultSet rs = ps.executeQuery();
             r = rs.next();
         } catch (Exception e) {
@@ -75,11 +72,11 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
             conn = Connect.connect();
             String sql = "SELECT * FROM Ups.Shift WHERE Shift_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, (Integer)key);
+            ps.setString(1, (String)key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 shift = new Shift(rs.getString("Shift_code"),rs.getString("Course_code"), rs.getInt("Shift_limit"), rs.getInt("Teacher_number"), rs.getInt("Shift_expectedClasses"), rs.getString("Room_code"), rs.getString("Shift_weekday"), rs.getString("Shift_period"));
-
+                shift.setNumOfStudents(rs.getInt("Shift_numOfStudents"));
                 sql = "SELECT * FROM Ups.StudentShift WHERE Shift_code =?";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1,shift.getCode());
@@ -109,7 +106,7 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
             conn = Connect.connect();
             String sql = "INSERT INTO Ups.Shift\n" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n" +
-                    "ON DUPLICATE KEY UPDATE Shift_limit=VALUES(Shift_limit), Shift_expectedClasses = VALUES(Shift_expectedClasses), Shift_givenClasses = VALUES(Shift_givenClasses), Shift_weekday = VALUES(Shift_weekday), Shift_period = VALUES(Shift_period), Course_code = VALUES(Course_code), Room_code = VALUES(Room_code), Teacher_number=VALUES(Teacher_number);";
+                    "ON DUPLICATE KEY UPDATE Shift_numOfStudents = VALUES(Shift_numOfStudents), Shift_limit=VALUES(Shift_limit), Shift_expectedClasses = VALUES(Shift_expectedClasses), Shift_givenClasses = VALUES(Shift_givenClasses), Shift_weekday = VALUES(Shift_weekday), Shift_period = VALUES(Shift_period), Course_code = VALUES(Course_code), Room_code = VALUES(Room_code), Teacher_number=VALUES(Teacher_number);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, value.getCode());
             ps.setInt(2, value.getNumOfStudents());
@@ -124,23 +121,16 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
             ps.executeUpdate();
 
             if (value.getNumOfStudents()>0) { //Insert absences
-                int i;
                 sql = "INSERT INTO Ups.StudentShift\n" +
-                        "VALUES ";
-                for (i = 1; i < value.getNumOfStudents(); i++) {
-                    sql += "(?,?,?), ";
-                }
-                sql += "(?,?,?)\n" +
-                        "ON DUPLICATE KEY UPDATE StudentShift_absences = VALUES(Shift_absences);";
+                      "VALUES (?, ?, ?)\n" +
+                      "ON DUPLICATE KEY UPDATE StudentShift_absences = VALUES(StudentShift_absences);";
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-                i=1;
                 for (Integer n : value.getStudents().keySet()) {
-                    ps.setInt(i++, n); //Student_number
-                    ps.setString(i++,value.getCode()); //Shift_code
-                    ps.setInt(i++,value.getStudents().get(n)); //StudentShift_absences
+                    ps.setInt(1, n);
+                    ps.setString(2,value.getCode());
+                    ps.setInt(3,value.getStudents().get(n));
+                    ps.executeUpdate();
                 }
-                ps.executeUpdate();
             }
 
             shift = value;
@@ -168,8 +158,8 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
             ps.executeUpdate();
 
             sql="DELETE FROM Ups.StudentShift WHERE Shift_code= ?;";
-            ps.setString(1, (String)key);
             ps = conn.prepareStatement(sql);
+            ps.setString(1, (String)key);
             ps.executeUpdate();
         } catch (Exception e) {
             throw new NullPointerException(e.getMessage());
@@ -211,7 +201,23 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
 
     @Override
     public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+        Set<String> set = null;
+        try {
+            conn = Connect.connect();
+            set = new HashSet<>();
+            String sql = "SELECT Shift_code FROM Ups.Shift";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                set.add(rs.getString("Shift_code"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return set;
     }
 
     /**
@@ -242,6 +248,12 @@ public class ShiftDAO extends DAO implements Map<String,Shift> {
 
     @Override
     public Set<Entry<String, Shift>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+        Set<String> keys = new HashSet<>(this.keySet());
+
+        HashMap<String, Shift> map = new HashMap<>();
+        for (String key : keys) {
+            map.put(key, this.get(key));
+        }
+        return map.entrySet();
     }
 }

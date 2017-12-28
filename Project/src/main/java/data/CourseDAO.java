@@ -46,7 +46,7 @@ public class CourseDAO extends DAO implements Map<String,Course> {
             conn = Connect.connect();
             String sql = "SELECT Course_code FROM Ups.Course WHERE Course_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery();
             r = rs.next();
         } catch (Exception e) {
@@ -74,17 +74,17 @@ public class CourseDAO extends DAO implements Map<String,Course> {
             conn = Connect.connect();
             String sql = "SELECT * FROM Ups.Course WHERE Course_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 course = new Course(rs.getString("Course_code"),rs.getString("Course_name"), rs.getInt("Teacher_number"), rs.getInt("Course_year"));
 
                 sql = "SELECT * FROM Ups.Shift WHERE Course_code=?;";
                 ps = conn.prepareStatement(sql);
-                ps.setString(1, key.toString());
+                ps.setString(1, (String) key);
                 rs = ps.executeQuery();
                 Shift shift;
-                HashMap <String, Shift> shifts = null;
+                HashMap <String, Shift> shifts = new HashMap<>();
                 while (rs.next()) {
                     shift = new ShiftDAO().get(rs.getString("Shift_code"));
                     shifts.put(rs.getString("Shift_code"),shift);
@@ -130,7 +130,9 @@ public class CourseDAO extends DAO implements Map<String,Course> {
 
             //Insert requests from billboard
             for (ArrayList<Request> a : value.getBillboard().values()) {
-                new RequestDAO().put(a.get(0).getDestShift(), a);
+                if (a.size()!=0) {
+                    new RequestDAO().put(a.get(0).getDestShift(), a);
+                }
             }
             course = value;
         } catch (Exception e) {
@@ -153,11 +155,11 @@ public class CourseDAO extends DAO implements Map<String,Course> {
             conn = Connect.connect();
             String sql = "DELETE FROM Ups.Course WHERE Course_code = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ps.executeUpdate();
             sql = "SELECT Shift_code FROM Ups.Shift WHERE Course_code = ?;";
             ps = conn.prepareStatement(sql);
-            ps.setString(1, key.toString());
+            ps.setString(1, (String) key);
             ResultSet rs = ps.executeQuery(sql);
             while (rs.next()) {
                 new ShiftDAO().remove(rs.getString("Shift_code"));
@@ -207,7 +209,23 @@ public class CourseDAO extends DAO implements Map<String,Course> {
 
     @Override
     public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+        Set<String> set = null;
+        try {
+            conn = Connect.connect();
+            set = new HashSet<>();
+            String sql = "SELECT Course_code FROM Ups.Course";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                set.add(rs.getString("Course_code"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return set;
     }
 
     /**
@@ -239,6 +257,31 @@ public class CourseDAO extends DAO implements Map<String,Course> {
 
     @Override
     public Set<Entry<String, Course>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+        Set<String> keys = new HashSet<>(this.keySet());
+
+        HashMap<String, Course> map = new HashMap<>();
+        for (String key : keys) {
+            map.put(key, this.get(key));
+        }
+        return map.entrySet();
+    }
+
+    public HashMap<String, Course> list() {
+        HashMap<String, Course> map = new HashMap<>();
+        try {
+            conn = Connect.connect();
+            String sql = "SELECT Course_code FROM Ups.Course";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Course c = get(rs.getString("Course_code"));
+                map.put(c.getCode(), c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return map;
     }
 }

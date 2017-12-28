@@ -14,10 +14,10 @@ import java.sql.SQLException;
  */
 public class Connect {   
     
-    private static final String URL = "localhost";
-    private static final String TABLE = "turma";
-    private static final String USERNAME = "default"; //TODO: alterar
-    private static final String PASSWORD = "password"; //TODO: alterar
+    private static final String URL = "jdbc:mysql://localhost:3306"; //"jdbc:mariadb://localhost:3306
+    //private static final String TABLE = "Ups";
+    private static final String USERNAME = ""; //TODO: alterar
+    private static final String PASSWORD = ""; //TODO: alterar
     
     /**
      * Establishes a connection to the database
@@ -26,10 +26,10 @@ public class Connect {
      */
     public static Connection connect() throws ClassNotFoundException {
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            Connection cn = DriverManager.getConnection("jdbc:mariadb://" + URL + "/" + TABLE + "?user=" + USERNAME + "&password=" + PASSWORD);
-            //Client MUST close connection
-            //"jdbc:mariadb://localhost:3306/DB?user=root&password=myPassword"
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection cn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            //Class.forName("org.mariadb.jdbc.Driver");
+            //Connection cn = DriverManager.getConnection("jdbc:mariadb://" + URL + "/" + TABLE + "?user=" + USERNAME + "&password=" + PASSWORD);
             return cn;
         } catch (Exception e) {
             e.printStackTrace();

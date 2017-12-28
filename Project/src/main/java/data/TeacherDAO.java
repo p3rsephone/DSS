@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
-public class TeacherDAO extends DAO implements Map<String, Teacher> {
+public class TeacherDAO extends DAO implements Map<Integer, Teacher> {
     Connection conn;
 
     /**
@@ -88,7 +88,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer) key);
                 rs = ps.executeQuery();
-                Set<String> shifts = null;
+                Set<String> shifts = new HashSet<>();
                 while (rs.next()) { // Adds all the shifts
                     shifts.add(rs.getString("Shift_code"));
                 }
@@ -110,7 +110,7 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
      * @return
      */
     @Override
-    public Teacher put(String key, Teacher value) {
+    public Teacher put(Integer key, Teacher value) {
         Teacher teacher = null;
         try {
             conn = Connect.connect();
@@ -118,8 +118,8 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
                     "VALUES (?, ?, ?, ?, ?)\n" +
             "ON DUPLICATE KEY UPDATE Teacher_name=VALUES(Teacher_name),  Teacher_number = VALUES(Teacher_number), Teacher_email=VALUES(Teacher_email), Teacher_password=VALUES(Teacher_password), Teacher_isBoss=VALUES(Teacher_isBoss)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, value.getName());
-            ps.setInt(2, value.getNumber());
+            ps.setInt(1, value.getNumber());
+            ps.setString(2, value.getName());
             ps.setString(3, value.getEmail());
             ps.setString(4,value.getPassword());
             ps.setBoolean(5, value.isBoss());
@@ -170,9 +170,9 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
      * @param m  Map of all the teachers
      */
     @Override
-    public void putAll(Map<? extends String, ? extends Teacher> m) {
+    public void putAll(Map<? extends Integer, ? extends Teacher> m) {
         for(Teacher s : m.values()) {
-            put(s.getNumber().toString(), s);
+            put(s.getNumber(), s);
         }
     }
 
@@ -196,8 +196,24 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     }
 
     @Override
-    public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+    public Set<Integer> keySet() {
+        Set<Integer> set = null;
+        try {
+            conn = Connect.connect();
+            set = new HashSet<>();
+            String sql = "SELECT Teacher_number FROM Ups.Teacher";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                set.add(rs.getInt("Teacher_number"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return set;
     }
 
     /**
@@ -226,7 +242,13 @@ public class TeacherDAO extends DAO implements Map<String, Teacher> {
     }
 
     @Override
-    public Set<Entry<String, Teacher>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+    public Set<Entry<Integer, Teacher>> entrySet() {
+        Set<Integer> keys = new HashSet<>(this.keySet());
+
+        HashMap<Integer, Teacher> map = new HashMap<>();
+        for (Integer key : keys) {
+            map.put(key, this.get(key));
+        }
+        return map.entrySet();
     }
 }
