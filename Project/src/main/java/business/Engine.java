@@ -222,19 +222,16 @@ public class Engine {
         }
     }
 
-    public Boolean allocateStudent(String courseCode, Student s) throws InvalidWeekDayException, RoomCapacityExceededException, StudentAlreadyInShiftException {
+    public void allocateStudent(String courseCode, Student s) throws InvalidWeekDayException, RoomCapacityExceededException, StudentAlreadyInShiftException {
         Course c = this.courses.get(courseCode);
         Set<Map.Entry<String, Shift>> es = c.getShifts().entrySet();
-        Boolean res = false;
         for (Map.Entry<String, Shift> sh : es) {
             Shift shift = sh.getValue();
             if (!shift.isFull() && s.addShift(sh.getValue())) {
                 sh.getValue().addStudent(s.getNumber());
-                res = true;
                 break;
             }
         }
-        return res;
     }
 
     public void foulStudent(Integer studentNumber, String courseCode, String shiftCode) {
