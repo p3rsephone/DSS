@@ -9,7 +9,6 @@ public class Schedule {
     private HashMap<String, Boolean> morning;
     private HashMap<String, Boolean> afternoon;
     private HashMap<String, Pair<String, String>> shifts;
-    private Integer ocuppiedPeriods;
 
 
     public Schedule() {
@@ -26,7 +25,6 @@ public class Schedule {
         this.afternoon.put("wed", false);
         this.afternoon.put("thu", false);
         this.afternoon.put("fri", false);
-        this.ocuppiedPeriods = 0;
     }
 
     public Boolean usePeriod(String shift, String weekday, String period) throws InvalidWeekDayException {
@@ -39,10 +37,19 @@ public class Schedule {
                 return true;
             }
         } else if (period.equals("afternoon")) {
-            if(this.afternoon.get(weekday)) {
+            if (this.afternoon.get(weekday)) {
                 return false;
             } else {
                 this.afternoon.put(weekday, true);
+                this.shifts.put(shift, new Pair<>(weekday, period));
+                return true;
+            }
+        } else if (period.equals("full")) {
+            if (this.afternoon.get(weekday) || this.morning.get(weekday)) {
+                return false;
+            } else {
+                this.afternoon.put(weekday, true);
+                this.morning.put(weekday, true);
                 this.shifts.put(shift, new Pair<>(weekday, period));
                 return true;
             }
@@ -62,6 +69,10 @@ public class Schedule {
         } else if (period.equals("afternoon")) {
             this.morning.put(weekday, false);
             return true;
+        } else if (period.equals("full")) {
+            this.morning.put(weekday, false);
+            this.afternoon.put(weekday, false);
+            return true;
         } else return false;
     }
 
@@ -70,10 +81,8 @@ public class Schedule {
             return this.morning.get(weekday);
         } else if (period.equals("afternoon")) {
             return this.afternoon.get(weekday);
+        } else if (period.equals("full")) {
+            return (this.afternoon.get(weekday) && this.morning.get(weekday));
         } else throw new InvalidWeekDayException();
-    }
-
-    public Boolean isFull(){
-        return (this.ocuppiedPeriods == 7);
     }
 }
