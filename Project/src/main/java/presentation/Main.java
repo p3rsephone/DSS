@@ -1,16 +1,6 @@
 package presentation;
 
 import business.Engine;
-import business.courses.Course;
-import business.courses.Room;
-import business.courses.Shift;
-import business.exceptions.InvalidPhaseException;
-import business.exceptions.ShiftAlredyExistsException;
-import business.exceptions.TooManyRequestsException;
-import business.exceptions.UserAlredyExistsException;
-import business.users.Student;
-import business.users.Teacher;
-import business.utilities.parser.Parser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
