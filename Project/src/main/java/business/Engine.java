@@ -201,20 +201,6 @@ public class Engine {
         t.addShift(s.getCode());
     }
 
-    public Integer validateRequest(Integer stNumber, String course, String originShift, String destShift) {
-        Student s = this.students.get(stNumber);
-        Course c = this.courses.get(course);
-        if (s.getNrequests() >= s.getNEnrollments() + 1) {
-            return 0;
-        } else if (originShift.equals(destShift)) {
-            return -1;
-        } else if (!c.getShifts().containsKey(originShift) || !c.getShifts().containsKey(destShift)) {
-            return -2;
-        }
-
-        return 1;
-    } //TODO: DELETE, CHECK
-
     public String getShift(String courseID, Set<String> shiftsID ){
         Course course = courses.get(courseID);
         HashMap shifts = course.getShifts();
@@ -252,7 +238,7 @@ public class Engine {
 
     public void absentStudent(Integer studentNumber, String courseCode, String shiftCode) {
         this.courses.get(courseCode).missing(studentNumber, shiftCode);
-    } //TODO:DELETE,  CHECK
+    } //CHECK
 
 
     public void changePhase(Integer phase) throws InvalidPhaseException {
@@ -330,22 +316,6 @@ public class Engine {
         return  this.courses.get(courseCode).getAbsences(shiftCode,student);
     } //CHECK
 
-    public Set<Student> getStudentsOfCourse(String courseCode) {
-        Set<Integer> students = new HashSet<>();
-        Set<Student> res = new HashSet<>();
-        Course c = this.courses.get(courseCode);
-        Set<Map.Entry<String, Shift>> shifts = c.getShifts().entrySet();
-        for (Map.Entry<String, Shift> me : shifts) {
-            Shift s = me.getValue();
-            Set<Integer> stud = s.getStudents().keySet();
-            students.addAll(stud);
-        }
-        for (Integer s : students) {
-            res.add(this.students.get(s));
-        }
-        return res;
-    } //TODO: DELETE, CHECK
-
     public Set<Student> getStudentOfShift(String courseCode,String shiftCode) {
         Set<Student> res = new HashSet<>();
         Course c = this.courses.get(courseCode);
@@ -409,18 +379,6 @@ public class Engine {
         }
         return res;
     }
-
-    public Set<Student> getEnrolledStudents(String courseCode) {
-        Set<Student> res = new HashSet<>();
-        Set<Map.Entry<Integer,Student>> entries = this.students.entrySet();
-        for (Map.Entry<Integer, Student> entry : entries) {
-            Student s = entry.getValue();
-            if (s.getEnrollments().contains(courseCode)) {
-                res.add(s);
-            }
-        }
-        return res;
-    } //TODO:DELETE, CHECK
 
     public Set<Student> getStudentsWithoutShift(String courseCode) {
         Course c = this.courses.get(courseCode);

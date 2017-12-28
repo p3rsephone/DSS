@@ -4,7 +4,6 @@ import business.exceptions.RoomCapacityExceededException;
 import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
 import business.exceptions.StudentsDoNotFitInShiftException;
-import business.users.Student;
 import data.ShiftDAO;
 import data.StudentDAO;
 
@@ -85,25 +84,16 @@ public class Shift {
         return roomCode;
     }
 
-    public void setRoom(String roomCode) {
-        this.roomCode = roomCode;
-    }
 
     public String getWeekday() {
         return weekday;
     }
 
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
-    }
 
     public String getPeriod() {
         return period;
     }
 
-    public void setPeriod(String period) {
-        this.period = period;
-    }
 
     public void addStudent(Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException {
         if(this.students.containsKey(studentNumber)) {
@@ -152,9 +142,6 @@ public class Shift {
         return givenClasses;
     }
 
-    public void setGivenClasses(Integer givenClasses) {
-        this.givenClasses = givenClasses;
-    }
 
     public Set<Integer> markAbsent(ArrayList<Integer> missingStudents) throws StudentNotInShiftException {
         Set<Integer> res = new HashSet<>();
