@@ -73,7 +73,7 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
             conn = Connect.connect();
             String sql = "SELECT * FROM Ups.Room WHERE Room_code=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, (Integer)key);
+            ps.setString(1, (String)key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 room = new Room(rs.getString("Room_code"),rs.getInt("Room_capacity"));
@@ -168,7 +168,23 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
 
     @Override
     public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+        Set<String> set = null;
+        try {
+            conn = Connect.connect();
+            set = new HashSet<>();
+            String sql = "SELECT Room_code FROM Ups.Room";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                set.add(rs.getString("Room_code"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return set;
     }
 
     /**
@@ -199,6 +215,31 @@ public class RoomDAO extends DAO implements Map<String,Room>  {
 
     @Override
     public Set<Entry<String, Room>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+        Set<String> keys = new HashSet<>(this.keySet());
+
+        HashMap<String, Room> map = new HashMap<>();
+        for (String key : keys) {
+            map.put(key, this.get(key));
+        }
+        return map.entrySet();
+    }
+
+    public HashMap<String, Room> list() {
+        HashMap<String, Room> map = new HashMap<>();
+        try {
+            conn = Connect.connect();
+            String sql = "SELECT Room_code FROM Ups.Room";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Room r = get(rs.getString("Course_code"));
+                map.put(r.getCode(), r);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return map;
     }
 }

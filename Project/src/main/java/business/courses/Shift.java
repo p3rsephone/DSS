@@ -5,6 +5,8 @@ import business.exceptions.StudentAlreadyInShiftException;
 import business.exceptions.StudentNotInShiftException;
 import business.exceptions.StudentsDoNotFitInShiftException;
 import business.users.Student;
+import data.ShiftDAO;
+import data.StudentDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class Shift {
     private String weekday;
     private String period;
     private Integer givenClasses;
+    private ShiftDAO db;
 
     public Shift(String code, String courseId, Integer limit, Integer teacher, Integer expectedClasses, String roomCode, String weekday, String period) {
         this.code = code;
@@ -36,6 +39,7 @@ public class Shift {
         this.limit = limit;
         this.students = new HashMap<>();
         this.givenClasses = 0;
+        this.db = new ShiftDAO();
     }
 
     public String getCode() {
@@ -52,6 +56,10 @@ public class Shift {
 
     public Integer getNumOfStudents() {
         return numOfStudents;
+    }
+
+    public void setNumOfStudents(Integer numOfStudents) {
+        this.numOfStudents = numOfStudents;
     }
 
     public Integer getLimit() {
@@ -105,8 +113,7 @@ public class Shift {
         } else {
             this.numOfStudents++;
             this.students.put(studentNumber,0);
-            // ShiftDAO dbShift = new ShiftDAO();
-            // dbShift.putStudentShift(studentNumber); UPDATE
+            db.put(getCode(), this);
         }
     }
 
@@ -115,9 +122,10 @@ public class Shift {
             throw new StudentNotInShiftException();
         } else {
             this.numOfStudents--;
-            return this.students.remove(studentNumber);
-            // ShiftDAO dbShift = new ShiftDAO();
-            // dbShift.removeStudentShift(studentNumber); UPDATE
+            int ret = this.students.remove(studentNumber);
+            new StudentDAO().removeStudentFromShift(studentNumber, this.getCode());
+            db.put(getCode(), this);
+            return ret;
         }
     }
 
@@ -127,14 +135,12 @@ public class Shift {
         Integer absences = this.students.get(studentNumber);
         if(absences+1 >= 0.25*this.expectedClasses) {
             this.students.remove(studentNumber);
+            new StudentDAO().removeStudentFromShift(studentNumber, getCode());
             res = true;
-            // ShiftDAO dbShift = new ShiftDAO();
-            // dbShift.removeStudentShift(studentNumber); UPDATE
         } else {
             this.students.put(studentNumber, absences+1);
-            // ShiftDAO dbShift = new ShiftDAO();
-            // dbShift.setAbsences(studentNumber, absences+1); UPDATE
         }
+        db.put(getCode(),this);
         return res;
     }
 
@@ -165,7 +171,7 @@ public class Shift {
         return res;
     }
 
-    public Integer getAbsentment(Integer student) throws StudentNotInShiftException {
+    public Integer getAbsences(Integer student) throws StudentNotInShiftException {
         if (!this.students.containsKey(student)) {
             throw new StudentNotInShiftException();
         } else {

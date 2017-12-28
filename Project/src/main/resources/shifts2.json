@@ -112,7 +112,7 @@
         "teacher":87,
         "limit":30,
         "classes":32,
-        "roomcode":"CP2-111",
+        "roomcode":"CP2-101",
         "weekday":"thu",
         "period":"morning"
     },
@@ -121,7 +121,7 @@
         "teacher":88,
         "limit":30,
         "classes":32,
-        "roomcode":"CP2-111",
+        "roomcode":"CP2-101",
         "weekday":"thu",
         "period":"afternoon"
     },
@@ -130,7 +130,7 @@
         "teacher":87,
         "limit":30,
         "classes":32,
-        "roomcode":"CP2-111",
+        "roomcode":"CP2-101",
         "weekday":"mon",
         "period":"afternoon"
     },
@@ -139,7 +139,7 @@
         "teacher":88,
         "limit":30,
         "classes":32,
-        "roomcode":"CP2-111",
+        "roomcode":"CP2-101",
         "weekday":"wed",
         "period":"morning"
     }

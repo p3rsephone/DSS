@@ -5,10 +5,10 @@ import business.courses.Shift;
 import business.exceptions.InvalidWeekDayException;
 import business.exceptions.RequestInvalidException;
 import business.utilities.Schedule;
+import data.RequestDAO;
+import data.StudentDAO;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Student extends User{
     private Set<String> shifts;
@@ -16,6 +16,7 @@ public class Student extends User{
     private HashMap<String, ArrayList<Integer>> pendingRequests;
     private Boolean statute;
     private Schedule schedule;
+    private StudentDAO db;
 
     public Student(String name, String email, String password, Integer number, Boolean statute) {
         super(name, number, email, password);
@@ -24,14 +25,14 @@ public class Student extends User{
         this.enrollments = new HashSet<>();
         this.pendingRequests = new HashMap<>();
         this.statute = statute;
+        this.db = new StudentDAO();
     }
 
     public Boolean addShift(Shift s) throws InvalidWeekDayException {
         if (!this.schedule.isOccuppied(s.getWeekday(), s.getPeriod())) {
             this.schedule.usePeriod(s.getCode(), s.getWeekday(), s.getPeriod());
             this.shifts.add(s.getCode());
-            // StudentDAO dbStudent = new StudentDAO();
-            // dbStudent.putStudentShift(studentNumber); UPDATE
+            db.put(getNumber(), this);
             return true;
         } else return false;
 
@@ -43,6 +44,7 @@ public class Student extends User{
 
     public void addEnrollment(String codCourse) {
         this.enrollments.add(codCourse);
+        db.put(getNumber(), this);
     }
 
     public void setEnrollments(Set<String> enrollments) {
@@ -58,6 +60,7 @@ public class Student extends User{
             ArrayList<Integer> reqs = this.pendingRequests.get(rq.getOriginShift());
             reqs.add(rq.getCode());
         }
+        db.put(getNumber(), this);
     }
 
     public void setPendingRequests(HashMap<String, ArrayList<Integer>> pendingRequests) {
@@ -67,7 +70,9 @@ public class Student extends User{
     public void removePendingRequest(String originShift) throws RequestInvalidException {
         if( this.pendingRequests.containsKey(originShift)) {
             ArrayList<Integer> req = this.pendingRequests.get(originShift);
+            db.removeRequestsFromStudent(req, this.getNumber());
             req.clear();
+            db.put(getNumber(), this);
         }
     }
 
@@ -121,6 +126,8 @@ public class Student extends User{
     public void removeShift(String destShift) {
         this.shifts.remove(destShift);
         this.schedule.freePeriod(destShift);
+        db.put(getNumber(), this);
+        db.removeStudentFromShift(getNumber(), destShift);
     }
 
 
@@ -135,13 +142,22 @@ public class Student extends User{
         ArrayList<Integer> reqs = this.pendingRequests.get(originShift);
         if (reqs != null) {
             reqs.remove(r.getCode());
+            new RequestDAO().removeRequest(r.getCode());
         }
+        db.put(getNumber(), this);
     }
 
     @Override
     public String toString() {
-        return  super.toString()+
-               "statute=" + statute ;
-
+        String ret =  super.toString()+
+               ", statute=" + statute ;
+        if (this.enrollments.size() == 0) {
+            //ret += " NO ENROLLMENTS";
+        } else {
+            for (String s : this.enrollments) {
+                ret += ", ENROLLMENT : " + s;
+            }
+        }
+        return ret;
     }
 }

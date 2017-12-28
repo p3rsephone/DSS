@@ -30,17 +30,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         engine = new Engine();
-
         this.primaryStage = primaryStage;
         primaryStage.setTitle("UPS!");
         showLoginView();
     }
 
     public void resetEngine(){
-        engine = new Engine();
+        engine.reset();
     }
 
-    public void showLoginView() throws IOException {
+    private void showLoginView() throws IOException {
         FXMLLoader ola = new FXMLLoader();
         ola.setLocation((getClass().getResource("/presentation/views/login.fxml")));
         Parent root =  ola.load();

@@ -31,8 +31,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "nome ='" + name + ' ' +
-                ", numero=" + number
+        return "nome =" + name +
+                ", numero=" + number  + ", email=" + email + ", password=" + password
                 ;
     }
 }

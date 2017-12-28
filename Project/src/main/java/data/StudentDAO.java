@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
-public class StudentDAO extends DAO implements Map<String,Student> {
+public class StudentDAO extends DAO implements Map<Integer,Student> {
 
     private Connection conn;
 
@@ -83,7 +83,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer)key);
                 rs = ps.executeQuery();
-                Set<String> shifts =null;
+                Set<String> shifts =new HashSet<>();
                 while (rs.next()) { //If there are shifts associated get their codes and add them
                     shifts.add(rs.getString("Shift_code"));
                 }
@@ -95,7 +95,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1,(Integer)key);
                 rs = ps.executeQuery();
-                Set<String> enrollments =null;
+                Set<String> enrollments =new HashSet<>();
                 while (rs.next()) { //If there are enrollments associated get their codes and add them
                         enrollments.add(rs.getString("Course_code"));
                 }
@@ -119,7 +119,7 @@ public class StudentDAO extends DAO implements Map<String,Student> {
      * @return
      */
     @Override
-    public Student put (String key, Student value) {
+    public Student put (Integer key, Student value) {
         Student student = null;
         try {
             conn = Connect.connect();
@@ -137,63 +137,47 @@ public class StudentDAO extends DAO implements Map<String,Student> {
             if (value.getNshifts()>0) { //Insert the shifts
                 int i;
                 sql = "INSERT INTO Ups.StudentShift (Student_number, Shift_code)\n" +
-                      "VALUES ";
-                for (i=1;i<value.getNshifts();i++) {
-                    sql += "(?,?), ";
-                }
-                sql +="(?,?);" ;
-
+                      "VALUES (?, ?)\n"+
+                      "ON DUPLICATE KEY UPDATE Shift_code=VALUES(Shift_code), StudentShift_absences=VALUES(StudentShift_absences);" ;
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                i=1;
                 for (String s : value.getShifts()) {
-                    ps.setInt(i++,value.getNumber());
-                    ps.setString(i++,s);
+                    ps.setInt(1,value.getNumber());
+                    ps.setString(2,s);
+                    ps.executeUpdate();
                 }
-                ps.executeUpdate();
             }
 
             if (value.getNEnrollments()>0) { //Insert enrollments
-                int i;
                 sql = "INSERT INTO Ups.StudentCourse\n" +
-                        "VALUES ";
-                for (i=1;i<value.getNshifts();i++) {
-                    sql += "(?,?,?), ";
-                }
-                sql +="(?,?,?);" ;
-
+                        "VALUES (?, ?)\n"+
+                        "ON DUPLICATE KEY UPDATE Course_code=VALUES(Course_code);" ;
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                i=1;
-                String sqlTeacher = "SELECT Teacher_number FROM Ups.Course WHERE Course_code=?;";
-                PreparedStatement psTeacher = conn.prepareStatement(sqlTeacher);
                 for (String s : value.getEnrollments()) {
-                    psTeacher.setString(1,s);
-                    Integer teacherCode = psTeacher.executeQuery().getInt("Teacher_Course_number"); //Get Course's Teacher
-                    ps.setInt(i++,value.getNumber());
-                    ps.setString(i++,s);
-                    ps.setInt(i++,teacherCode);
+                    ps.setInt(1,value.getNumber());
+                    ps.setString(2,s);
+                    ps.executeUpdate();
                 }
-                ps.executeUpdate();
             }
-            if (value.getNrequests()>0) { //Insert requests
-                int i;
-                sql = "INSERT INTO Ups.RequestStudent (Request_code, Student_number)\n" +
-                        "VALUES ";
-                for (i=1;i<value.getAllNRequests();i++) {
-                    sql += "(?,?), ";
+
+            for (ArrayList<Integer> a : value.getPendingRequests().values()) {
+                for (Integer i : a) {
+                    new RequestDAO().updateStudent(i,key);
                 }
-                sql +="(?,?);" ;
+            }
+
+            if (value.getNrequests()>0) { //Insert requests
+                sql = "INSERT INTO Ups.RequestStudent\n" +
+                        "VALUES (?, ?)\n"+
+                        "ON DUPLICATE KEY UPDATE Student_number=VALUES(Student_number);" ;
                 ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                i=1;
                 for (ArrayList<Integer> a : value.getPendingRequests().values()) {
                     for (Integer r : a) {
-                        ps.setInt(i++,r);
-                        ps.setInt(i++,value.getNumber());
+                        ps.setInt(1,r);
+                        ps.setInt(2,value.getNumber());
+                        ps.executeUpdate();
                     }
                 }
-                ps.executeUpdate();
-
             }
-
             student = value;
         } catch (Exception e) {
             e.printStackTrace();
@@ -248,9 +232,9 @@ public class StudentDAO extends DAO implements Map<String,Student> {
      * @param m  Map of all the students
      */
     @Override
-    public void putAll(Map<? extends String, ? extends Student> m) {
+    public void putAll(Map<? extends Integer, ? extends Student> m) {
         for(Student s : m.values()) {
-            put(s.getNumber().toString(), s);
+            put(s.getNumber(), s);
         }
     }
 
@@ -274,8 +258,24 @@ public class StudentDAO extends DAO implements Map<String,Student> {
     }
 
     @Override
-    public Set<String> keySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+    public Set<Integer> keySet() {
+        Set<Integer> set = null;
+        try {
+            conn = Connect.connect();
+            set = new HashSet<>();
+            String sql = "SELECT Student_number FROM Ups.Student";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                set.add(rs.getInt("Student_number"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            Connect.close(conn);
+        }
+        return set;
     }
 
     /**
@@ -305,7 +305,64 @@ public class StudentDAO extends DAO implements Map<String,Student> {
     }
 
     @Override
-    public Set<Entry<String, Student>> entrySet() {
-        throw new NullPointerException("Not implemented!"); //Makes no sense in this context but has to be implemented
+    public Set<Entry<Integer, Student>> entrySet() {
+        Set<Integer> keys = new HashSet<>(this.keySet());
+
+        HashMap<Integer, Student> map = new HashMap<>();
+        for (Integer key : keys) {
+            map.put(key, this.get(key));
+        }
+        return map.entrySet();
+    }
+
+    public HashMap<Integer, Student> list() {
+        HashMap<Integer, Student> map = new HashMap<>();
+        try {
+            conn = Connect.connect();
+            String sql = "SELECT Student_number FROM Ups.Student";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Student s = get(rs.getInt("Student_number"));
+                map.put(s.getNumber(), s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Connect.close(conn);
+        }
+        return map;
+    }
+
+    public void removeStudentFromShift(Object key, String shiftCode) {
+        try {
+            conn = Connect.connect();
+            String sql="DELETE FROM Ups.StudentShift WHERE Shift_code= ? AND Student_number=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, shiftCode);
+            ps.setInt(2, Integer.parseInt(key.toString()));
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new NullPointerException(e.getMessage());
+        } finally {
+            Connect.close(conn);
+        }
+    }
+
+    public void removeRequestsFromStudent(ArrayList<Integer> rCodes, Object key) {
+        try {
+            conn = Connect.connect();
+            String sql="DELETE FROM Ups.RequestStudent WHERE Request_code= ? AND Student_number=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(2, Integer.parseInt(key.toString()));
+            for (Integer i : rCodes) {
+                ps.setInt(1, i);
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new NullPointerException(e.getMessage());
+        } finally {
+            Connect.close(conn);
+        }
     }
 }

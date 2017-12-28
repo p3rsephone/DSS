@@ -4,7 +4,7 @@
       "teacher":71,
       "limit":30,
       "classes":32,
-      "roomcode":"CP1-215",
+      "roomcode":"CP1-205",
       "weekday":"tue",
       "period":"morning"
   },
@@ -13,7 +13,7 @@
       "teacher":72,
       "limit":30,
       "classes":32,
-      "roomcode":"CP1-214",
+      "roomcode":"CP1-204",
       "weekday":"tue",
       "period":"morning"
   },
@@ -22,7 +22,7 @@
       "teacher":71,
       "limit":30,
       "classes":32,
-      "roomcode":"CP1-215",
+      "roomcode":"CP1-205",
       "weekday":"thu",
       "period":"morning"
   },
@@ -31,7 +31,7 @@
       "teacher":72,
       "limit":30,
       "classes":32,
-      "roomcode":"CP1-214",
+      "roomcode":"CP1-204",
       "weekday":"thu",
       "period":"morning"
   },
@@ -42,7 +42,7 @@
       "limit":1,
       "classes":32,
       "roomcode":"CP1-101",
-      "weekday":"mon",
+      "weekday":"thu",
       "period":"morning"
   },
   "EES-TP2":{

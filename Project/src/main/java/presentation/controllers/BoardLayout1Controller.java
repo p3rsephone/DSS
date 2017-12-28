@@ -4,6 +4,7 @@ package presentation.controllers;
 import business.Engine;
 import business.exceptions.InvalidPhaseException;
 import business.utilities.parser.Parser;
+import data.EngineDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +38,7 @@ public class BoardLayout1Controller {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
             main.resetEngine();
+
             FXMLLoader load = new FXMLLoader();
             load.setLocation((getClass().getResource("/presentation/views/boardLayout1.fxml")));
             Parent root =  load.load();
@@ -64,6 +66,7 @@ public class BoardLayout1Controller {
             parse.parseShift("src/main/resources/shifts1.json");
             parse.parseShift("src/main/resources/shifts2.json");
             parse.parseStudent("src/main/resources/student.json");
+            new EngineDAO().addForeignKeys();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

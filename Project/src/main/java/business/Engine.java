@@ -6,35 +6,46 @@ import business.users.DC;
 import business.users.Student;
 import business.users.Teacher;
 import business.users.User;
+import data.*;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Engine {
-    private HashMap<Integer, Student> students;
-    private HashMap<Integer, Teacher> teachers;
-    private HashMap<String, Course> courses;
-    private HashMap<Integer, Exchange> exchanges;
+    private StudentDAO students;
+    private TeacherDAO teachers;
+    private CourseDAO courses;
+    private ShiftDAO shifts;
+    private EngineDAO exchanges;
     private Integer nrOfExchanges;
     private Integer phase;
-    private HashMap<String, Room> rooms;
+    private RoomDAO rooms;
     private DC dc;
     private int nrOfRequests;
 
     public Engine() {
-        this.nrOfExchanges = 0;
-        this.nrOfRequests = 0;
-        this.phase = 1;
-        this.teachers = new HashMap<>();
-        this.students = new HashMap<>();
-        this.courses = new HashMap<>();
-        this.exchanges = new HashMap<>();
-        this.rooms = new HashMap<>();
+        this.exchanges = new EngineDAO();
+        if (!exchanges.exists()) exchanges.create();
+        this.nrOfExchanges = exchanges.getNExchanges();
+        this.nrOfRequests = exchanges.getNRequests();
+        this.phase = exchanges.getNPhase();
+        this.teachers = new TeacherDAO();
+        this.shifts = new ShiftDAO();
+        this.students = new StudentDAO();
+        this.courses = new CourseDAO();
+        this.rooms = new RoomDAO();
         this.dc = new DC();
     }
 
+    public Integer getNrOfExchanges() {
+        return nrOfExchanges;
+    }
+
+    public int getNrOfRequests() {
+        return nrOfRequests;
+    }
+
     public void addUser(User u) throws UserAlredyExistsException {
-        if(u instanceof Student ) {
+        if(u instanceof Student) {
             Student s = (Student) u;
             if(this.students.containsKey(s.getNumber())) {
                 throw new UserAlredyExistsException();
@@ -47,15 +58,15 @@ public class Engine {
             }
             this.teachers.put(t.getNumber(), t);
         }
-    }
+    } //CHECK
 
     public void addCourse(Course c) {
         this.courses.put(c.getCode(), c);
-    }
+    } //CHECK
 
     public void addRoom(Room r) {
         this.rooms.put(r.getCode(), r);
-    }
+    } //CHECK
 
     public void requestExchange(String course, Student s, String originShift, String destShift) throws TooManyRequestsException, ShiftNotValidException, InvalidWeekDayException {
          if (s.getAllNRequests() >= s.getNEnrollments() + 1) {
@@ -63,6 +74,7 @@ public class Engine {
         } else {
             Course c = this.courses.get(course);
             Request r = c.requestExchange(s, originShift, destShift, this.nrOfRequests++);
+            exchanges.putEngine(this); //updates nrORequests
             s.addPendingRequest(r);
             this.makeSwaps(r);
             if (s.isStatute() && s.getRequests(originShift).size() != 0) {
@@ -73,7 +85,7 @@ public class Engine {
                 reqs.remove(r.getCode());
             }
         }
-    }
+    } //CHECK
 
     public void cancelExchange(Integer code) throws ExchangeDoesNotExistException, StudentNotInShiftException, ExchangeAlreadyCancelledException {
         if (!this.exchanges.containsKey(code)) {
@@ -95,7 +107,7 @@ public class Engine {
                 }
             } else throw new StudentNotInShiftException();
         }
-    }
+    } //CHECK
 
     public void defineShiftLimit(String courseId, String shiftId, Integer limit) throws RoomCapacityExceededException, StudentsDoNotFitInShiftException {
         Course course = this.courses.get(courseId);
@@ -108,29 +120,30 @@ public class Engine {
         Room r = this.rooms.get(shift.getRoomCode());
         if(r.getCapacity() >= limit) {
             shift.setLimit(limit);
+            shifts.put(shift.getCode(), shift);
         } else {
             throw new RoomCapacityExceededException();
         }
-    }
+    } //CHECK
 
     public void enrollStudent(String courseId, Integer studentNumber) {
         this.students.get(studentNumber).addEnrollment(courseId);
-    }
+    } //CHECK
 
     public Integer expellStudent(String courseId, String shiftId, Integer studentNumber) {
-        Integer fouls = -1;
+        Integer absences = -1;
         try {
-            fouls = this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
+            absences = this.courses.get(courseId).removeStudentFromShift(shiftId, studentNumber);
             Student s = this.students.get(studentNumber);
             s.removeShift(shiftId);
         } catch (StudentNotInShiftException e) {
             e.printStackTrace();
         }
 
-        return fouls;
-    }
+        return absences;
+    } //CHECK
 
-    public void makeSwaps(Request r) throws ShiftNotValidException {
+    private void makeSwaps(Request r) throws ShiftNotValidException {
         try {
             String courseCode = r.getCourse();
             Course c = this.courses.get(courseCode);
@@ -139,15 +152,18 @@ public class Engine {
                 Student origin = this.students.get(res.getOriginStudent());
                 Student dest = this.students.get(res.getDestStudent());
                 this.updateShifts(res, origin, dest, c.getCode());
+                res.setCode(this.nrOfExchanges);
+                res.setCourse(courseCode);
                 this.exchanges.put(this.nrOfExchanges++, res);
+                exchanges.putEngine(this); //update nrOfExchanges
             }
 
         } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | RequestInvalidException | InvalidWeekDayException e) {
             e.printStackTrace();
         }
-    }
+    } //CHECK
 
-    public void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws RequestInvalidException, ShiftNotValidException, InvalidWeekDayException {
+    private void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws RequestInvalidException, ShiftNotValidException, InvalidWeekDayException {
         Course c = this.courses.get(courseCode);
         Shift o = c.getShift(e.getOriginShift());
         Shift d = c.getShift(e.getDestShift());
@@ -155,11 +171,9 @@ public class Engine {
         dest.removeShift(e.getDestShift());
         origin.addShift(d);
         dest.addShift(o);
-        e.setCourse(courseCode);
-        e.setCode(this.nrOfExchanges);
         origin.removePendingRequest(e.getOriginShift());
         dest.removePendingRequest(e.getDestShift());
-    }
+    } //CHECK
 
     public User login(Integer login, String password) {
         if (this.students.containsKey(login)) {
@@ -198,7 +212,8 @@ public class Engine {
         }
 
         return 1;
-    }
+    } //TODO: DELETE, CHECK
+
     public String getShift(String courseID, Set<String> shiftsID ){
         Course course = courses.get(courseID);
         HashMap shifts = course.getShifts();
@@ -207,7 +222,7 @@ public class Engine {
                 return shift;
         }
         return "";
-    }
+    } //CHECK
 
     public void allocateStudents() {
         for (Map.Entry<Integer, Student> s : this.students.entrySet()) {
@@ -220,7 +235,7 @@ public class Engine {
                 }
             }
         }
-    }
+    } //CHECK
 
     public void allocateStudent(String courseCode, Student s) throws InvalidWeekDayException, RoomCapacityExceededException, StudentAlreadyInShiftException {
         Course c = this.courses.get(courseCode);
@@ -234,9 +249,9 @@ public class Engine {
         }
     }
 
-    public void foulStudent(Integer studentNumber, String courseCode, String shiftCode) {
+    public void absentStudent(Integer studentNumber, String courseCode, String shiftCode) {
         this.courses.get(courseCode).missing(studentNumber, shiftCode);
-    }
+    } //TODO:DELETE,  CHECK
 
 
     public void changePhase(Integer phase) throws InvalidPhaseException {
@@ -253,52 +268,48 @@ public class Engine {
             default:
                 throw new InvalidPhaseException();
         }
-    }
+        exchanges.putEngine(this);
+    } //CHECK
 
     public HashMap<Integer, Student> getStudents() {
-        return students;
-    }
+        return students.list();
+    } //CHECK
 
     public Course getCourse(String c) {
         return this.courses.get(c);
-    }
+    }//CHECK
 
     public HashMap<Integer, Exchange> getExchanges() {
-        return exchanges;
-    }
+        return exchanges.list();
+    } //CHECK
 
     public HashMap<String, Course> getCourses() {
-        return courses;
-    }
+        return courses.list();
+    }//CHECK
 
     public HashMap<String, Room> getRooms() {
-        return rooms;
-    }
+        return rooms.list();
+    } //CHECK
 
     public Set<String> getShiftsOfCourse(String code){
         return this.getCourse(code).getShifts().keySet();
-    }
+    } //CHECK
 
     public Integer getPhase() {
         return phase;
-    }
+    } //CHECK
 
     public Set<Exchange> getAllExchangesOfCourse(String courseCode) {
-        Set<Exchange> res = new HashSet<>();
-        Set<Map.Entry<Integer, Exchange>> exchanges = this.exchanges.entrySet();
-        for (Map.Entry<Integer, Exchange> e : exchanges) {
-            Exchange ex = e.getValue();
-            if(ex.getCourse().equals(courseCode)) res.add(ex);
-        }
+        Set<Exchange> res = exchanges.getAllExchangesCourse(courseCode);
         return res;
-    }
+    } //CHECK
 
     public void cancelRequest(Integer student, Request r) {
         Course c = this.courses.get(r.getCourse());
         c.cancelRequest(r);
         Student s = this.students.get(student);
         s.cancelRequest(r);
-    }
+    } //CHECK
 
     public void markAbsent(String courseCode, String shiftCode, ArrayList<Integer> students) {
         try {
@@ -312,11 +323,11 @@ public class Engine {
         } catch (StudentNotInShiftException e) {
             e.printStackTrace();
         }
-    }
+    } //CHECK
 
-    public Integer getAbsentment(String courseCode, String shiftCode, Integer student) throws StudentNotInShiftException {
-        return  this.courses.get(courseCode).getAbsentment(shiftCode,student);
-    }
+    public Integer getAbsences(String courseCode, String shiftCode, Integer student) throws StudentNotInShiftException {
+        return  this.courses.get(courseCode).getAbsences(shiftCode,student);
+    } //CHECK
 
     public Set<Student> getStudentsOfCourse(String courseCode) {
         Set<Integer> students = new HashSet<>();
@@ -332,7 +343,7 @@ public class Engine {
             res.add(this.students.get(s));
         }
         return res;
-    }
+    } //TODO: DELETE, CHECK
 
     public Set<Student> getStudentOfShift(String courseCode,String shiftCode) {
         Set<Student> res = new HashSet<>();
@@ -347,7 +358,7 @@ public class Engine {
             e.printStackTrace();
         }
         return res;
-    }
+    } //CHECK
 
     public String concatRequests(Integer student, String courseCode, String originShift) {
         String res = "";
@@ -374,7 +385,7 @@ public class Engine {
             }
         }
         return res;
-    }
+    } //CHECK
 
     public Set<String> getRequests(Integer student, String courseCode, String originShift) {
         Set<String> res = new HashSet<>();
@@ -408,7 +419,7 @@ public class Engine {
             }
         }
         return res;
-    }
+    } //TODO:DELETE, CHECK
 
     public Set<Student> getStudentsWithoutShift(String courseCode) {
         Course c = this.courses.get(courseCode);
@@ -432,7 +443,7 @@ public class Engine {
         }
 
         return res;
-    }
+    } //CHECK
 
     public void addStudentToShift(String courseCode, String shiftCode, Integer studentNumber) throws StudentAlreadyInShiftException, RoomCapacityExceededException, ShiftNotValidException, InvalidWeekDayException {
         Course c = this.courses.get(courseCode);
@@ -458,5 +469,14 @@ public class Engine {
             }
         }
         return null;
+    } //CHECK
+
+    public void reset () {
+        this.phase = 1;
+        this.nrOfExchanges = 0;
+        this.nrOfRequests = 0;
+        exchanges.reset();
     }
+
 }
+
