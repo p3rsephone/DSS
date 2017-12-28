@@ -179,23 +179,26 @@ public class TeacherLayoutController {
 
     @FXML
     void removerAluno(ActionEvent event) {
-        int numberSelected= table.getSelectionModel().getSelectedIndex();
-        if(numberSelected >= 1){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Selecione apenas um unico aluno!");
-            alert.showAndWait();
-        }
-        else if(numberSelected >= 0){
-            StudentTable selectedIndex = table.getSelectionModel().getSelectedItem();
-            engine.expellStudent(teacher.getCourse(),shift.getValue(),Integer.parseInt(selectedIndex.getNumero()));
-            loadTable();
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Nenhum aluno selecionado !");
-            alert.showAndWait();
+        int index= table.getSelectionModel().getSelectedIndex();
+        if(index >= 0){
+            List<StudentTable> selectedIndex = table.getSelectionModel().getSelectedItems();
+            int numberSelected = selectedIndex.size();
+            if(numberSelected > 1){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Selecione apenas um unico aluno!");
+                alert.showAndWait();
+            }
+            else if(numberSelected == 1){
+                engine.expellStudent(teacher.getCourse(),shift.getValue(),Integer.parseInt(selectedIndex.get(0).getNumero()));
+                loadTable();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Nenhum aluno selecionado !");
+                alert.showAndWait();
+            }
         }
     }
 
