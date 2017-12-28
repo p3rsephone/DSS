@@ -5,6 +5,7 @@ import business.courses.Shift;
 import business.exceptions.InvalidWeekDayException;
 import business.exceptions.RequestInvalidException;
 import business.utilities.Schedule;
+import data.RequestDAO;
 import data.StudentDAO;
 
 import java.util.*;
@@ -141,6 +142,7 @@ public class Student extends User{
         ArrayList<Integer> reqs = this.pendingRequests.get(originShift);
         if (reqs != null) {
             reqs.remove(r.getCode());
+            new RequestDAO().removeRequest(r.getCode());
         }
         db.put(getNumber(), this);
     }
