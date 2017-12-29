@@ -73,7 +73,7 @@ public class StudentDAO extends DAO implements Map<Integer,Student> {
             conn = Connect.connect();
             String sql = "SELECT * FROM Ups.Student WHERE Student_number=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, (Integer)key);
+            ps.setInt(1, Integer.parseInt(key.toString()));
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 student = new Student(rs.getString("Student_name"),rs.getString("Student_email"),rs.getString("Student_password"),rs.getInt("Student_number"),rs.getBoolean("Student_statute"));
@@ -159,13 +159,7 @@ public class StudentDAO extends DAO implements Map<Integer,Student> {
                 }
             }
 
-            for (ArrayList<Integer> a : value.getPendingRequests().values()) {
-                for (Integer i : a) {
-                    new RequestDAO().updateStudent(i,key);
-                }
-            }
-
-            if (value.getNrequests()>0) { //Insert requests
+            if (value.getAllNRequests()>0) { //Insert requests
                 sql = "INSERT INTO Ups.RequestStudent\n" +
                         "VALUES (?, ?)\n"+
                         "ON DUPLICATE KEY UPDATE Student_number=VALUES(Student_number);" ;
