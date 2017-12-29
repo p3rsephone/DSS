@@ -2,10 +2,6 @@ package business.courses;
 
 import data.EngineDAO;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 public class Exchange {
     private Integer code;
     private String course;

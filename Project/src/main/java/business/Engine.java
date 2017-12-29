@@ -103,7 +103,7 @@ public class Engine {
                     Exchange n = c.swap(e.getDestShift(), e.getOriginShift(), e.getOriginStudent(), e.getDestStudent());
                     e.cancelExchange();
                     this.updateShifts(n, orig, dest, c.getCode());
-                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException | RequestInvalidException | InvalidWeekDayException | ShiftNotValidException e1) {
+                } catch (RoomCapacityExceededException | StudentAlreadyInShiftException | InvalidWeekDayException | ShiftNotValidException e1) {
                     e1.printStackTrace();
                 }
             } else throw new StudentNotInShiftException();
@@ -159,12 +159,12 @@ public class Engine {
                 exchanges.putEngine(this); //update nrOfExchanges
             }
 
-        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | RequestInvalidException | InvalidWeekDayException e) {
+        } catch (StudentNotInShiftException | StudentAlreadyInShiftException | RoomCapacityExceededException | InvalidWeekDayException e) {
             e.printStackTrace();
         }
     } //CHECK
 
-    private void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws RequestInvalidException, ShiftNotValidException, InvalidWeekDayException {
+    private void updateShifts(Exchange e, Student origin, Student dest, String courseCode) throws ShiftNotValidException, InvalidWeekDayException {
         Course c = this.courses.get(courseCode);
         Shift o = c.getShift(e.getOriginShift());
         Shift d = c.getShift(e.getDestShift());
@@ -413,7 +413,7 @@ public class Engine {
         s.addShift(shift);
     }
 
-    public Request getRequest(Integer studentNumber, String courseCode, String originShift, String destShift) throws ShiftNotValidException {
+    public Request getRequest(Integer studentNumber, String courseCode, String originShift, String destShift) {
         Student s = this.students.get(studentNumber);
         Course c = this.courses.get(courseCode);
         ArrayList<Request> requests = c.getRequests(destShift);

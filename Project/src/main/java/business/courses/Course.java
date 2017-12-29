@@ -4,7 +4,6 @@ import business.exceptions.*;
 import business.users.Student;
 import data.CourseDAO;
 import data.RequestDAO;
-import data.ShiftDAO;
 
 import java.util.*;
 
@@ -68,7 +67,7 @@ public class Course {
     }
 
     public Integer removeStudentFromShift(String shiftId, Integer studentNumber) throws StudentNotInShiftException {
-        Integer r = 0;
+        Integer r;
         Shift s = this.shifts.get(shiftId);
         r = s.removeStudent(studentNumber);
         return r;
