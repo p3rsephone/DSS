@@ -69,14 +69,11 @@ public class Exchange {
     }
 
     public void setCode(Integer code) {
-        db.remove(this.getCode());
         this.code = code;
-        db.put(this.getCode(), this);
     }
 
     public void setCourse(String course) {
         this.course = course;
-        db.put(this.getCode(),this);
     }
 
     public void setCancelled(Boolean cancelled) {
