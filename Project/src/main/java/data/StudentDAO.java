@@ -159,12 +159,6 @@ public class StudentDAO extends DAO implements Map<Integer,Student> {
                 }
             }
 
-            for (ArrayList<Integer> a : value.getPendingRequests().values()) {
-                for (Integer i : a) {
-                    new RequestDAO().updateStudent(i,key);
-                }
-            }
-
             if (value.getNrequests()>0) { //Insert requests
                 sql = "INSERT INTO Ups.RequestStudent\n" +
                         "VALUES (?, ?)\n"+

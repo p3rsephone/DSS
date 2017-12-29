@@ -77,7 +77,8 @@ public class Engine {
             exchanges.putEngine(this); //updates nrORequests
             s.addPendingRequest(r);
             this.makeSwaps(r);
-            if (s.isStatute() && s.getRequests(originShift).size() != 0) {
+            s = this.students.get(s.getNumber());
+            if (s.isStatute() && s.getRequests(originShift)!=null && s.getRequests(originShift).size() != 0) {
                 s.removeShift(originShift);
                 Shift shift = c.getShift(destShift);
                 s.addShift(shift);
