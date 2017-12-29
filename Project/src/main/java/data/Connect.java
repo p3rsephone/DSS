@@ -12,17 +12,17 @@ import java.sql.SQLException;
  * Classe que gere ligações à base de dados
  * @author ruicouto
  */
-public class Connect {   
-    
+public class Connect {
+
     private static final String URL = "jdbc:mysql://localhost:3306"; //"jdbc:mariadb://localhost:3306
     //private static final String TABLE = "Ups";
     private static final String USERNAME = ""; //TODO: alterar
     private static final String PASSWORD = ""; //TODO: alterar
-    
+
     /**
      * Establishes a connection to the database
      * @return
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public static Connection connect() throws ClassNotFoundException {
         try {
@@ -36,10 +36,10 @@ public class Connect {
         }
         return null;
     }
-    
+
     /**
      * If open, closes the database connection
-     * @param c 
+     * @param c
      */
     public static void close(Connection c) {
         try {
