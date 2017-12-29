@@ -30,7 +30,7 @@ public class BoardLayout1Controller {
     private Button alocarAlunos;
 
     @FXML
-    void reset(ActionEvent event) throws InvalidPhaseException, IOException {
+    void reset(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setContentText("Quer reiniciar o processo de alocação?");

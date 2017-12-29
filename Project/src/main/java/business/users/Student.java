@@ -3,7 +3,6 @@ package business.users;
 import business.courses.Request;
 import business.courses.Shift;
 import business.exceptions.InvalidWeekDayException;
-import business.exceptions.RequestInvalidException;
 import business.utilities.Schedule;
 import data.RequestDAO;
 import data.StudentDAO;
@@ -142,15 +141,15 @@ public class Student extends User{
 
     @Override
     public String toString() {
-        String ret =  super.toString()+
-               ", statute=" + statute ;
+        StringBuilder ret = new StringBuilder(super.toString() +
+                ", statute=" + statute);
         if (this.enrollments.size() == 0) {
             //ret += " NO ENROLLMENTS";
         } else {
             for (String s : this.enrollments) {
-                ret += ", ENROLLMENT : " + s;
+                ret.append(", ENROLLMENT : ").append(s);
             }
         }
-        return ret;
+        return ret.toString();
     }
 }

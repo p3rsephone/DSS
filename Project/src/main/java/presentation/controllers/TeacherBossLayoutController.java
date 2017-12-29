@@ -54,12 +54,12 @@ public class TeacherBossLayoutController {
 
     @FXML
     private void initialize() {
-        codigo.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("codigo"));
-        aluno1.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("aluno1"));
-        aluno2.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("aluno2") );
-        troca1.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("troca1") );
-        troca2.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("troca2") );
-        cancelada.setCellValueFactory(new PropertyValueFactory<ExchangeTable,String>("cancelada") );
+        codigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        aluno1.setCellValueFactory(new PropertyValueFactory<>("aluno1"));
+        aluno2.setCellValueFactory(new PropertyValueFactory<>("aluno2") );
+        troca1.setCellValueFactory(new PropertyValueFactory<>("troca1") );
+        troca2.setCellValueFactory(new PropertyValueFactory<>("troca2") );
+        cancelada.setCellValueFactory(new PropertyValueFactory<>("cancelada") );
     }
 
     private void loadTable(){

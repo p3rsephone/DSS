@@ -28,32 +28,35 @@ public class Schedule {
     }
 
     public Boolean usePeriod(String shift, String weekday, String period) throws InvalidWeekDayException {
-        if (period.equals("morning")) {
-            if(this.morning.get(weekday)) {
-                return false;
-            } else {
-                this.morning.put(weekday, true);
-                this.shifts.put(shift, new Pair<>(weekday, period));
-                return true;
-            }
-        } else if (period.equals("afternoon")) {
-            if (this.afternoon.get(weekday)) {
-                return false;
-            } else {
-                this.afternoon.put(weekday, true);
-                this.shifts.put(shift, new Pair<>(weekday, period));
-                return true;
-            }
-        } else if (period.equals("full")) {
-            if (this.afternoon.get(weekday) || this.morning.get(weekday)) {
-                return false;
-            } else {
-                this.afternoon.put(weekday, true);
-                this.morning.put(weekday, true);
-                this.shifts.put(shift, new Pair<>(weekday, period));
-                return true;
-            }
-        } else throw new InvalidWeekDayException();
+        switch (period) {
+            case "morning":
+                if (this.morning.get(weekday)) {
+                    return false;
+                } else {
+                    this.morning.put(weekday, true);
+                    this.shifts.put(shift, new Pair<>(weekday, period));
+                    return true;
+                }
+            case "afternoon":
+                if (this.afternoon.get(weekday)) {
+                    return false;
+                } else {
+                    this.afternoon.put(weekday, true);
+                    this.shifts.put(shift, new Pair<>(weekday, period));
+                    return true;
+                }
+            case "full":
+                if (this.afternoon.get(weekday) || this.morning.get(weekday)) {
+                    return false;
+                } else {
+                    this.afternoon.put(weekday, true);
+                    this.morning.put(weekday, true);
+                    this.shifts.put(shift, new Pair<>(weekday, period));
+                    return true;
+                }
+            default:
+                throw new InvalidWeekDayException();
+        }
     }
 
     public Boolean freePeriod(String shift) {

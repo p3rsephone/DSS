@@ -51,15 +51,16 @@ public class TeacherLayoutController {
 
     @FXML
     private void initialize() {
-        numero.setCellValueFactory(new PropertyValueFactory<StudentTable,String>("numero"));
-        nome.setCellValueFactory(new PropertyValueFactory<StudentTable,String>("nome"));
-        faltas.setCellValueFactory(new PropertyValueFactory<StudentTable,Integer>("faltas") );
+        numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
+        nome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        faltas.setCellValueFactory(new PropertyValueFactory<>("faltas") );
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
 
-        shift.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override public void changed(ObservableValue<? extends String> selected, String antigoTurno, String novoTurno) {
+        shift.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends String> selected, String antigoTurno, String novoTurno) {
                 loadTable();
             }
         });
@@ -174,6 +175,10 @@ public class TeacherLayoutController {
             loadTable();
             }
         else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Selecione apenas um aluno!");
+            alert.showAndWait();
         }
     }
 

@@ -1,7 +1,6 @@
 package presentation.controllers;
 
 
-import business.exceptions.ShiftNotValidException;
 import business.users.Student;
 import presentation.controllers.utilities.CourseTable;
 import javafx.collections.FXCollections;
@@ -48,9 +47,9 @@ public class StudentLayoutController {
     @FXML
     private void initialize() {
 
-        uc.setCellValueFactory(new PropertyValueFactory<CourseTable,String>("uc"));
-        tp.setCellValueFactory(new PropertyValueFactory<CourseTable,String>("tp") );
-        trocaPendente.setCellValueFactory(new PropertyValueFactory<CourseTable,String>("trocaPendente") );
+        uc.setCellValueFactory(new PropertyValueFactory<>("uc"));
+        tp.setCellValueFactory(new PropertyValueFactory<>("tp") );
+        trocaPendente.setCellValueFactory(new PropertyValueFactory<>("trocaPendente") );
     }
 
     private void loadTable(){
@@ -127,18 +126,10 @@ public class StudentLayoutController {
 
             if (result.isPresent()){
 
-                try {
                     main.getEngine().cancelRequest(student.getNumber(),main.getEngine().getRequest(student.getNumber(),selectedIndex.getUc(),selectedIndex.getTp(),result.get()));
                     loadTable();
-                } catch (ShiftNotValidException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setContentText("Turno invalido!");
-                    alert.showAndWait();
-                }
             }
-        }
-        else{
+        } else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("Turno nao selecionado!");
