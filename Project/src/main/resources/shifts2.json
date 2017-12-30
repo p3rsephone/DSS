@@ -2,7 +2,7 @@
     "CD-TP1":{
         "course":"CD",
         "teacher":81,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-107",
         "weekday":"tue",
@@ -11,7 +11,7 @@
     "CD-TP2":{
         "course":"CD",
         "teacher":82,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-108",
         "weekday":"tue",
@@ -20,7 +20,7 @@
     "CD-TP3":{
         "course":"CD",
         "teacher":81,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-107",
         "weekday":"thu",
@@ -29,7 +29,7 @@
     "CD-TP4":{
         "course":"CD",
         "teacher":82,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-108",
         "weekday":"thu",
@@ -38,7 +38,7 @@
     "ALG-TP1":{
         "course":"ALG",
         "teacher":83,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-110",
         "weekday":"mon",
@@ -47,7 +47,7 @@
     "ALG-TP2":{
         "course":"ALG",
         "teacher":84,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-110",
         "weekday":"fri",
@@ -56,7 +56,7 @@
     "ALG-TP3":{
         "course":"ALG",
         "teacher":83,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-110",
         "weekday":"thu",
@@ -65,7 +65,7 @@
     "ALG-TP4":{
         "course":"ALG",
         "teacher":84,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP1-110",
         "weekday":"fri",
@@ -74,7 +74,7 @@
     "ArqC-TP1":{
         "course":"ArqC",
         "teacher":85,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"DI-201",
         "weekday":"mon",
@@ -83,7 +83,7 @@
     "ArqC-TP2":{
         "course":"ArqC",
         "teacher":86,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"DI-201",
         "weekday":"wed",
@@ -92,7 +92,7 @@
     "ArqC-TP3":{
         "course":"ArqC",
         "teacher":85,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"DI-201",
         "weekday":"thu",
@@ -101,7 +101,7 @@
     "ArqC-TP4":{
         "course":"ArqC",
         "teacher":86,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"DI-201",
         "weekday":"fri",
@@ -110,7 +110,7 @@
     "EA-TP1":{
         "course":"EA",
         "teacher":87,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP2-101",
         "weekday":"thu",
@@ -119,7 +119,7 @@
     "EA-TP2":{
         "course":"EA",
         "teacher":88,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP2-101",
         "weekday":"thu",
@@ -128,7 +128,7 @@
     "EA-TP3":{
         "course":"EA",
         "teacher":87,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP2-101",
         "weekday":"mon",
@@ -137,10 +137,82 @@
     "EA-TP4":{
         "course":"EA",
         "teacher":88,
-        "limit":30,
+        "limit":2,
         "classes":32,
         "roomcode":"CP2-101",
         "weekday":"wed",
         "period":"morning"
+    },
+    "CG-UC1":{
+        "course":"CG-UC1",
+        "teacher":71,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-104",
+        "weekday":"thu",
+        "period":"morning"
+    },
+    "CG-UC2":{
+        "course":"CG-UC2",
+        "teacher":71,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-104",
+        "weekday":"thu",
+        "period":"afternoon"
+    },
+    "CG-UC3":{
+        "course":"CG-UC3",
+        "teacher":71,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-105",
+        "weekday":"fri",
+        "period":"morning"
+    },
+    "CG-UC4":{
+        "course":"CG-UC4",
+        "teacher":71,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-105",
+        "weekday":"fri",
+        "period":"afternoon"
+    },
+    "SDC-UC1":{
+        "course":"SDC-UC1",
+        "teacher":72,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-106",
+        "weekday":"mon",
+        "period":"morning"
+    },
+    "SDC-UC2":{
+        "course":"SDC-UC2",
+        "teacher":72,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-106",
+        "weekday":"mon",
+        "period":"afternoon"
+    },
+    "SDC-UC3":{
+        "course":"SDC-UC3",
+        "teacher":72,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-107",
+        "weekday":"tue",
+        "period":"morning"
+    },
+    "SDC-UC4":{
+        "course":"SDC-UC4",
+        "teacher":72,
+        "limit": 2,
+        "classes": 32,
+        "roomcode":"DI-107",
+        "weekday":"tue",
+        "period":"afternoon"
     }
 }

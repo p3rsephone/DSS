@@ -67,7 +67,7 @@ public class Student extends User{
         this.pendingRequests = pendingRequests;
     }
 
-    public void removePendingRequest(String originShift) throws RequestInvalidException {
+    public void removePendingRequest(String originShift) {
         if( this.pendingRequests.containsKey(originShift)) {
             ArrayList<Integer> req = this.pendingRequests.get(originShift);
             db.removeRequestsFromStudent(req, this.getNumber());
@@ -128,13 +128,6 @@ public class Student extends User{
         this.schedule.freePeriod(destShift);
         db.put(getNumber(), this);
         db.removeStudentFromShift(getNumber(), destShift);
-    }
-
-
-    public ArrayList<Integer> requestCourse(String originShift){
-       ArrayList<Integer> res = this.pendingRequests.get(originShift);
-       return res;
-
     }
 
     public void cancelRequest(Request r) {

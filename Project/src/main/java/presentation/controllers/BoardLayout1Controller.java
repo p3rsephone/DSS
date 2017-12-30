@@ -62,6 +62,7 @@ public class BoardLayout1Controller {
             parse.parseRoom("src/main/resources/rooms.json");
             parse.parseCourse("src/main/resources/courses1.json");
             parse.parseCourse("src/main/resources/courses2.json");
+            parse.parseCourse("src/main/resources/coursesmaster.json");
             parse.parseTeacher("src/main/resources/teachers.json");
             parse.parseShift("src/main/resources/shifts1.json");
             parse.parseShift("src/main/resources/shifts2.json");
