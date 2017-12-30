@@ -1,0 +1,50 @@
+{
+  "CG-UC1":{
+    "codigo":"CG-UC1",
+    "nome":"Visualização e Iluminação I",
+    "teacherReg":71,
+    "year":4
+  },
+  "CG-UC2":{
+    "codigo":"CG-UC2",
+    "nome":"Visão por Computador",
+    "teacherReg":71,
+    "year":4
+  },
+  "CG-UC3":{
+    "codigo":"CG-UC3",
+    "nome":"Visualização e Iluminação II",
+    "teacherReg":71,
+    "year":4
+  },
+  "CG-UC4":{
+    "codigo":"CG-UC4",
+    "nome":"Tecnologias e Aplicações",
+    "teacherReg":71,
+    "year":4
+  },
+  "SDC-UC1":{
+    "codigo":"SDC-UC1",
+    "nome":"Criptografia e Segurança da Informação",
+    "teacherReg":72,
+    "year":4
+  },
+  "SDC-UC2":{
+    "codigo":"SDC-UC2",
+    "nome":"Paradigmas de Sistemas Distribuídos",
+    "teacherReg":72,
+    "year":4
+  },
+  "SDC-UC3":{
+    "codigo":"SDC-UC3",
+    "nome":"Segurança de Sistemas Informáticos",
+    "teacherReg":72,
+    "year":4
+  },
+  "SDC-UC4":{
+    "codigo":"SDC-UC4",
+    "nome":"Sistemas Distribuídos Confiáveis",
+    "teacherReg":72,
+    "year":4
+  }
+}

@@ -125,6 +125,7 @@ public class Shift {
         Integer absences = this.students.get(studentNumber);
         if(absences+1 >= 0.25*this.expectedClasses) {
             this.students.remove(studentNumber);
+            this.numOfStudents--;
             new StudentDAO().removeStudentFromShift(studentNumber, getCode());
             res = true;
         } else {

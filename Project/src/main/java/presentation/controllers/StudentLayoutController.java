@@ -56,6 +56,7 @@ public class StudentLayoutController {
     private void loadTable(){
         List<CourseTable> list = new ArrayList<>();
         ObservableList<CourseTable> obList = FXCollections.observableList(list);
+        student = (Student) main.getEngine().login(student.getNumber(),student.getPassword());
 
         Set<String> courses = student.getEnrollments();
         for(String course :  courses){

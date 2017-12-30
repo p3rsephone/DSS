@@ -69,6 +69,7 @@ public class TeacherLayoutController {
     private void loadTable(){
         List<StudentTable> list = new ArrayList<>();
         ObservableList<StudentTable> obList = FXCollections.observableList(list);
+        teacher = (Teacher) main.getEngine().login(teacher.getNumber(),teacher.getPassword());
 
         Set<Student> alunos = engine.getStudentOfShift(teacher.getCourse(),shift.getValue()) ;
         for(Student aluno :  alunos){

@@ -389,18 +389,19 @@ public class Engine {
         for (Map.Entry<Integer, Student> entry : entries) {
             isEnrolled = false;
             Student s = entry.getValue();
-            for (String code : s.getShifts()) {
-                if (isEnrolled)  {
-                    break;
-                } else if (shifts.containsKey(code)) {
-                    isEnrolled = true;
+            if (s.getEnrollments().contains(courseCode)) {
+                for (String code : s.getShifts()) {
+                    if (isEnrolled)  {
+                        break;
+                    } else if (shifts.containsKey(code)) {
+                        isEnrolled = true;
+                    }
+                }
+                if (!isEnrolled) {
+                    res.add(s);
                 }
             }
-            if (!isEnrolled) {
-                res.add(s);
-            }
         }
-
         return res;
     } //CHECK
 

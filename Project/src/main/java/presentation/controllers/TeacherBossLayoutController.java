@@ -66,7 +66,8 @@ public class TeacherBossLayoutController {
         List<ExchangeTable> list = new ArrayList<>();
         ObservableList<ExchangeTable> obList = FXCollections.observableList(list);
 
-         Set<Exchange> exchanges = engine.getAllExchangesOfCourse(teacher.getCourse());
+        teacher = (Teacher) main.getEngine().login(teacher.getNumber(),teacher.getPassword());
+        Set<Exchange> exchanges = engine.getAllExchangesOfCourse(teacher.getCourse());
         for(Exchange exchange :  exchanges){
             obList.add(new ExchangeTable(exchange.getOriginStudent().toString()
                     ,exchange.getDestStudent().toString(),exchange.getOriginShift()

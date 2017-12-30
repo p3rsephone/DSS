@@ -1,9 +1,11 @@
 package business.utilities.parser;
+
 import business.Engine;
 import business.courses.Course;
 import business.exceptions.ShiftAlredyExistsException;
 import business.exceptions.UserAlredyExistsException;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
@@ -23,22 +25,6 @@ public class Parser {
         this.engine = engine;
         this.gson = new Gson();
     }
-
-    /*
-    public void parseMscProfiles(String file) throws FileNotFoundException {
-        JsonReader jsonReader = new JsonReader(new FileReader(file));
-        JsonObject jsonFile = gson.fromJson(jsonReader, JsonObject.class);
-        Type type = new TypeToken<Map<String, Map<String, MscUc>>>(){}.getType();
-        Map<String,Map<String,MscUc>> data = gson.fromJson(jsonFile, type);
-
-        data.forEach((key,value)->
-            value.forEach((k,v)-> {
-                String id = k.replace("UC", key);
-                engine.
-            })
-        );
-    }
-    */
 
     public void parseCourse(String file) throws FileNotFoundException {
         JsonReader jsonReader = new JsonReader(new FileReader(file));
@@ -120,12 +106,13 @@ public class Parser {
         Engine engine = new Engine();
         Parser ola = new Parser(engine);
         try {
-                ola.parseRoom("/home/resende/DSS/Project/src/main/java/business.utilities.parser/rooms.json");
-                ola.parseCourse("/home/resende/DSS/Project/src/main/java/business.utilities.parser/courses1.json");
-                ola.parseCourse("/home/resende/DSS/Project/src/main/java/business.utilities.parser/courses2.json");
-                ola.parseShift("/home/resende/DSS/Project/src/main/java/business.utilities.parser/shifts1.json");
-                ola.parseShift("/home/resende/DSS/Project/src/main/java/business.utilities.parser/shifts2.json");
-                ola.parseStudent("/home/resende/DSS/Project/src/main/java/business.utilities.parser/student.json");
+            ola.parseRoom("/home/resende/DSS/Project/src/main/java/business.utilities.parser/rooms.json");
+            ola.parseCourse("/home/resende/DSS/Project/src/main/java/business.utilities.parser/courses1.json");
+            ola.parseCourse("/home/resende/DSS/Project/src/main/java/business.utilities.parser/courses2.json");
+            ola.parseCourse("/home/resende/DSS/Project/src/main/java/business.utilities.parser/coursesmaster.json");
+            ola.parseShift("/home/resende/DSS/Project/src/main/java/business.utilities.parser/shifts1.json");
+            ola.parseShift("/home/resende/DSS/Project/src/main/java/business.utilities.parser/shifts2.json");
+            ola.parseStudent("/home/resende/DSS/Project/src/main/java/business.utilities.parser/student.json");
         } catch (FileNotFoundException e) {
             System.out.println("Working Directory = " +
                     System.getProperty("user.dir"));
