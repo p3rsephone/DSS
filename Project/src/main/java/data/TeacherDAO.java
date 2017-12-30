@@ -76,13 +76,24 @@ public class TeacherDAO extends DAO implements Map<Integer, Teacher> {
             if (rs.next()) {
                 teacher = new Teacher(rs.getString("Teacher_name"),rs.getInt("Teacher_number"),rs.getString("Teacher_email"),rs.getString("Teacher_password"),rs.getBoolean("Teacher_isBoss"),"");
 
-                sql = "SELECT Course_code FROM Ups.Course WHERE Teacher_number = ?;";
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1,(Integer) key);
-                rs = ps.executeQuery();
-                if (rs.next()) { //If it has one, adds owned course
-                    teacher.setCourse(rs.getString("Course_code"));
+                if (teacher.isBoss()) {
+                    sql = "SELECT Course_code FROM Ups.Course WHERE Teacher_number = ?;";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,(Integer) key);
+                    rs = ps.executeQuery();
+                    if (rs.next()) { //If it has one, adds owned course
+                        teacher.setCourse(rs.getString("Course_code"));
+                    }
+                } else {
+                    sql = "SELECT DISTINCT Course_code FROM Ups.Shift WHERE Teacher_number = ?;";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1, (Integer) key);
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        teacher.setCourse(rs.getString("Course_code"));
+                    }
                 }
+
 
                 sql = "SELECT Shift_code FROM Ups.Shift WHERE Teacher_number = ?;" ;
                 ps = conn.prepareStatement(sql);
