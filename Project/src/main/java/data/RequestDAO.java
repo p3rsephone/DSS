@@ -323,45 +323,4 @@ public class RequestDAO extends DAO implements Map<String,ArrayList<Request>> {
         }
     }
 
-    public Request getRequest(Object key) {
-        Request request = null;
-        try {
-            conn = Connect.connect();
-
-            String sql = "SELECT Student_number FROM Ups.RequestStudent AS RS\n" +
-                    "JOIN Ups.Request AS R ON R.Request_code=RS.Request_code\n" +
-                    "WHERE R.Request_code=?;";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(key.toString()));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                request = new Request(rs.getInt("Request_code"), rs.getInt("Student_number"),rs.getString("Course_code"), rs.getString("Request_originShift"), rs.getString("Request_destShift"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            Connect.close(conn);
-        }
-        return request;
-    }
-
-    public void updateStudent(Integer r, Object keyStudent) {
-        try {
-            conn = Connect.connect();
-            String sql = "INSERT INTO Ups.RequestStudent\n" +
-                    "VALUES (?, ?)\n" +
-                    "ON DUPLICATE KEY UPDATE Student_number=VALUES(Student_number);";
-
-            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, r);
-            ps.setInt(2, Integer.parseInt(keyStudent.toString()));
-            ps.executeUpdate(); //Adds the request
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            Connect.close(conn);
-        }
-    }
-
-
 }
