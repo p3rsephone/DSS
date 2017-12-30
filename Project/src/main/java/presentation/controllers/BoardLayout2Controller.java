@@ -7,7 +7,6 @@ import business.exceptions.ExchangeAlreadyCancelledException;
 import business.exceptions.ExchangeDoesNotExistException;
 import business.exceptions.InvalidPhaseException;
 import business.exceptions.StudentNotInShiftException;
-import business.users.Teacher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,13 +58,13 @@ public class BoardLayout2Controller {
 
     @FXML
     private void initialize() {
-        codigo.setCellValueFactory(new PropertyValueFactory<DCTable,String>("codigo"));
-        uc.setCellValueFactory(new PropertyValueFactory<DCTable,String>("uc") );
-        aluno1.setCellValueFactory(new PropertyValueFactory<DCTable,String>("aluno1"));
-        aluno2.setCellValueFactory(new PropertyValueFactory<DCTable,String>("aluno2") );
-        troca1.setCellValueFactory(new PropertyValueFactory<DCTable,String>("troca1") );
-        troca2.setCellValueFactory(new PropertyValueFactory<DCTable,String>("troca2") );
-        cancelada.setCellValueFactory(new PropertyValueFactory<DCTable,String>("cancelada") );
+        codigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        uc.setCellValueFactory(new PropertyValueFactory<>("uc") );
+        aluno1.setCellValueFactory(new PropertyValueFactory<>("aluno1"));
+        aluno2.setCellValueFactory(new PropertyValueFactory<>("aluno2") );
+        troca1.setCellValueFactory(new PropertyValueFactory<>("troca1") );
+        troca2.setCellValueFactory(new PropertyValueFactory<>("troca2") );
+        cancelada.setCellValueFactory(new PropertyValueFactory<>("cancelada") );
     }
 
     private void loadTable(){

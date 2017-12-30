@@ -3,14 +3,11 @@ package business.utilities;
 import business.Engine;
 import business.courses.Course;
 import business.courses.Exchange;
-import business.courses.Request;
 import business.courses.Shift;
 import business.exceptions.*;
 import business.users.Student;
-import data.DAO;
 import data.EngineDAO;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class TestMain {
@@ -103,10 +100,6 @@ public class TestMain {
 
         engine.getStudentsWithoutShift("DSS").forEach(s -> System.out.println(s.getNumber()));
 
-        try {
             System.out.println(engine.getRequest(1, "DSS", "DSS-TP2", "DSS-TP1").getDestShift());
-        } catch (ShiftNotValidException e) {
-            e.printStackTrace();
-        }
     }
 }
