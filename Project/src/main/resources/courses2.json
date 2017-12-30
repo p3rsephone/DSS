@@ -1,0 +1,26 @@
+{
+    "CD":{
+        "codigo":"CD",
+        "nome":"Comunicação de Dados",
+        "teacherReg":81,
+        "year":2
+    },
+    "ALG":{
+        "codigo":"ALG",
+        "nome":"Algoritmos e Complexidade",
+        "teacherReg":83,
+        "year":2
+    },
+    "ArqC":{
+        "codigo":"ArqC",
+        "nome":"Arquitetura de Computadores",
+        "teacherReg":85,
+        "year":2
+    },
+    "EA":{
+        "codigo":"EA",
+        "nome":"Estatística Aplicada",
+        "teacherReg":87,
+        "year":2
+    }
+}

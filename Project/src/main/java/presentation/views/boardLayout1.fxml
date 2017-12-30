@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.BoardLayout1Controller">
+   <children>
+      <VBox alignment="CENTER" layoutX="92.0" layoutY="100.0" prefHeight="200.0" prefWidth="422.0">
+         <children>
+            <Button fx:id="reniniciar" mnemonicParsing="false" onAction="#reset" text="Reiniciar alocaçao" />
+            <Button fx:id="alocarAlunos" mnemonicParsing="false" onAction="#alocar" text="Alocar Alunos" />
+            <Separator orientation="VERTICAL" prefHeight="5.0" prefWidth="3.0" />
+            <Separator orientation="VERTICAL" prefHeight="5.0" prefWidth="3.0" />
+         </children>
+      </VBox>
+      <Button layoutX="502.0" layoutY="44.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UPS!" wrappingWidth="91.81787109375">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="514.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DC" wrappingWidth="91.81787109375">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

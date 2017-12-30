@@ -1,0 +1,130 @@
+{
+    "prof1":{
+        "name":"Albertina Sousa",
+        "number":71,
+        "email":"albertina.sousa@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"AL"
+    },
+    "prof2":{
+        "name":"Jorge Termita",
+        "number":72,
+        "email":"jorge.termita@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"AL"
+    },
+    "prof3":{
+        "name":"Carlos Mendes",
+        "number":75,
+        "email":"carlos.mendes@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"EES"
+    },
+    "prof4":{
+        "name":"Regina Seco",
+        "number":76,
+        "email":"regina.seco@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"EES"
+    },
+    "prof5":{
+        "name":"Yanitzva Rodrigues",
+        "number":77,
+        "email":"yanitzva.rodrigues@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"LI1"
+    },
+    "prof6":{
+        "name":"Florindo Armada",
+        "number":78,
+        "email":"florindo.armada@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"LI1"
+    },
+    "prof7":{
+        "name":"Dionísio Varela",
+        "number":79,
+        "email":"dionisio.varela@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"TMD"
+    },
+    "prof8":{
+        "name":"Armando Oliveira",
+        "number":80,
+        "email":"armando.oliveira@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"TMD"
+    },
+    "prof9":{
+        "name":"Maria Veiga",
+        "number":81,
+        "email":"maria.veiga@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"CD"
+    },
+    "prof10":{
+        "name":"Pedro Chagas",
+        "number":82,
+        "email":"pedro.chagas@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"CD"
+    },
+    "prof11":{
+        "name":"José Barros",
+        "number":83,
+        "email":"jose.barros@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"ALG"
+    },
+    "prof12":{
+        "name":"Alcino Pereira",
+        "number":84,
+        "email":"alcino.pereira@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"ALG"
+    },
+    "prof13":{
+        "name":"Luís Sousa",
+        "number":85,
+        "email":"luis.sousa@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"ArqC"
+    },
+    "prof14":{
+        "name":"Manuel Pina",
+        "number":86,
+        "email":"manuel.pina@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"ArqC"
+    },
+    "prof15":{
+        "name":"Ernesta Magalhães",
+        "number":87,
+        "email":"ernesta.mahalhaes@uminho.pt",
+        "password":"123",
+        "boss":"y",
+        "owned":"EA"
+    },
+    "prof16":{
+        "name":"Lucinda Pereira",
+        "number":88,
+        "email":"lucinda.pereira@uminho.pt",
+        "password":"123",
+        "boss":"n",
+        "owned":"EA"
+    }
+}
