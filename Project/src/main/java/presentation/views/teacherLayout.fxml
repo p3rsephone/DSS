@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.controllers.TeacherLayoutController">
+   <children>
+      <VBox layoutX="29.0" layoutY="90.0" prefHeight="256.0" prefWidth="404.0">
+         <children>
+            <TableView fx:id="table" prefHeight="256.0" prefWidth="429.0">
+              <columns>
+                  <TableColumn fx:id="numero" minWidth="0.0" prefWidth="105.0" text="numero" />
+                <TableColumn fx:id="nome" prefWidth="237.0" text="nome" />
+                <TableColumn fx:id="faltas" prefWidth="61.0" text="faltas" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <Text layoutX="461.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Professor">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Text>
+      <Text layoutX="55.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alunos" wrappingWidth="91.1259765625">
+         <font>
+            <Font size="19.0" />
+         </font></Text>
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="336.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#presenca" text="Falta" />
+         </children>
+      </HBox>
+      <Button layoutX="499.0" layoutY="38.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+      <VBox fx:id="bossControl" alignment="CENTER" layoutX="461.0" layoutY="103.0" prefHeight="219.0" prefWidth="138.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#adcionarAluno" text="Adicionar aluno" />
+            <Separator orientation="VERTICAL" prefHeight="18.0" prefWidth="3.0" />
+            <Button mnemonicParsing="false" onAction="#tamanhoTP" text="Tamanho do TP" />
+            <Separator orientation="VERTICAL" prefHeight="18.0" prefWidth="3.0" />
+            <Button mnemonicParsing="false" onAction="#removerAluno" text="Remover Aluno" />
+         </children>
+      </VBox>
+      <ChoiceBox fx:id="shift" layoutX="225.0" layoutY="50.0" prefWidth="150.0" />
+      <Text layoutX="286.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turno" />
+      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UPS!">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

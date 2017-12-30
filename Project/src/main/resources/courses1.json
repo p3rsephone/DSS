@@ -1,0 +1,26 @@
+{
+    "AL":{
+        "codigo":"AL",
+        "nome":"Álgebra Linear EI",
+        "teacherReg":71,
+        "year":1
+        },
+    "EES":{
+        "codigo":"EES",
+        "nome":"Elementos de Enegenharia de Sistemas",
+        "teacherReg":75,
+        "year":1
+        },
+    "LI1":{
+        "codigo":"LI1",
+        "nome":"Laboratórios de Informática 1",
+        "teacherReg":77,
+        "year":1
+        },
+    "TMD":{
+        "codigo":"TMD",
+        "nome":"Tópicos de Matemática Discreta",
+        "teacherReg":79,
+        "year":1
+    }
+}
